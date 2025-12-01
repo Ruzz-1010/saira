@@ -435,6 +435,28 @@
             font-size: 14px;
         }
 
+        /* Add Room Button */
+        .add-room-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+
+        .add-room-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .sidebar {
@@ -488,6 +510,32 @@
             align-items: center;
             padding: 40px;
             color: var(--gray);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border: 2px dashed #dee2e6;
+            margin: 20px 0;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -636,55 +684,95 @@
             <div class="tab-content" id="roomsTab">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3>Manage Rooms</h3>
-                    <button class="btn btn-primary" onclick="loadRooms()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
+                    <div>
+                        <button class="add-room-btn" onclick="showTab('add-room')">
+                            <i class="fas fa-plus"></i> Add New Room
+                        </button>
+                        <button class="btn btn-primary" onclick="loadRooms()" style="margin-left: 10px;">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="rooms-grid" id="roomsList">
                     <div class="loading">Loading rooms...</div>
                 </div>
+
+                <!-- Empty State for Rooms -->
+                <div id="emptyRoomsState" class="empty-state" style="display: none;">
+                    <i class="fas fa-bed"></i>
+                    <h3>No Rooms Available</h3>
+                    <p>You haven't added any rooms yet. Start by adding your first room!</p>
+                    <button class="add-room-btn" onclick="showTab('add-room')">
+                        <i class="fas fa-plus"></i> Add Your First Room
+                    </button>
+                </div>
             </div>
             
             <!-- Add Room Tab -->
             <div class="tab-content" id="addRoomTab">
-                <h3 style="margin-bottom: 20px;">Add New Room</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Add New Room</h3>
+                    <button class="btn" onclick="showTab('rooms')">
+                        <i class="fas fa-arrow-left"></i> Back to Rooms
+                    </button>
+                </div>
+                
                 <form id="addRoomForm">
                     <div class="form-group">
-                        <label for="roomName">Room Name</label>
+                        <label for="roomName">Room Name *</label>
                         <input type="text" id="roomName" placeholder="e.g., Deluxe Suite" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="roomDescription">Description</label>
+                        <label for="roomType">Room Type</label>
+                        <select id="roomType">
+                            <option value="standard">Standard</option>
+                            <option value="deluxe">Deluxe</option>
+                            <option value="suite">Suite</option>
+                            <option value="family">Family</option>
+                            <option value="executive">Executive</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roomDescription">Description *</label>
                         <textarea id="roomDescription" rows="4" placeholder="Describe the room features, view, etc." required></textarea>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
-                            <label for="roomPrice">Price per night (₱)</label>
-                            <input type="number" id="roomPrice" placeholder="5000" required>
+                            <label for="roomPrice">Price per night (₱) *</label>
+                            <input type="number" id="roomPrice" placeholder="5000" required min="0">
                         </div>
                         
                         <div class="form-group">
-                            <label for="maxGuests">Maximum Guests</label>
-                            <input type="number" id="maxGuests" placeholder="2" required>
+                            <label for="maxGuests">Maximum Guests *</label>
+                            <input type="number" id="maxGuests" placeholder="2" required min="1">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="amenities">Amenities (comma separated)</label>
                         <input type="text" id="amenities" placeholder="WiFi, TV, Air Conditioning, Mini Bar">
+                        <small style="color: #666;">Separate each amenity with a comma</small>
                     </div>
                     
                     <div class="form-group">
                         <label for="roomImages">Image URLs (one per line)</label>
-                        <textarea id="roomImages" rows="4" placeholder="https://example.com/room1.jpg"></textarea>
+                        <textarea id="roomImages" rows="4" placeholder="https://example.com/room1.jpg
+https://example.com/room2.jpg"></textarea>
+                        <small style="color: #666;">Enter one image URL per line. First image will be used as main display.</small>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" style="padding: 15px 30px; font-size: 16px;">
-                        <i class="fas fa-plus"></i> Add Room
-                    </button>
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 15px; font-size: 16px;">
+                            <i class="fas fa-plus"></i> Add Room
+                        </button>
+                        <button type="button" class="btn" onclick="showTab('rooms')" style="flex: 1;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
                 </form>
             </div>
             
@@ -808,6 +896,14 @@
             // Show selected tab
             document.getElementById(tab + 'Tab').classList.add('active');
             
+            // Update tab headers
+            document.querySelectorAll('.tab-header').forEach(header => {
+                header.classList.remove('active');
+                if (header.getAttribute('data-tab') === tab) {
+                    header.classList.add('active');
+                }
+            });
+            
             // Load data for the tab if needed
             switch(tab) {
                 case 'rooms':
@@ -843,15 +939,17 @@
         
         async function loadRecentBookings() {
             try {
-                const response = await fetch(API_URL + '/api/admin/bookings?limit=5');
+                const response = await fetch(API_URL + '/api/admin/bookings');
                 const data = await response.json();
                 
                 if (data.success) {
                     let html = '';
-                    if (data.bookings.length === 0) {
+                    const recentBookings = data.bookings.slice(0, 5); // Get only 5 most recent
+                    
+                    if (recentBookings.length === 0) {
                         html = '<tr><td colspan="6">No recent bookings</td></tr>';
                     } else {
-                        data.bookings.forEach(booking => {
+                        recentBookings.forEach(booking => {
                             const checkIn = new Date(booking.checkIn).toLocaleDateString();
                             const checkOut = new Date(booking.checkOut).toLocaleDateString();
                             const statusClass = booking.status === 'confirmed' ? 'status-confirmed' : 
@@ -883,10 +981,17 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    let html = '';
+                    const roomsContainer = document.getElementById('roomsList');
+                    const emptyState = document.getElementById('emptyRoomsState');
+                    
                     if (data.rooms.length === 0) {
-                        html = '<p>No rooms available. Add your first room!</p>';
+                        roomsContainer.style.display = 'none';
+                        emptyState.style.display = 'block';
                     } else {
+                        roomsContainer.style.display = 'grid';
+                        emptyState.style.display = 'none';
+                        
+                        let html = '';
                         data.rooms.forEach(room => {
                             const amenities = room.amenities && room.amenities.length > 0 
                                 ? room.amenities.slice(0, 3).join(', ') 
@@ -894,15 +999,25 @@
                             
                             html += `
                                 <div class="room-card">
-                                    <div class="room-image" style="background-image: url(${room.images && room.images.length > 0 ? room.images[0] : 'https://via.placeholder.com/300x180'});"></div>
+                                    <div class="room-image" style="background-image: url(${room.images && room.images.length > 0 ? room.images[0] : 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80'});"></div>
                                     <div class="room-content">
                                         <h3 class="room-title">${room.name}</h3>
-                                        <div class="room-price">₱${room.price} <small>/ night</small></div>
+                                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                                            <div class="room-price">₱${room.price} <small>/ night</small></div>
+                                            <span style="background: #e3f2fd; color: #1976d2; padding: 3px 10px; border-radius: 15px; font-size: 12px; font-weight: 600;">
+                                                ${room.type || 'Standard'}
+                                            </span>
+                                        </div>
                                         <div class="room-meta">
                                             <span><i class="fas fa-user-friends"></i> ${room.maxGuests} guests</span>
-                                            <span><i class="fas fa-star"></i> 4.5</span>
+                                            <span><i class="fas fa-check-circle" style="color: #4caf50;"></i> ${room.isAvailable ? 'Available' : 'Booked'}</span>
                                         </div>
-                                        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">${amenities}</p>
+                                        <p style="font-size: 14px; color: #666; margin-bottom: 15px; min-height: 60px;">
+                                            ${room.description ? room.description.substring(0, 100) + (room.description.length > 100 ? '...' : '') : 'No description available.'}
+                                        </p>
+                                        <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                                            <i class="fas fa-star" style="color: #ff9800;"></i> Amenities: ${amenities}
+                                        </p>
                                         <div style="display: flex; gap: 10px;">
                                             <button class="btn btn-danger" onclick="deleteRoom('${room._id}')" style="flex: 1;">
                                                 <i class="fas fa-trash"></i> Delete
@@ -915,13 +1030,13 @@
                                 </div>
                             `;
                         });
+                        
+                        roomsContainer.innerHTML = html;
                     }
-                    
-                    document.getElementById('roomsList').innerHTML = html;
                 }
             } catch (error) {
                 console.error('Error loading rooms:', error);
-                document.getElementById('roomsList').innerHTML = '<p>Error loading rooms. Please try again.</p>';
+                document.getElementById('roomsList').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Error Loading Rooms</h3><p>Please try again later</p></div>';
             }
         }
         
@@ -951,20 +1066,39 @@
         }
         
         async function addRoom() {
-            const roomData = {
-                name: document.getElementById('roomName').value,
-                description: document.getElementById('roomDescription').value,
-                price: document.getElementById('roomPrice').value,
-                maxGuests: document.getElementById('maxGuests').value,
-                amenities: document.getElementById('amenities').value.split(',').map(a => a.trim()),
-                images: document.getElementById('roomImages').value.split('\n').map(i => i.trim()).filter(i => i)
-            };
+            const roomName = document.getElementById('roomName').value;
+            const roomType = document.getElementById('roomType').value;
+            const roomDescription = document.getElementById('roomDescription').value;
+            const roomPrice = document.getElementById('roomPrice').value;
+            const maxGuests = document.getElementById('maxGuests').value;
+            const amenities = document.getElementById('amenities').value.split(',').map(a => a.trim()).filter(a => a);
+            const roomImages = document.getElementById('roomImages').value.split('\n').map(i => i.trim()).filter(i => i);
             
             // Validation
-            if (!roomData.name || !roomData.description || !roomData.price || !roomData.maxGuests) {
-                alert('Please fill in all required fields.');
+            if (!roomName || !roomDescription || !roomPrice || !maxGuests) {
+                alert('Please fill in all required fields (marked with *).');
                 return;
             }
+            
+            if (roomPrice <= 0) {
+                alert('Price must be greater than 0.');
+                return;
+            }
+            
+            if (maxGuests <= 0) {
+                alert('Maximum guests must be at least 1.');
+                return;
+            }
+            
+            const roomData = {
+                name: roomName,
+                type: roomType,
+                description: roomDescription,
+                price: parseInt(roomPrice),
+                maxGuests: parseInt(maxGuests),
+                amenities: amenities,
+                images: roomImages
+            };
             
             try {
                 const response = await fetch(API_URL + '/api/admin/rooms', {
@@ -988,6 +1122,7 @@
                 }
             } catch (error) {
                 alert('Error adding room. Please try again.');
+                console.error('Add room error:', error);
             }
         }
         
@@ -1017,8 +1152,14 @@
                                     <td>₱${booking.totalAmount || 0}</td>
                                     <td><span class="status-badge ${statusClass}">${booking.status}</span></td>
                                     <td>
-                                        <button class="btn" onclick="updateBookingStatus('${booking._id}', 'confirmed')" style="padding: 5px 10px; font-size: 12px;">Confirm</button>
-                                        <button class="btn btn-danger" onclick="updateBookingStatus('${booking._id}', 'cancelled')" style="padding: 5px 10px; font-size: 12px;">Cancel</button>
+                                        ${booking.status === 'pending' ? `
+                                            <button class="btn" onclick="updateBookingStatus('${booking._id}', 'confirmed')" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;">
+                                                <i class="fas fa-check"></i> Confirm
+                                            </button>
+                                        ` : ''}
+                                        <button class="btn btn-danger" onclick="updateBookingStatus('${booking._id}', 'cancelled')" style="padding: 5px 10px; font-size: 12px;">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
                                     </td>
                                 </tr>
                             `;
@@ -1078,7 +1219,7 @@
                                     <td>${user.name || 'N/A'}</td>
                                     <td>${user.email}</td>
                                     <td>${user.phone || 'N/A'}</td>
-                                    <td>${user.bookingCount || 0}</td>
+                                    <td>0</td>
                                     <td>${joinDate}</td>
                                 </tr>
                             `;
@@ -1094,12 +1235,11 @@
         }
         
         function editRoom(roomId) {
-            // For now, redirect to edit page or show modal
             alert('Edit room functionality coming soon! Room ID: ' + roomId);
-            // In a real implementation, you would:
+            // TODO: Implement edit room functionality
             // 1. Fetch room details
-            // 2. Populate a form
-            // 3. Update on submit
+            // 2. Populate edit form
+            // 3. Update room
         }
         
         function logout() {
