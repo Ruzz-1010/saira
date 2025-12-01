@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const app = express();
 
-// FIXED CORS - ALLOW EVERYTHING
+// CORS Configuration
 app.use(cors({
     origin: '*',
     credentials: true,
@@ -13,14 +13,18 @@ app.use(cors({
 
 app.use(express.json());
 
-// MongoDB Connection
-const MONGODB_URI = 'mongodb+srv://dbUser:Ruzzel123@cluster0.vpmlxq7.mongodb.net/hotel_booking?retryWrites=true&w=majority';
+// =============================================
+// BAGONG DATABASE NAME LANG!
+// =============================================
+const MONGODB_URI = 'mongodb+srv://dbUser:Ruzzel123@cluster0.vpmlxq7.mongodb.net/grandstay_hotels?retryWrites=true&w=majority';
 
 mongoose.connect(MONGODB_URI)
-    .then(() => console.log('✅ Connected to MongoDB!'))
+    .then(() => console.log('✅ Connected to MongoDB: grandstay_hotels'))
     .catch(err => console.log('❌ MongoDB Error:', err));
 
-// Schemas
+// =============================================
+// SAME SCHEMAS - WALANG BAGO!
+// =============================================
 const userSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -47,6 +51,7 @@ const bookingSchema = new mongoose.Schema({
     customerEmail: String,
     customerPhone: String,
     roomId: String,
+    roomName: String,
     checkIn: Date,
     checkOut: Date,
     guests: Number,
@@ -56,38 +61,75 @@ const bookingSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
+// =============================================
+// SAME MODELS - WALANG BAGO!
+// =============================================
 const User = mongoose.model('User', userSchema);
 const Room = mongoose.model('Room', roomSchema);
 const Booking = mongoose.model('Booking', bookingSchema);
 
-// Create admin if not exists
+// =============================================
+// CREATE ADMIN ACCOUNT
+// =============================================
 async function createAdmin() {
-    const adminExists = await User.findOne({ email: 'admin@hotel.com' });
-    if (!adminExists) {
-        await User.create({
-            name: 'Admin',
-            email: 'admin@hotel.com',
-            password: 'admin123',
-            phone: '09123456789',
-            role: 'admin'
-        });
-        console.log('✅ Admin created: admin@hotel.com / admin123');
+    try {
+        const adminExists = await User.findOne({ email: 'admin@hotel.com' });
+        if (!adminExists) {
+            await User.create({
+                name: 'Admin',
+                email: 'admin@hotel.com',
+                password: 'admin123',
+                phone: '09123456789',
+                role: 'admin'
+            });
+            console.log('✅ Admin created: admin@hotel.com / admin123');
+        }
+    } catch (error) {
+        console.log('❌ Error creating admin:', error.message);
     }
 }
-createAdmin();
 
-// ============ ROUTES ============
+// =============================================
+// ROUTES - SAME LANG!
+// =============================================
 
 // Home
 app.get('/', (req, res) => {
     res.json({ 
-        message: '🏨 Hotel API',
+        message: '🏨 GrandStay Hotels API',
         status: 'OK',
+        database: 'grandstay_hotels',
+        collections: ['users', 'rooms', 'bookings'],
         admin: 'admin@hotel.com / admin123'
     });
 });
 
-// Get rooms
+// Test database
+app.get('/api/test', async (req, res) => {
+    try {
+        const users = await User.countDocuments();
+        const rooms = await Room.countDocuments();
+        const bookings = await Booking.countDocuments();
+        
+        res.json({
+            success: true,
+            message: 'Database is working!',
+            stats: {
+                users,
+                rooms,
+                bookings
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Database error' });
+    }
+});
+
+// =============================================
+// PUBLIC ROUTES
+// =============================================
+
+// Get all available rooms
 app.get('/api/rooms', async (req, res) => {
     try {
         const rooms = await Room.find({ isAvailable: true });
@@ -124,6 +166,7 @@ app.post('/api/bookings', async (req, res) => {
             customerEmail,
             customerPhone,
             roomId,
+            roomName: room.name,
             checkIn: new Date(checkIn),
             checkOut: new Date(checkOut),
             guests: parseInt(guests),
@@ -134,69 +177,35 @@ app.post('/api/bookings', async (req, res) => {
         res.json({
             success: true,
             message: 'Booking successful!',
-            bookingId: booking._id,
-            booking: {
-                id: booking._id,
-                room: room.name,
-                checkIn: booking.checkIn,
-                checkOut: booking.checkOut,
-                totalAmount: booking.totalAmount
-            }
+            bookingId: booking._id
         });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Booking failed' });
     }
 });
 
-// Admin login
-app.post('/api/auth/admin/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        
-        // Check if admin exists
-        let user = await User.findOne({ email: 'admin@hotel.com' });
-        
-        // If not, create it
-        if (!user) {
-            user = await User.create({
-                name: 'Admin',
-                email: 'admin@hotel.com',
-                password: 'admin123',
-                phone: '09123456789',
-                role: 'admin'
-            });
-        }
-        
-        // Check credentials
-        if (email === 'admin@hotel.com' && password === 'admin123') {
-            res.json({
-                success: true,
-                message: 'Admin login successful',
-                user: {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                }
-            });
-        } else {
-            res.status(401).json({ success: false, message: 'Invalid credentials' });
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Login failed' });
-    }
-});
+// =============================================
+// AUTHENTICATION ROUTES
+// =============================================
 
 // User registration
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
         
-        const user = await User.create({ name, email, password, phone, role: 'user' });
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Email already registered' 
+            });
+        }
+        
+        const user = await User.create({ name, email, password, phone });
         
         res.json({
             success: true,
-            message: 'Registration successful',
+            message: 'Registration successful!',
             user: {
                 id: user._id,
                 name: user.name,
@@ -234,6 +243,36 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// Admin login
+app.post('/api/auth/admin/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        const admin = await User.findOne({ email, role: 'admin' });
+        
+        if (!admin || admin.password !== password) {
+            return res.status(401).json({ success: false, message: 'Invalid admin credentials' });
+        }
+        
+        res.json({
+            success: true,
+            message: 'Admin login successful',
+            admin: {
+                id: admin._id,
+                name: admin.name,
+                email: admin.email,
+                role: admin.role
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Login failed' });
+    }
+});
+
+// =============================================
+// ADMIN ROUTES
+// =============================================
+
 // Admin: Get all rooms
 app.get('/api/admin/rooms', async (req, res) => {
     try {
@@ -248,7 +287,7 @@ app.get('/api/admin/rooms', async (req, res) => {
 app.post('/api/admin/rooms', async (req, res) => {
     try {
         const room = await Room.create(req.body);
-        res.json({ success: true, message: 'Room added', room });
+        res.json({ success: true, message: 'Room added successfully', room });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Failed to add room' });
     }
@@ -274,7 +313,7 @@ app.delete('/api/admin/rooms/:id', async (req, res) => {
     }
 });
 
-// Admin: Get bookings
+// Admin: Get all bookings
 app.get('/api/admin/bookings', async (req, res) => {
     try {
         const bookings = await Booking.find().sort({ createdAt: -1 });
@@ -298,6 +337,16 @@ app.put('/api/admin/bookings/:id/status', async (req, res) => {
     }
 });
 
+// Admin: Get all users
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const users = await User.find({ role: 'user' });
+        res.json({ success: true, users });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // Admin: Get stats
 app.get('/api/admin/stats', async (req, res) => {
     try {
@@ -312,8 +361,7 @@ app.get('/api/admin/stats', async (req, res) => {
                 totalRooms,
                 totalBookings,
                 pendingBookings,
-                totalUsers,
-                totalRevenue: 0
+                totalUsers
             }
         });
     } catch (error) {
@@ -321,10 +369,19 @@ app.get('/api/admin/stats', async (req, res) => {
     }
 });
 
-// Start server
+// =============================================
+// INITIALIZE ADMIN
+// =============================================
+createAdmin();
+
+// =============================================
+// START SERVER
+// =============================================
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📡 http://localhost:${PORT}`);
+    console.log(`🏨 Database: grandstay_hotels`);
+    console.log(`📊 Collections: users, rooms, bookings`);
     console.log(`🔑 Admin: admin@hotel.com / admin123`);
 });

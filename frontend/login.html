@@ -3,170 +3,752 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hotel</title>
+    <title>Login - GrandStay Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial; background: #2c3e50; padding: 20px; }
-        .login-box { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; }
-        h1 { text-align: center; margin-bottom: 20px; color: #2c3e50; }
-        .tabs { display: flex; margin-bottom: 20px; }
-        .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; background: #eee; }
-        .tab.active { background: #3498db; color: white; }
-        .form { display: none; }
-        .form.active { display: block; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        button { width: 100%; padding: 12px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .message { margin-top: 15px; padding: 10px; border-radius: 5px; text-align: center; }
-        .success { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .login-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .login-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .login-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: white;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .login-content {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 0.95rem;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            font-size: 1.1rem;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(52, 152, 219, 0.25);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .admin-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        .admin-note h4 {
+            color: #856404;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-note p {
+            color: #856404;
+            margin: 5px 0;
+        }
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+            }
+            
+            .login-header {
+                padding: 30px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .login-content {
+                padding: 30px 20px;
+            }
+            
+            .tab-btn {
+                padding: 15px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: var(--primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .back-home a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h1>Hotel Login</h1>
-        <div class="tabs">
-            <div class="tab active" onclick="showForm('login')">User Login</div>
-            <div class="tab" onclick="showForm('register')">Register</div>
-            <div class="tab" onclick="showForm('admin')">Admin</div>
+    <div class="login-container">
+        <div class="login-header">
+            <h1><i class="fas fa-hotel"></i> GrandStay Hotel</h1>
+            <p>Sign in to manage your bookings and explore exclusive offers</p>
         </div>
-        
-        <form class="form active" id="loginForm">
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        
-        <form class="form" id="registerForm">
-            <input type="text" placeholder="Full Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <input type="tel" placeholder="Phone">
-            <button type="submit">Register</button>
-        </form>
-        
-        <form class="form" id="adminForm">
-            <input type="email" placeholder="Email" value="admin@hotel.com" required>
-            <input type="password" placeholder="Password" value="admin123" required>
-            <button type="submit">Admin Login</button>
-        </form>
-        
-        <div class="message" id="message"></div>
+
+        <div class="login-tabs">
+            <button class="tab-btn active" data-tab="login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <button class="tab-btn" data-tab="register">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
+            <button class="tab-btn" data-tab="admin">
+                <i class="fas fa-user-shield"></i> Admin
+            </button>
+        </div>
+
+        <div class="login-content">
+            <!-- Login Form -->
+            <form class="form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+
+                <div class="form-footer">
+                    Don't have an account? <a href="#" onclick="switchTab('register')">Register here</a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form class="form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPhone">Phone Number</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="registerPhone" placeholder="Enter your phone number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Create a password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+
+                <div class="form-footer">
+                    Already have an account? <a href="#" onclick="switchTab('login')">Sign in here</a>
+                </div>
+            </form>
+
+            <!-- Admin Login Form -->
+            <form class="form" id="adminForm">
+                <div class="admin-note">
+                    <h4><i class="fas fa-info-circle"></i> Admin Access</h4>
+                    <p>Use the default admin credentials or contact system administrator</p>
+                    <p><strong>Default:</strong> admin@hotel.com / admin123</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminEmail">Admin Email</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="adminEmail" value="admin@hotel.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="adminPassword" value="admin123" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="adminBtn">
+                    <i class="fas fa-user-shield"></i> Admin Login
+                </button>
+
+                <div class="form-footer">
+                    Regular user? <a href="#" onclick="switchTab('login')">User login</a>
+                </div>
+            </form>
+
+            <!-- Message Display -->
+            <div class="message" id="message"></div>
+
+            <!-- Back to Home -->
+            <div class="back-home">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i> Back to Homepage
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         
-        function showForm(form) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(form + 'Form').classList.add('active');
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update forms
+            document.querySelectorAll('.form').forEach(form => {
+                form.classList.remove('active');
+                if (form.id === tabName + 'Form') {
+                    form.classList.add('active');
+                }
+            });
+            
+            // Clear any messages
             document.getElementById('message').innerHTML = '';
+            document.getElementById('message').className = 'message';
         }
         
-        // Admin Login
-        document.getElementById('adminForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = e.target[0].value;
-            const password = e.target[1].value;
-            
-            document.getElementById('message').innerHTML = 'Logging in...';
-            document.getElementById('message').className = 'message';
-            
-            try {
-                const response = await fetch(API_URL + '/api/auth/admin/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Save to localStorage
-                    localStorage.setItem('adminEmail', data.user.email);
-                    localStorage.setItem('adminName', data.user.name);
-                    localStorage.setItem('adminUser', JSON.stringify(data.user));
-                    
-                    document.getElementById('message').innerHTML = 'Login successful! Redirecting...';
-                    document.getElementById('message').className = 'message success';
-                    
-                    setTimeout(() => {
-                        window.location.href = 'admin-dashboard.html';
-                    }, 1000);
-                } else {
-                    document.getElementById('message').innerHTML = data.message || 'Login failed';
-                    document.getElementById('message').className = 'message error';
-                }
-            } catch (error) {
-                document.getElementById('message').innerHTML = 'Connection error. Trying local login...';
-                
-                // LOCAL FALLBACK
-                localStorage.setItem('adminEmail', email);
-                localStorage.setItem('adminName', 'Admin');
-                localStorage.setItem('adminUser', JSON.stringify({
-                    name: 'Admin',
-                    email: email,
-                    role: 'admin'
-                }));
-                
-                setTimeout(() => {
-                    window.location.href = 'admin-dashboard.html';
-                }, 1000);
-            }
+        // Tab button event listeners
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchTab(btn.dataset.tab);
+            });
         });
         
-        // User Login
+        // Show message function
+        function showMessage(text, type = 'info') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Set button loading state
+        function setLoading(button, isLoading) {
+            if (isLoading) {
+                button.innerHTML = '<div class="spinner"></div> Processing...';
+                button.disabled = true;
+            } else {
+                button.innerHTML = button.getAttribute('data-original-html');
+                button.disabled = false;
+            }
+        }
+        
+        // Save original button HTML
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loginBtn').setAttribute('data-original-html', 
+                '<i class="fas fa-sign-in-alt"></i> Sign In');
+            document.getElementById('registerBtn').setAttribute('data-original-html', 
+                '<i class="fas fa-user-plus"></i> Create Account');
+            document.getElementById('adminBtn').setAttribute('data-original-html', 
+                '<i class="fas fa-user-shield"></i> Admin Login');
+        });
+        
+        // ================== USER LOGIN ==================
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = e.target[0].value;
-            const password = e.target[1].value;
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (!email || !password) {
+                showMessage('Please fill in all fields', 'error');
+                return;
+            }
+            
+            setLoading(loginBtn, true);
             
             try {
-                const response = await fetch(API_URL + '/api/auth/login', {
+                console.log('Logging in with:', { email, password });
+                
+                const response = await fetch(`${API_URL}/api/auth/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify({ email, password })
                 });
                 
                 const data = await response.json();
+                console.log('Login response:', data);
                 
                 if (data.success) {
+                    // Save user data to localStorage
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = 'index.html';
+                    localStorage.setItem('token', 'user_token_' + Date.now());
+                    
+                    showMessage('Login successful! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                    
                 } else {
-                    alert(data.message || 'Login failed');
+                    showMessage(data.message || 'Invalid email or password', 'error');
                 }
+                
             } catch (error) {
-                alert('Connection error');
+                console.error('Login error:', error);
+                showMessage('Connection error. Please try again.', 'error');
+            } finally {
+                setLoading(loginBtn, false);
             }
         });
         
-        // User Register
+        // ================== USER REGISTRATION ==================
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = e.target[0].value;
-            const email = e.target[1].value;
-            const password = e.target[2].value;
-            const phone = e.target[3].value;
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const registerBtn = document.getElementById('registerBtn');
+            
+            // Validation
+            if (!name || !email || !password || !confirmPassword) {
+                showMessage('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            setLoading(registerBtn, true);
             
             try {
-                const response = await fetch(API_URL + '/api/auth/register', {
+                console.log('Registering user:', { name, email, phone, password });
+                
+                const response = await fetch(`${API_URL}/api/auth/register`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify({ name, email, password, phone })
                 });
                 
                 const data = await response.json();
+                console.log('Registration response:', data);
                 
                 if (data.success) {
-                    alert('Registration successful!');
-                    showForm('login');
+                    showMessage('Registration successful! Please login.', 'success');
+                    
+                    // Switch to login tab after successful registration
+                    setTimeout(() => {
+                        switchTab('login');
+                        // Pre-fill email
+                        document.getElementById('loginEmail').value = email;
+                        document.getElementById('registerForm').reset();
+                    }, 2000);
+                    
                 } else {
-                    alert(data.message || 'Registration failed');
+                    showMessage(data.message || 'Registration failed. Email may already exist.', 'error');
                 }
+                
             } catch (error) {
-                alert('Connection error');
+                console.error('Registration error:', error);
+                showMessage('Connection error. Please try again.', 'error');
+            } finally {
+                setLoading(registerBtn, false);
+            }
+        });
+        
+        // ================== ADMIN LOGIN ==================
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const adminBtn = document.getElementById('adminBtn');
+            
+            if (!email || !password) {
+                showMessage('Please enter admin credentials', 'error');
+                return;
+            }
+            
+            setLoading(adminBtn, true);
+            
+            try {
+                console.log('Admin login attempt:', { email, password });
+                
+                const response = await fetch(`${API_URL}/api/auth/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                console.log('Admin login response:', data);
+                
+                if (data.success) {
+                    // Save admin data to localStorage
+                    localStorage.setItem('adminUser', JSON.stringify(data.user));
+                    localStorage.setItem('adminEmail', data.user.email);
+                    localStorage.setItem('adminToken', 'admin_token_' + Date.now());
+                    
+                    showMessage('Admin login successful! Redirecting to dashboard...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1500);
+                    
+                } else {
+                    showMessage(data.message || 'Invalid admin credentials', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Admin login error:', error);
+                showMessage('Connection error. Trying local fallback...', 'info');
+                
+                // Local fallback for testing
+                if (email === 'admin@hotel.com' && password === 'admin123') {
+                    localStorage.setItem('adminUser', JSON.stringify({
+                        name: 'Admin',
+                        email: email,
+                        role: 'admin'
+                    }));
+                    localStorage.setItem('adminEmail', email);
+                    
+                    showMessage('Local admin login successful! Redirecting...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage('Invalid admin credentials', 'error');
+                }
+            } finally {
+                setLoading(adminBtn, false);
+            }
+        });
+        
+        // Test API connection on load
+        async function testApiConnection() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                console.log('API connection successful:', data);
+                return true;
+            } catch (error) {
+                console.warn('API connection failed:', error);
+                showMessage('⚠️ Note: Backend server may be offline. Some features may not work.', 'info');
+                return false;
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            testApiConnection();
+            
+            // Check if user is already logged in
+            const user = localStorage.getItem('user');
+            const admin = localStorage.getItem('adminUser');
+            
+            if (user) {
+                showMessage('You are already logged in. Redirecting...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } else if (admin) {
+                showMessage('Admin session detected. Redirecting...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 2000);
             }
         });
     </script>
