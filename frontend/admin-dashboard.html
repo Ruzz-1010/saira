@@ -17,19 +17,49 @@
             color: #333;
         }
         
+        /* Loading Screen */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 9999;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
         /* Navigation */
         .navbar {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 0 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+        }
+        
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
         }
         
         .logo {
@@ -38,10 +68,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        
-        .logo i {
-            color: #3498db;
         }
         
         .user-info {
@@ -59,6 +85,17 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
         }
         
         .nav-buttons {
@@ -76,6 +113,9 @@
             cursor: pointer;
             font-size: 14px;
             transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .nav-btn:hover {
@@ -109,10 +149,12 @@
         .dashboard-header h1 {
             color: #2c3e50;
             margin-bottom: 10px;
+            font-size: 32px;
         }
         
         .dashboard-header p {
             color: #7f8c8d;
+            font-size: 16px;
         }
         
         /* Stats Grid */
@@ -130,10 +172,12 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
             text-align: center;
             transition: transform 0.3s;
+            border: 1px solid #eee;
         }
         
         .stat-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
         .stat-icon {
@@ -149,6 +193,11 @@
             margin: 10px 0;
         }
         
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
         /* Tabs */
         .tabs {
             display: flex;
@@ -157,6 +206,7 @@
             overflow: hidden;
             margin-top: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
         }
         
         .tab {
@@ -170,6 +220,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            white-space: nowrap;
         }
         
         .tab:last-child {
@@ -195,7 +246,21 @@
             min-height: 500px;
         }
         
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
         /* Forms */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
         .form-group {
             margin-bottom: 25px;
         }
@@ -223,6 +288,7 @@
         .form-group textarea:focus {
             border-color: #3498db;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
         
         .form-group textarea {
@@ -292,7 +358,7 @@
         /* Rooms Grid */
         .rooms-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 25px;
             margin-top: 20px;
         }
@@ -312,39 +378,82 @@
         }
         
         .room-image {
-            height: 180px;
+            height: 200px;
             overflow: hidden;
             background: #f8f9fa;
+            position: relative;
         }
         
         .room-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .room-card:hover .room-image img {
+            transform: scale(1.05);
+        }
+        
+        .room-type {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
         }
         
         .room-content {
-            padding: 20px;
+            padding: 25px;
         }
         
         .room-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 10px;
         }
         
+        .room-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
         .room-price {
             color: #e74c3c;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
+        }
+        
+        .room-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .room-detail {
+            text-align: center;
+        }
+        
+        .room-detail i {
+            color: #3498db;
+            margin-bottom: 5px;
         }
         
         .room-actions {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
         
         /* Tables */
@@ -380,6 +489,7 @@
             border-radius: 20px;
             font-size: 13px;
             font-weight: 500;
+            display: inline-block;
         }
         
         .status-pending {
@@ -433,29 +543,17 @@
             border: 1px solid #bee5eb;
         }
         
-        /* Loading */
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 50px;
-            color: #7f8c8d;
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
         }
         
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .empty-state i {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
         }
         
         /* Responsive */
@@ -491,36 +589,60 @@
                 flex-direction: column;
                 gap: 5px;
             }
+            
+            .tab-content {
+                padding: 20px;
+            }
+            
+            .navbar-content {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 15px 0;
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="spinner"></div>
+        <h2>Loading Admin Dashboard...</h2>
+        <p>Please wait while we verify your session</p>
+    </div>
+    
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-hotel"></i>
-            <span>SAIRA Hotel Admin</span>
-        </div>
-        
-        <div class="user-info">
-            <div class="user-avatar" id="userAvatar">A</div>
-            <div>
-                <div style="font-weight: bold;" id="adminName">Admin</div>
-                <div style="font-size: 12px; opacity: 0.8;" id="adminEmail">admin@hotel.com</div>
+    <nav class="navbar" style="display: none;" id="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <i class="fas fa-hotel"></i>
+                <span>SAIRA Hotel Admin</span>
             </div>
-        </div>
-        
-        <div class="nav-buttons">
-            <button class="nav-btn" onclick="window.location.href='../index.html'">
-                <i class="fas fa-home"></i> View Site
-            </button>
-            <button class="nav-btn logout" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">A</div>
+                <div class="user-details">
+                    <h3 id="adminName">Admin</h3>
+                    <p id="adminEmail">admin@hotel.com</p>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="window.location.href='../index.html'">
+                    <i class="fas fa-home"></i> View Site
+                </button>
+                <button class="nav-btn logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="display: none;" id="mainContent">
         <!-- Dashboard Header -->
         <div class="dashboard-header">
             <h1>Dashboard Overview</h1>
@@ -552,10 +674,17 @@
 
         <!-- Dashboard Tab -->
         <div id="dashboardTab" class="tab-content">
-            <h2><i class="fas fa-chart-line"></i> Recent Activity</h2>
-            <div class="loading" id="dashboardLoading">
-                <div class="spinner"></div>
-                <p>Loading dashboard data...</p>
+            <div class="tab-header">
+                <h2><i class="fas fa-chart-line"></i> Recent Activity</h2>
+                <button class="btn" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="empty-state" id="dashboardEmpty">
+                <i class="fas fa-chart-pie"></i>
+                <h3>No Activity Yet</h3>
+                <p>Start by adding rooms and accepting bookings</p>
             </div>
             
             <div id="recentBookings" style="display: none;">
@@ -565,14 +694,27 @@
 
         <!-- Manage Rooms Tab -->
         <div id="roomsTab" class="tab-content" style="display: none;">
-            <h2><i class="fas fa-bed"></i> All Rooms</h2>
-            <p style="color: #666; margin-bottom: 20px;">Manage your hotel rooms</p>
+            <div class="tab-header">
+                <h2><i class="fas fa-bed"></i> All Rooms</h2>
+                <div>
+                    <button class="btn" onclick="loadRooms()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-success" onclick="showTab('addRoom')" style="margin-left: 10px;">
+                        <i class="fas fa-plus"></i> Add Room
+                    </button>
+                </div>
+            </div>
             
             <div id="roomsMessage" class="message"></div>
             
-            <div class="loading" id="roomsLoading">
-                <div class="spinner"></div>
-                <p>Loading rooms...</p>
+            <div class="empty-state" id="roomsEmpty">
+                <i class="fas fa-bed"></i>
+                <h3>No Rooms Yet</h3>
+                <p>Add your first room to get started</p>
+                <button class="btn btn-success" onclick="showTab('addRoom')" style="margin-top: 20px;">
+                    <i class="fas fa-plus"></i> Add Your First Room
+                </button>
             </div>
             
             <div class="rooms-grid" id="roomsContainer">
@@ -582,82 +724,112 @@
 
         <!-- Add Room Tab -->
         <div id="addRoomTab" class="tab-content" style="display: none;">
-            <h2><i class="fas fa-plus-circle"></i> Add New Room</h2>
-            <p style="color: #666; margin-bottom: 20px;">Add a new room to your hotel</p>
+            <div class="tab-header">
+                <h2><i class="fas fa-plus-circle"></i> Add New Room</h2>
+                <button class="btn btn-secondary" onclick="showTab('rooms')">
+                    <i class="fas fa-arrow-left"></i> Back to Rooms
+                </button>
+            </div>
             
             <div id="addRoomMessage" class="message"></div>
             
-            <form id="addRoomForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="roomName"><i class="fas fa-signature"></i> Room Name *</label>
-                        <input type="text" id="roomName" placeholder="Deluxe Suite with Ocean View" required>
+            <div class="form-container">
+                <form id="addRoomForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomName">
+                                <i class="fas fa-signature"></i> Room Name *
+                            </label>
+                            <input type="text" id="roomName" placeholder="Deluxe Suite with Ocean View" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="roomType">
+                                <i class="fas fa-tag"></i> Room Type *
+                            </label>
+                            <select id="roomType" required>
+                                <option value="">Select Type</option>
+                                <option value="single">Single Room</option>
+                                <option value="double">Double Room</option>
+                                <option value="suite">Suite</option>
+                                <option value="family">Family Room</option>
+                                <option value="presidential">Presidential Suite</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="roomType"><i class="fas fa-tag"></i> Room Type *</label>
-                        <select id="roomType" required>
-                            <option value="">Select Type</option>
-                            <option value="single">Single Room</option>
-                            <option value="double">Double Room</option>
-                            <option value="suite">Suite</option>
-                            <option value="family">Family Room</option>
-                            <option value="presidential">Presidential Suite</option>
-                        </select>
+                        <label for="roomDescription">
+                            <i class="fas fa-align-left"></i> Description *
+                        </label>
+                        <textarea id="roomDescription" placeholder="Describe the room features, amenities, view, etc." required rows="4"></textarea>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="roomDescription"><i class="fas fa-align-left"></i> Description *</label>
-                    <textarea id="roomDescription" placeholder="Describe the room features, amenities, view, etc." required rows="4"></textarea>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="roomPrice"><i class="fas fa-money-bill-wave"></i> Price per Night (₱) *</label>
-                        <input type="number" id="roomPrice" placeholder="2500" required min="500" step="100">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="roomPrice">
+                                <i class="fas fa-money-bill-wave"></i> Price per Night (₱) *
+                            </label>
+                            <input type="number" id="roomPrice" placeholder="2500" required min="500" step="100">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="maxGuests">
+                                <i class="fas fa-user-friends"></i> Maximum Guests *
+                            </label>
+                            <input type="number" id="maxGuests" placeholder="2" required min="1" max="10">
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="maxGuests"><i class="fas fa-user-friends"></i> Maximum Guests *</label>
-                        <input type="number" id="maxGuests" placeholder="2" required min="1" max="10">
+                        <label for="amenities">
+                            <i class="fas fa-concierge-bell"></i> Amenities (comma separated)
+                        </label>
+                        <input type="text" id="amenities" placeholder="Free WiFi, AC, TV, Mini Bar, Bathroom">
+                        <small style="color: #666; display: block; margin-top: 5px;">Separate amenities with commas</small>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="amenities"><i class="fas fa-concierge-bell"></i> Amenities (comma separated)</label>
-                    <input type="text" id="amenities" placeholder="Free WiFi, AC, TV, Mini Bar, Bathroom">
-                    <small style="color: #666;">Separate amenities with commas</small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="imageUrls"><i class="fas fa-image"></i> Image URLs (one per line)</label>
-                    <textarea id="imageUrls" placeholder="Paste image URLs here, one per line
+                    
+                    <div class="form-group">
+                        <label for="imageUrls">
+                            <i class="fas fa-image"></i> Image URLs (one per line)
+                        </label>
+                        <textarea id="imageUrls" placeholder="Paste image URLs here, one per line
 Example:
 https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800
 https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></textarea>
-                    <small style="color: #666;">Tip: Use Unsplash.com for free hotel room images</small>
-                </div>
-                
-                <div style="display: flex; gap: 15px; margin-top: 30px;">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Add Room
-                    </button>
-                    <button type="button" class="btn btn-secondary" onclick="resetAddRoomForm()">
-                        <i class="fas fa-redo"></i> Reset Form
-                    </button>
-                </div>
-            </form>
+                        <small style="color: #666; display: block; margin-top: 5px;">Tip: Use Unsplash.com for free hotel room images</small>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add Room
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetAddRoomForm()">
+                            <i class="fas fa-redo"></i> Reset Form
+                        </button>
+                        <button type="button" class="btn" onclick="showTab('rooms')">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!-- Bookings Tab -->
         <div id="bookingsTab" class="tab-content" style="display: none;">
-            <h2><i class="fas fa-calendar-check"></i> All Bookings</h2>
-            <p style="color: #666; margin-bottom: 20px;">Manage customer bookings</p>
+            <div class="tab-header">
+                <h2><i class="fas fa-calendar-check"></i> All Bookings</h2>
+                <button class="btn" onclick="loadBookings()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
             
-            <div class="loading" id="bookingsLoading">
-                <div class="spinner"></div>
-                <p>Loading bookings...</p>
+            <div id="bookingsMessage" class="message"></div>
+            
+            <div class="empty-state" id="bookingsEmpty">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Bookings Yet</h3>
+                <p>When customers book rooms, they will appear here</p>
             </div>
             
             <div id="bookingsTableContainer" style="display: none;">
@@ -682,12 +854,17 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
 
         <!-- Users Tab -->
         <div id="usersTab" class="tab-content" style="display: none;">
-            <h2><i class="fas fa-users"></i> Registered Users</h2>
-            <p style="color: #666; margin-bottom: 20px;">Manage hotel customers</p>
+            <div class="tab-header">
+                <h2><i class="fas fa-users"></i> Registered Users</h2>
+                <button class="btn" onclick="loadUsers()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
             
-            <div class="loading" id="usersLoading">
-                <div class="spinner"></div>
-                <p>Loading users...</p>
+            <div class="empty-state" id="usersEmpty">
+                <i class="fas fa-user-friends"></i>
+                <h3>No Users Yet</h3>
+                <p>When users register, they will appear here</p>
             </div>
             
             <div id="usersTableContainer" style="display: none;">
@@ -716,43 +893,75 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
         // ============ CONFIGURATION ============
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         let currentAdmin = {};
+        let adminEmail = '';
         
         // ============ INITIALIZE ============
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Admin Dashboard Initializing...');
-            checkLoginStatus();
+            checkAdminSession();
         });
         
-        // ============ LOGIN CHECK ============
-        function checkLoginStatus() {
-            console.log('🔍 Checking login status...');
+        // ============ REAL SESSION CHECK ============
+        async function checkAdminSession() {
+            console.log('🔍 Checking REAL admin session...');
             
             // Get admin data from localStorage
-            const adminEmail = localStorage.getItem('adminEmail');
-            const adminName = localStorage.getItem('adminName');
+            adminEmail = localStorage.getItem('adminEmail');
+            const adminUser = localStorage.getItem('adminUser');
             
-            console.log('Stored admin data:', { adminEmail, adminName });
-            
-            // Check if we have admin data
-            if (!adminEmail || !adminName) {
-                console.log('❌ No admin data found, redirecting to login...');
-                window.location.href = 'login.html?admin=true';
-                return false;
+            if (!adminEmail || !adminUser) {
+                console.log('❌ No admin session found');
+                redirectToLogin('No active session found');
+                return;
             }
             
-            // Update UI with admin info
-            currentAdmin = { email: adminEmail, name: adminName };
-            document.getElementById('adminName').textContent = adminName;
-            document.getElementById('adminEmail').textContent = adminEmail;
-            document.getElementById('userAvatar').textContent = adminName.charAt(0).toUpperCase();
+            try {
+                const user = JSON.parse(adminUser);
+                currentAdmin = user;
+                
+                // Verify it's a REAL admin user
+                if (user.role !== 'admin') {
+                    console.log('❌ Not an admin user');
+                    redirectToLogin('Admin access required');
+                    return;
+                }
+                
+                console.log('✅ REAL Admin verified:', user.email);
+                
+                // Update UI
+                document.getElementById('adminName').textContent = user.name;
+                document.getElementById('adminEmail').textContent = user.email;
+                document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+                
+                // Hide loading, show content
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('navbar').style.display = 'block';
+                    document.getElementById('mainContent').style.display = 'block';
+                    
+                    // Load initial data
+                    loadDashboardStats();
+                    loadRooms();
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Error parsing admin data:', error);
+                redirectToLogin('Invalid session data');
+            }
+        }
+        
+        function redirectToLogin(message) {
+            console.log('Redirecting to login:', message);
             
-            console.log('✅ Admin logged in:', currentAdmin);
+            // Clear localStorage
+            localStorage.removeItem('adminEmail');
+            localStorage.removeItem('adminName');
+            localStorage.removeItem('adminUser');
             
-            // Load initial data
-            loadDashboardStats();
-            loadRooms();
-            
-            return true;
+            // Redirect with error message
+            setTimeout(() => {
+                window.location.href = `login.html?admin=true&error=${encodeURIComponent(message)}`;
+            }, 1500);
         }
         
         // ============ TAB NAVIGATION ============
@@ -790,10 +999,10 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
         // ============ DASHBOARD FUNCTIONS ============
         async function loadDashboardStats() {
             try {
-                document.getElementById('dashboardLoading').style.display = 'flex';
+                document.getElementById('dashboardEmpty').style.display = 'block';
+                document.getElementById('recentBookings').style.display = 'none';
                 
-                // Use current admin email for API call
-                const statsResponse = await fetch(`${API_URL}/api/admin/stats?email=${encodeURIComponent(currentAdmin.email)}`);
+                const statsResponse = await fetch(`${API_URL}/api/admin/stats?email=${encodeURIComponent(adminEmail)}`);
                 const statsData = await statsResponse.json();
                 
                 console.log('📊 Stats response:', statsData);
@@ -805,32 +1014,37 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                                 <i class="fas fa-bed"></i>
                             </div>
                             <div class="stat-number">${statsData.stats.totalRooms || 0}</div>
-                            <p>Total Rooms</p>
+                            <div class="stat-label">Total Rooms</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-calendar-check"></i>
                             </div>
                             <div class="stat-number">${statsData.stats.totalBookings || 0}</div>
-                            <p>Total Bookings</p>
+                            <div class="stat-label">Total Bookings</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="stat-number">${statsData.stats.pendingBookings || 0}</div>
-                            <p>Pending Bookings</p>
+                            <div class="stat-label">Pending Bookings</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-users"></i>
                             </div>
                             <div class="stat-number">${statsData.stats.totalUsers || 0}</div>
-                            <p>Registered Users</p>
+                            <div class="stat-label">Registered Users</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-number">₱${(statsData.stats.totalRevenue || 0).toLocaleString()}</div>
+                            <div class="stat-label">Total Revenue</div>
                         </div>
                     `;
-                    
-                    document.getElementById('dashboardLoading').style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error loading stats:', error);
@@ -838,13 +1052,21 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
             }
         }
         
+        function refreshData() {
+            loadDashboardStats();
+            loadRooms();
+            loadBookings();
+            loadUsers();
+            showMessage('dashboardMessage', 'Data refreshed successfully', 'success');
+        }
+        
         // ============ ROOM MANAGEMENT ============
         async function loadRooms() {
             try {
-                document.getElementById('roomsLoading').style.display = 'flex';
-                document.getElementById('roomsContainer').innerHTML = '';
+                document.getElementById('roomsEmpty').style.display = 'none';
+                document.getElementById('roomsContainer').innerHTML = '<div style="padding: 40px; text-align: center;"><div class="spinner" style="width: 40px; height: 40px;"></div><p>Loading rooms...</p></div>';
                 
-                const response = await fetch(`${API_URL}/api/admin/rooms?email=${encodeURIComponent(currentAdmin.email)}`);
+                const response = await fetch(`${API_URL}/api/admin/rooms?email=${encodeURIComponent(adminEmail)}`);
                 const data = await response.json();
                 
                 console.log('🏨 Rooms response:', data);
@@ -859,50 +1081,52 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                                     ${room.images && room.images.length > 0 ? 
                                         `<img src="${room.images[0]}" alt="${room.name}" onerror="this.src='https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=400&q=80'">` : 
                                         `<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; background: #f8f9fa;">
-                                            <i class="fas fa-image" style="font-size: 40px;"></i>
+                                            <i class="fas fa-image" style="font-size: 50px;"></i>
                                         </div>`
                                     }
+                                    <div class="room-type">${room.type ? room.type.toUpperCase() : 'STANDARD'}</div>
                                 </div>
                                 <div class="room-content">
                                     <h3 class="room-title">${room.name}</h3>
-                                    <p style="color: #666; margin: 10px 0; font-size: 14px;">${room.description ? room.description.substring(0, 80) + '...' : 'No description'}</p>
+                                    <p class="room-description">${room.description ? room.description.substring(0, 100) + (room.description.length > 100 ? '...' : '') : 'No description available'}</p>
                                     
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <div>
-                                            <div class="room-price">₱${room.price?.toLocaleString() || '0'}/night</div>
-                                            <div style="font-size: 14px; color: #666;">
-                                                <i class="fas fa-user-friends"></i> ${room.maxGuests || 1} guests • 
-                                                <span class="status-badge ${room.isAvailable ? 'status-available' : 'status-unavailable'}">
-                                                    ${room.isAvailable ? 'Available' : 'Unavailable'}
-                                                </span>
-                                            </div>
+                                    <div class="room-details">
+                                        <div class="room-detail">
+                                            <i class="fas fa-user-friends"></i>
+                                            <div>${room.maxGuests || 1} Guests</div>
                                         </div>
-                                        <div class="room-actions">
-                                            <button class="btn btn-small" onclick="editRoom('${room._id}')">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </button>
-                                            <button class="btn btn-small btn-danger" onclick="deleteRoom('${room._id}', '${room.name}')">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
+                                        <div class="room-detail">
+                                            <i class="fas fa-concierge-bell"></i>
+                                            <div>${room.amenities ? room.amenities.length : 0} Amenities</div>
                                         </div>
+                                        <div class="room-detail">
+                                            <i class="fas fa-image"></i>
+                                            <div>${room.images ? room.images.length : 0} Images</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="room-price">₱${room.price?.toLocaleString() || '0'}/night</div>
+                                    
+                                    <div class="room-actions">
+                                        <button class="btn btn-small" onclick="editRoomPrompt('${room._id}')">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button class="btn btn-small btn-danger" onclick="deleteRoom('${room._id}', '${room.name}')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                        <button class="btn btn-small ${room.isAvailable ? 'btn-secondary' : 'btn-success'}" onclick="toggleRoomAvailability('${room._id}', ${room.isAvailable})">
+                                            <i class="fas fa-${room.isAvailable ? 'times' : 'check'}"></i> ${room.isAvailable ? 'Make Unavailable' : 'Make Available'}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         `).join('');
+                        
+                        document.getElementById('roomsEmpty').style.display = 'none';
                     } else {
-                        roomsContainer.innerHTML = `
-                            <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
-                                <i class="fas fa-bed" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
-                                <h3 style="color: #666; margin-bottom: 15px;">No Rooms Yet</h3>
-                                <p style="color: #888; margin-bottom: 20px;">Add your first room to get started!</p>
-                                <button class="btn btn-success" onclick="showTab('addRoom')">
-                                    <i class="fas fa-plus"></i> Add Your First Room
-                                </button>
-                            </div>
-                        `;
+                        document.getElementById('roomsEmpty').style.display = 'block';
+                        roomsContainer.innerHTML = '';
                     }
-                    
-                    document.getElementById('roomsLoading').style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error loading rooms:', error);
@@ -942,7 +1166,7 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
             console.log('➕ Adding room:', roomData);
             
             try {
-                const response = await fetch(`${API_URL}/api/admin/rooms?email=${encodeURIComponent(currentAdmin.email)}`, {
+                const response = await fetch(`${API_URL}/api/admin/rooms?email=${encodeURIComponent(adminEmail)}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -956,7 +1180,7 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                     showMessage('addRoomMessage', '✅ Room added successfully!', 'success');
                     resetAddRoomForm();
                     loadRooms();
-                    showTab('rooms');
+                    setTimeout(() => showTab('rooms'), 1500);
                 } else {
                     showMessage('addRoomMessage', `❌ ${data.message}`, 'error');
                 }
@@ -972,14 +1196,61 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
             document.getElementById('addRoomMessage').style.display = 'none';
         }
         
-        function editRoom(roomId) {
-            alert('Edit feature coming soon! For now, delete and recreate the room.');
+        function editRoomPrompt(roomId) {
+            const newPrice = prompt('Enter new price for this room:');
+            if (newPrice && !isNaN(newPrice) && Number(newPrice) > 0) {
+                updateRoomPrice(roomId, Number(newPrice));
+            }
+        }
+        
+        async function updateRoomPrice(roomId, newPrice) {
+            try {
+                const response = await fetch(`${API_URL}/api/admin/rooms/${roomId}?email=${encodeURIComponent(adminEmail)}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ price: newPrice })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('roomsMessage', '✅ Room price updated!', 'success');
+                    loadRooms();
+                } else {
+                    showMessage('roomsMessage', `❌ ${data.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Update room error:', error);
+                showMessage('roomsMessage', '❌ Failed to update room', 'error');
+            }
+        }
+        
+        async function toggleRoomAvailability(roomId, currentStatus) {
+            try {
+                const response = await fetch(`${API_URL}/api/admin/rooms/${roomId}?email=${encodeURIComponent(adminEmail)}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ isAvailable: !currentStatus })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('roomsMessage', `✅ Room ${!currentStatus ? 'made available' : 'made unavailable'}!`, 'success');
+                    loadRooms();
+                }
+            } catch (error) {
+                console.error('Toggle availability error:', error);
+                showMessage('roomsMessage', '❌ Failed to update room', 'error');
+            }
         }
         
         async function deleteRoom(roomId, roomName) {
-            if (confirm(`Are you sure you want to delete "${roomName}"? This action cannot be undone.`)) {
+            if (confirm(`Are you sure you want to delete "${roomName}"?\nThis action cannot be undone!`)) {
                 try {
-                    const response = await fetch(`${API_URL}/api/admin/rooms/${roomId}?email=${encodeURIComponent(currentAdmin.email)}`, {
+                    const response = await fetch(`${API_URL}/api/admin/rooms/${roomId}?email=${encodeURIComponent(adminEmail)}`, {
                         method: 'DELETE'
                     });
                     
@@ -1001,10 +1272,11 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
         // ============ BOOKINGS MANAGEMENT ============
         async function loadBookings() {
             try {
-                document.getElementById('bookingsLoading').style.display = 'flex';
+                document.getElementById('bookingsEmpty').style.display = 'none';
                 document.getElementById('bookingsTableContainer').style.display = 'none';
+                document.getElementById('bookingsTable').innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;"><div class="spinner" style="width: 40px; height: 40px; margin: 0 auto;"></div><p>Loading bookings...</p></td></tr>';
                 
-                const response = await fetch(`${API_URL}/api/admin/bookings?email=${encodeURIComponent(currentAdmin.email)}`);
+                const response = await fetch(`${API_URL}/api/admin/bookings?email=${encodeURIComponent(adminEmail)}`);
                 const data = await response.json();
                 
                 console.log('📅 Bookings response:', data);
@@ -1021,50 +1293,48 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                                     <div style="font-size: 12px; color: #666;">${booking.customerEmail || ''}</div>
                                     <div style="font-size: 12px; color: #666;">${booking.customerPhone || ''}</div>
                                 </td>
-                                <td>${booking.roomId?.name || 'Room Not Found'}</td>
                                 <td>
-                                    <div>${new Date(booking.checkIn).toLocaleDateString()}</div>
+                                    <div><strong>${booking.roomId?.name || 'Room Not Found'}</strong></div>
+                                    <div style="font-size: 12px; color: #666;">₱${booking.roomId?.price?.toLocaleString() || '0'}/night</div>
+                                </td>
+                                <td>
+                                    <div><strong>${new Date(booking.checkIn).toLocaleDateString()}</strong></div>
                                     <div style="font-size: 12px; color: #666;">to ${new Date(booking.checkOut).toLocaleDateString()}</div>
                                     <div style="font-size: 11px; color: #888;">${booking.guests || 1} guest(s)</div>
                                 </td>
-                                <td>₱${booking.totalAmount?.toLocaleString() || '0'}</td>
+                                <td><strong>₱${booking.totalAmount?.toLocaleString() || '0'}</strong></td>
                                 <td>
                                     <span class="status-badge status-${booking.status || 'pending'}">
-                                        ${booking.status || 'pending'}
+                                        ${(booking.status || 'pending').toUpperCase()}
                                     </span>
                                 </td>
                                 <td>
-                                    <select class="btn-small" onchange="updateBookingStatus('${booking._id}', this.value)" style="padding: 5px; border-radius: 5px;">
+                                    <select class="btn-small" onchange="updateBookingStatus('${booking._id}', this.value)" style="padding: 6px 10px; border-radius: 5px; border: 1px solid #ddd;">
                                         <option value="pending" ${booking.status === 'pending' ? 'selected' : ''}>Pending</option>
-                                        <option value="confirmed" ${booking.status === 'confirmed' ? 'selected' : ''}>Confirm</option>
-                                        <option value="cancelled" ${booking.status === 'cancelled' ? 'selected' : ''}>Cancel</option>
+                                        <option value="confirmed" ${booking.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                                        <option value="cancelled" ${booking.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                                        <option value="completed" ${booking.status === 'completed' ? 'selected' : ''}>Completed</option>
                                     </select>
                                 </td>
                             </tr>
                         `).join('');
+                        
+                        document.getElementById('bookingsEmpty').style.display = 'none';
+                        document.getElementById('bookingsTableContainer').style.display = 'block';
                     } else {
-                        tbody.innerHTML = `
-                            <tr>
-                                <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
-                                    <i class="fas fa-calendar-times" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
-                                    <h3>No Bookings Yet</h3>
-                                    <p>When customers book rooms, they will appear here.</p>
-                                </td>
-                            </tr>
-                        `;
+                        document.getElementById('bookingsEmpty').style.display = 'block';
+                        tbody.innerHTML = '';
                     }
-                    
-                    document.getElementById('bookingsLoading').style.display = 'none';
-                    document.getElementById('bookingsTableContainer').style.display = 'block';
                 }
             } catch (error) {
                 console.error('Error loading bookings:', error);
+                showMessage('bookingsMessage', 'Failed to load bookings', 'error');
             }
         }
         
         async function updateBookingStatus(bookingId, status) {
             try {
-                const response = await fetch(`${API_URL}/api/admin/bookings/${bookingId}/status?email=${encodeURIComponent(currentAdmin.email)}`, {
+                const response = await fetch(`${API_URL}/api/admin/bookings/${bookingId}/status?email=${encodeURIComponent(adminEmail)}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1075,20 +1345,24 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                 const data = await response.json();
                 
                 if (data.success) {
-                    console.log('✅ Booking status updated');
+                    showMessage('bookingsMessage', `✅ Booking status updated to ${status}`, 'success');
+                } else {
+                    showMessage('bookingsMessage', `❌ ${data.message}`, 'error');
                 }
             } catch (error) {
                 console.error('Error updating booking:', error);
+                showMessage('bookingsMessage', '❌ Failed to update booking', 'error');
             }
         }
         
         // ============ USERS MANAGEMENT ============
         async function loadUsers() {
             try {
-                document.getElementById('usersLoading').style.display = 'flex';
+                document.getElementById('usersEmpty').style.display = 'none';
                 document.getElementById('usersTableContainer').style.display = 'none';
+                document.getElementById('usersTable').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;"><div class="spinner" style="width: 40px; height: 40px; margin: 0 auto;"></div><p>Loading users...</p></td></tr>';
                 
-                const response = await fetch(`${API_URL}/api/admin/users?email=${encodeURIComponent(currentAdmin.email)}`);
+                const response = await fetch(`${API_URL}/api/admin/users?email=${encodeURIComponent(adminEmail)}`);
                 const data = await response.json();
                 
                 console.log('👥 Users response:', data);
@@ -1101,7 +1375,7 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                             <tr>
                                 <td>
                                     <div><strong>${user.name || 'N/A'}</strong></div>
-                                    <div style="font-size: 12px; color: #666;">Role: ${user.role || 'user'}</div>
+                                    <div style="font-size: 12px; color: #666;">ID: ${user._id?.slice(-8) || 'N/A'}</div>
                                 </td>
                                 <td>${user.email || 'N/A'}</td>
                                 <td>${user.phone || 'N/A'}</td>
@@ -1109,23 +1383,17 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
                                 <td>0</td>
                             </tr>
                         `).join('');
+                        
+                        document.getElementById('usersEmpty').style.display = 'none';
+                        document.getElementById('usersTableContainer').style.display = 'block';
                     } else {
-                        tbody.innerHTML = `
-                            <tr>
-                                <td colspan="5" style="text-align: center; padding: 40px; color: #666;">
-                                    <i class="fas fa-user-friends" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
-                                    <h3>No Users Yet</h3>
-                                    <p>When users register, they will appear here.</p>
-                                </td>
-                            </tr>
-                        `;
+                        document.getElementById('usersEmpty').style.display = 'block';
+                        tbody.innerHTML = '';
                     }
-                    
-                    document.getElementById('usersLoading').style.display = 'none';
-                    document.getElementById('usersTableContainer').style.display = 'block';
                 }
             } catch (error) {
                 console.error('Error loading users:', error);
+                showMessage('usersMessage', 'Failed to load users', 'error');
             }
         }
         
@@ -1145,27 +1413,32 @@ https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" rows="4"></t
         }
         
         function logout() {
-            console.log('👋 Logging out...');
-            
-            // Clear all admin data from localStorage
-            localStorage.removeItem('adminEmail');
-            localStorage.removeItem('adminName');
-            localStorage.removeItem('adminToken');
-            localStorage.removeItem('adminUser');
-            
-            // Redirect to login page
-            window.location.href = 'login.html?admin=true';
+            if (confirm('Are you sure you want to logout?')) {
+                console.log('👋 Admin logging out...');
+                
+                // Clear all admin data from localStorage
+                localStorage.removeItem('adminEmail');
+                localStorage.removeItem('adminName');
+                localStorage.removeItem('adminUser');
+                localStorage.removeItem('isRealAdmin');
+                localStorage.removeItem('lastLogin');
+                
+                // Redirect to login page
+                window.location.href = 'login.html?admin=true&message=logged_out';
+            }
         }
         
         // ============ ERROR HANDLING ============
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.error('Global error:', { message, source, lineno, colno, error });
-        };
-        
-        // Prevent unauthorized access
-        window.addEventListener('beforeunload', function() {
-            // Keep admin data in localStorage
+        window.addEventListener('error', function(event) {
+            console.error('Global error:', event.error);
         });
+        
+        // Auto-refresh session every 5 minutes
+        setInterval(() => {
+            if (localStorage.getItem('adminEmail')) {
+                console.log('🔄 Session keep-alive...');
+            }
+        }, 5 * 60 * 1000);
     </script>
 </body>
 </html>
