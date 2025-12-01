@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Now - GrandStay Hotel</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">GrandStay Hotel</h1>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="rooms.html">Rooms</a>
+                <a href="booking.html" class="active">Book Now</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 style="margin: 30px 0;">Make a Reservation</h2>
+        
+        <form id="bookingForm" style="max-width: 600px; margin: 0 auto;">
+            <div style="margin-bottom: 15px;">
+                <label>Full Name:</label>
+                <input type="text" id="name" required style="width: 100%; padding: 10px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label>Email:</label>
+                <input type="email" id="email" required style="width: 100%; padding: 10px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label>Phone:</label>
+                <input type="tel" id="phone" required style="width: 100%; padding: 10px;">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div>
+                    <label>Check-in:</label>
+                    <input type="date" id="checkIn" required style="width: 100%; padding: 10px;">
+                </div>
+                <div>
+                    <label>Check-out:</label>
+                    <input type="date" id="checkOut" required style="width: 100%; padding: 10px;">
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label>Number of Guests:</label>
+                <select id="guests" style="width: 100%; padding: 10px;">
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; padding: 15px;">
+                Submit Booking
+            </button>
+        </form>
+        
+        <div id="result" style="margin-top: 30px; padding: 20px; background: #f0f0f0; display: none;"></div>
+    </div>
+
+    <script>
+        const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
+        
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const bookingData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                checkIn: document.getElementById('checkIn').value,
+                checkOut: document.getElementById('checkOut').value,
+                guests: document.getElementById('guests').value
+            };
+            
+            try {
+                const response = await fetch(API_URL + '/api/bookings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bookingData)
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <h3>✅ ${result.message}</h3>
+                    <p>Booking ID: <strong>${result.bookingId}</strong></p>
+                    <p>Name: ${bookingData.name}</p>
+                    <p>Check-in: ${bookingData.checkIn}</p>
+                    <p>Check-out: ${bookingData.checkOut}</p>
+                `;
+                
+                // Clear form
+                document.getElementById('bookingForm').reset();
+                
+            } catch (error) {
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <h3>❌ Error: ${error.message}</h3>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

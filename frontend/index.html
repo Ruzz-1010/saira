@@ -3,24 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrandStay Hotel - Home</title>
+    <title>GrandStay Hotel</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">GrandStay Hotel</a>
+            <h1 class="logo">GrandStay Hotel</h1>
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="rooms.html">Rooms</a>
                 <a href="booking.html">Book Now</a>
                 <a href="contact.html">Contact</a>
                 <a href="about.html">About</a>
-                <a href="#" id="loginBtn">Login</a>
-                <a href="#" id="registerBtn">Register</a>
-                <a href="admin-login.html" class="admin-btn">Admin</a>
             </div>
         </div>
     </nav>
@@ -28,89 +24,46 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Experience Luxury & Comfort</h1>
-            <p>Your perfect getaway starts here at GrandStay Hotel</p>
+            <h2>Luxury & Comfort</h2>
+            <p>Your perfect getaway starts here</p>
             <a href="rooms.html" class="btn">View Rooms</a>
-            <a href="booking.html" class="btn secondary">Book Now</a>
         </div>
     </section>
 
-    <!-- Featured Rooms -->
-    <section class="featured-rooms">
+    <!-- Rooms Preview -->
+    <section class="rooms-preview">
         <div class="container">
-            <h2>Featured Rooms</h2>
-            <div class="rooms-grid" id="featuredRooms">
-                <!-- Rooms will be loaded dynamically -->
-            </div>
-            <a href="rooms.html" class="btn">View All Rooms</a>
-        </div>
-    </section>
-
-    <!-- Services -->
-    <section class="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <i class="fas fa-wifi"></i>
-                    <h3>Free WiFi</h3>
-                    <p>High-speed internet access throughout the hotel</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-utensils"></i>
-                    <h3>Restaurant</h3>
-                    <p>Delicious local and international cuisine</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-swimming-pool"></i>
-                    <h3>Swimming Pool</h3>
-                    <p>Relaxing pool area for all guests</p>
-                </div>
-                <div class="service-card">
-                    <i class="fas fa-concierge-bell"></i>
-                    <h3>24/7 Reception</h3>
-                    <p>Round-the-clock service and support</p>
-                </div>
+            <h2>Our Rooms</h2>
+            <div id="rooms-list" class="rooms-grid">
+                <!-- Rooms will load here -->
             </div>
         </div>
     </section>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" class="btn">Login</button>
-            </form>
-            <p>Don't have an account? <a href="#" id="showRegister">Register here</a></p>
-        </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Register</h2>
-            <form id="registerForm">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="tel" placeholder="Phone Number">
-                <button type="submit" class="btn">Register</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 GrandStay Hotel. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
+    <script>
+        const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
+        
+        // Load rooms from YOUR backend
+        async function loadRooms() {
+            try {
+                const response = await fetch(API_URL + '/api/rooms');
+                const rooms = await response.json();
+                
+                const roomsContainer = document.getElementById('rooms-list');
+                roomsContainer.innerHTML = rooms.map(room => `
+                    <div class="room-card">
+                        <h3>${room.name}</h3>
+                        <p>Price: ₱${room.price}/night</p>
+                        <p>${room.type} room</p>
+                        <a href="booking.html?room=${room.id}" class="btn">Book Now</a>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.log('Error loading rooms:', error);
+            }
+        }
+        
+        loadRooms();
+    </script>
 </body>
 </html>

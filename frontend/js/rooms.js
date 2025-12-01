@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://hotel-booking-api-r3ho.onrender.com/api';
 
 // Load all rooms
 async function loadRooms() {

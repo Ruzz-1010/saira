@@ -1,6 +1,5 @@
 // API Base URL
-const API_URL = 'http://localhost:5000/api';
-
+const API_URL = 'https://hotel-booking-api-r3ho.onrender.com/api';
 // DOM Elements
 const loginBtn = document.getElementById('loginBtn');
 const registerBtn = document.getElementById('registerBtn');
