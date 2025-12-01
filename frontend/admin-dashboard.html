@@ -548,32 +548,32 @@
         </div>
         
         <ul class="menu">
-            <li class="menu-item active" data-tab="dashboard">
+            <li class="menu-item active" onclick="showTab('dashboard')">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </li>
-            <li class="menu-item" data-tab="rooms">
+            <li class="menu-item" onclick="showTab('rooms')">
                 <i class="fas fa-bed"></i>
                 <span>Rooms</span>
             </li>
-            <li class="menu-item" data-tab="add-room">
+            <li class="menu-item" onclick="showTab('addRoom')">
                 <i class="fas fa-plus-circle"></i>
                 <span>Add Room</span>
             </li>
-            <li class="menu-item" data-tab="bookings">
+            <li class="menu-item" onclick="showTab('bookings')">
                 <i class="fas fa-calendar-check"></i>
                 <span>Bookings</span>
             </li>
-            <li class="menu-item" data-tab="users">
+            <li class="menu-item" onclick="showTab('users')">
                 <i class="fas fa-users"></i>
                 <span>Users</span>
             </li>
             <div class="menu-divider"></div>
-            <li class="menu-item" data-tab="reports">
+            <li class="menu-item" onclick="showTab('reports')">
                 <i class="fas fa-chart-bar"></i>
                 <span>Reports</span>
             </li>
-            <li class="menu-item" data-tab="settings">
+            <li class="menu-item" onclick="showTab('settings')">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </li>
@@ -651,15 +651,15 @@
         <!-- Tab Content -->
         <div class="content-tabs">
             <div class="tab-headers">
-                <div class="tab-header active" data-tab="dashboard">Dashboard Overview</div>
-                <div class="tab-header" data-tab="rooms">Manage Rooms</div>
-                <div class="tab-header" data-tab="add-room">Add New Room</div>
-                <div class="tab-header" data-tab="bookings">Bookings</div>
-                <div class="tab-header" data-tab="users">Users</div>
+                <div class="tab-header active" onclick="showTab('dashboard')">Dashboard Overview</div>
+                <div class="tab-header" onclick="showTab('rooms')">Manage Rooms</div>
+                <div class="tab-header" onclick="showTab('addRoom')">Add New Room</div>
+                <div class="tab-header" onclick="showTab('bookings')">Bookings</div>
+                <div class="tab-header" onclick="showTab('users')">Users</div>
             </div>
             
             <!-- Dashboard Tab -->
-            <div class="tab-content active" id="dashboardTab">
+            <div class="tab-content active" id="dashboard">
                 <h3 style="margin-bottom: 20px;">Recent Bookings</h3>
                 <div class="table-container">
                     <table id="recentBookingsTable">
@@ -681,11 +681,11 @@
             </div>
             
             <!-- Rooms Tab -->
-            <div class="tab-content" id="roomsTab">
+            <div class="tab-content" id="rooms">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3>Manage Rooms</h3>
                     <div>
-                        <button class="add-room-btn" onclick="showTab('add-room')">
+                        <button class="add-room-btn" onclick="showTab('addRoom')">
                             <i class="fas fa-plus"></i> Add New Room
                         </button>
                         <button class="btn btn-primary" onclick="loadRooms()" style="margin-left: 10px;">
@@ -703,14 +703,14 @@
                     <i class="fas fa-bed"></i>
                     <h3>No Rooms Available</h3>
                     <p>You haven't added any rooms yet. Start by adding your first room!</p>
-                    <button class="add-room-btn" onclick="showTab('add-room')">
+                    <button class="add-room-btn" onclick="showTab('addRoom')">
                         <i class="fas fa-plus"></i> Add Your First Room
                     </button>
                 </div>
             </div>
             
             <!-- Add Room Tab -->
-            <div class="tab-content" id="addRoomTab">
+            <div class="tab-content" id="addRoom">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3>Add New Room</h3>
                     <button class="btn" onclick="showTab('rooms')">
@@ -777,7 +777,7 @@ https://example.com/room2.jpg"></textarea>
             </div>
             
             <!-- Bookings Tab -->
-            <div class="tab-content" id="bookingsTab">
+            <div class="tab-content" id="bookings">
                 <h3 style="margin-bottom: 20px;">All Bookings</h3>
                 <div class="table-container">
                     <table>
@@ -801,7 +801,7 @@ https://example.com/room2.jpg"></textarea>
             </div>
             
             <!-- Users Tab -->
-            <div class="tab-content" id="usersTab">
+            <div class="tab-content" id="users">
                 <h3 style="margin-bottom: 20px;">Registered Users</h3>
                 <div class="table-container">
                     <table>
@@ -818,6 +818,26 @@ https://example.com/room2.jpg"></textarea>
                             <tr><td colspan="5" class="loading">Loading users...</td></tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Reports Tab (Placeholder) -->
+            <div class="tab-content" id="reports">
+                <h3 style="margin-bottom: 20px;">Reports</h3>
+                <div class="empty-state">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Reports Coming Soon</h3>
+                    <p>Detailed reports and analytics will be available in the next update.</p>
+                </div>
+            </div>
+
+            <!-- Settings Tab (Placeholder) -->
+            <div class="tab-content" id="settings">
+                <h3 style="margin-bottom: 20px;">Settings</h3>
+                <div class="empty-state">
+                    <i class="fas fa-cog"></i>
+                    <h3>Settings Coming Soon</h3>
+                    <p>System settings and configurations will be available in the next update.</p>
                 </div>
             </div>
         </div>
@@ -843,7 +863,7 @@ https://example.com/room2.jpg"></textarea>
                 document.getElementById('adminAvatar').textContent = (admin.name || 'A').charAt(0).toUpperCase();
             }
             
-            // Load data
+            // Load initial data
             loadStats();
             loadRecentBookings();
             
@@ -852,34 +872,6 @@ https://example.com/room2.jpg"></textarea>
         });
         
         function setupEventListeners() {
-            // Menu items click
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const tab = this.getAttribute('data-tab');
-                    
-                    // Update active menu item
-                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show tab
-                    showTab(tab);
-                });
-            });
-            
-            // Tab headers click
-            document.querySelectorAll('.tab-header').forEach(header => {
-                header.addEventListener('click', function() {
-                    const tab = this.getAttribute('data-tab');
-                    
-                    // Update active tab header
-                    document.querySelectorAll('.tab-header').forEach(h => h.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show tab
-                    showTab(tab);
-                });
-            });
-            
             // Add room form submit
             document.getElementById('addRoomForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -887,25 +879,57 @@ https://example.com/room2.jpg"></textarea>
             });
         }
         
-        function showTab(tab) {
+        function showTab(tabId) {
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
             // Show selected tab
-            document.getElementById(tab + 'Tab').classList.add('active');
+            const tabContent = document.getElementById(tabId);
+            if (tabContent) {
+                tabContent.classList.add('active');
+            }
             
             // Update tab headers
             document.querySelectorAll('.tab-header').forEach(header => {
                 header.classList.remove('active');
-                if (header.getAttribute('data-tab') === tab) {
+                // Check if this header corresponds to the clicked tab
+                if (header.textContent.includes('Dashboard') && tabId === 'dashboard') {
+                    header.classList.add('active');
+                } else if (header.textContent.includes('Manage Rooms') && tabId === 'rooms') {
+                    header.classList.add('active');
+                } else if (header.textContent.includes('Add New Room') && tabId === 'addRoom') {
+                    header.classList.add('active');
+                } else if (header.textContent.includes('Bookings') && tabId === 'bookings') {
+                    header.classList.add('active');
+                } else if (header.textContent.includes('Users') && tabId === 'users') {
                     header.classList.add('active');
                 }
             });
             
+            // Update sidebar menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.textContent.includes('Dashboard') && tabId === 'dashboard') {
+                    item.classList.add('active');
+                } else if (item.textContent.includes('Rooms') && tabId === 'rooms') {
+                    item.classList.add('active');
+                } else if (item.textContent.includes('Add Room') && tabId === 'addRoom') {
+                    item.classList.add('active');
+                } else if (item.textContent.includes('Bookings') && tabId === 'bookings') {
+                    item.classList.add('active');
+                } else if (item.textContent.includes('Users') && tabId === 'users') {
+                    item.classList.add('active');
+                } else if (item.textContent.includes('Reports') && tabId === 'reports') {
+                    item.classList.add('active');
+                } else if (item.textContent.includes('Settings') && tabId === 'settings') {
+                    item.classList.add('active');
+                }
+            });
+            
             // Load data for the tab if needed
-            switch(tab) {
+            switch(tabId) {
                 case 'rooms':
                     loadRooms();
                     break;
@@ -972,6 +996,7 @@ https://example.com/room2.jpg"></textarea>
                 }
             } catch (error) {
                 console.error('Error loading recent bookings:', error);
+                document.getElementById('recentBookings').innerHTML = '<tr><td colspan="6">Error loading bookings</td></tr>';
             }
         }
         
@@ -1237,9 +1262,6 @@ https://example.com/room2.jpg"></textarea>
         function editRoom(roomId) {
             alert('Edit room functionality coming soon! Room ID: ' + roomId);
             // TODO: Implement edit room functionality
-            // 1. Fetch room details
-            // 2. Populate edit form
-            // 3. Update room
         }
         
         function logout() {
