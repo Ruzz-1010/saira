@@ -221,28 +221,6 @@
             font-size: 0.95rem;
         }
 
-        .admin-note {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
-            font-size: 0.9rem;
-        }
-
-        .admin-note h4 {
-            color: #856404;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-note p {
-            color: #856404;
-            margin: 5px 0;
-        }
-
         .form {
             display: none;
         }
@@ -340,7 +318,7 @@
                     <label for="loginEmail">Email Address</label>
                     <div class="input-with-icon">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="off">
                     </div>
                 </div>
 
@@ -348,7 +326,7 @@
                     <label for="loginPassword">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="off">
                     </div>
                 </div>
 
@@ -367,7 +345,7 @@
                     <label for="registerName">Full Name</label>
                     <div class="input-with-icon">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="registerName" placeholder="Enter your full name" required>
+                        <input type="text" id="registerName" placeholder="Enter your full name" required autocomplete="off">
                     </div>
                 </div>
 
@@ -375,7 +353,7 @@
                     <label for="registerEmail">Email Address</label>
                     <div class="input-with-icon">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                        <input type="email" id="registerEmail" placeholder="Enter your email" required autocomplete="off">
                     </div>
                 </div>
 
@@ -383,7 +361,7 @@
                     <label for="registerPhone">Phone Number</label>
                     <div class="input-with-icon">
                         <i class="fas fa-phone"></i>
-                        <input type="tel" id="registerPhone" placeholder="Enter your phone number">
+                        <input type="tel" id="registerPhone" placeholder="Enter your phone number" autocomplete="off">
                     </div>
                 </div>
 
@@ -391,7 +369,7 @@
                     <label for="registerPassword">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="registerPassword" placeholder="Create a password" required>
+                        <input type="password" id="registerPassword" placeholder="Create a password" required autocomplete="off">
                     </div>
                 </div>
 
@@ -399,7 +377,7 @@
                     <label for="registerConfirmPassword">Confirm Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+                        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required autocomplete="off">
                     </div>
                 </div>
 
@@ -414,17 +392,11 @@
 
             <!-- Admin Login Form -->
             <form class="form" id="adminForm">
-                <div class="admin-note">
-                    <h4><i class="fas fa-info-circle"></i> Admin Access</h4>
-                    <p>Use the default admin credentials or contact system administrator</p>
-                    <p><strong>Default:</strong> admin@hotel.com / admin123</p>
-                </div>
-
                 <div class="form-group">
                     <label for="adminEmail">Admin Email</label>
                     <div class="input-with-icon">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="adminEmail" value="admin@hotel.com" required>
+                        <input type="email" id="adminEmail" placeholder="Enter admin email" required autocomplete="off">
                     </div>
                 </div>
 
@@ -432,7 +404,7 @@
                     <label for="adminPassword">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="adminPassword" value="admin123" required>
+                        <input type="password" id="adminPassword" placeholder="Enter admin password" required autocomplete="off">
                     </div>
                 </div>
 
@@ -677,8 +649,8 @@
                 
                 if (data.success) {
                     // Save admin data to localStorage
-                    localStorage.setItem('adminUser', JSON.stringify(data.user));
-                    localStorage.setItem('adminEmail', data.user.email);
+                    localStorage.setItem('adminUser', JSON.stringify(data.admin || data.user));
+                    localStorage.setItem('adminEmail', data.admin?.email || data.user?.email);
                     localStorage.setItem('adminToken', 'admin_token_' + Date.now());
                     
                     showMessage('Admin login successful! Redirecting to dashboard...', 'success');
@@ -693,25 +665,7 @@
                 
             } catch (error) {
                 console.error('Admin login error:', error);
-                showMessage('Connection error. Trying local fallback...', 'info');
-                
-                // Local fallback for testing
-                if (email === 'admin@hotel.com' && password === 'admin123') {
-                    localStorage.setItem('adminUser', JSON.stringify({
-                        name: 'Admin',
-                        email: email,
-                        role: 'admin'
-                    }));
-                    localStorage.setItem('adminEmail', email);
-                    
-                    showMessage('Local admin login successful! Redirecting...', 'success');
-                    
-                    setTimeout(() => {
-                        window.location.href = 'admin-dashboard.html';
-                    }, 1500);
-                } else {
-                    showMessage('Invalid admin credentials', 'error');
-                }
+                showMessage('Connection error. Please try again.', 'error');
             } finally {
                 setLoading(adminBtn, false);
             }
