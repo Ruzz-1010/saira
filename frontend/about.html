@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - GrandStay Hotel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --gray-light: #bdc3c7;
+            --gold: #f1c40f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .about-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* About Content */
+        .about-content {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Our Story */
+        .our-story {
+            margin-bottom: 80px;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .story-text h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .story-text p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .story-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .story-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Our Values */
+        .our-values {
+            margin-bottom: 80px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(52, 152, 219, 0.1);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .value-card h4 {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Our Team */
+        .our-team {
+            margin-bottom: 80px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .member-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .team-member:hover .member-image img {
+            transform: scale(1.1);
+        }
+
+        .member-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .member-info h4 {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .member-info .position {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .member-info p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Awards & Recognition */
+        .awards {
+            margin-bottom: 80px;
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .award-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 2px solid var(--gold);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .award-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(241, 196, 15, 0.1);
+        }
+
+        .award-card i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .award-card h4 {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .award-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 20px;
+            margin: 60px 0;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 70px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .story-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .about-hero {
+                padding: 80px 0;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Stats Counter */
+        .stats-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0;
+            margin: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border: 4px solid white;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-hotel"></i>
+                GrandStay Hotel
+            </a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="rooms.html"><i class="fas fa-bed"></i> Rooms</a>
+                <a href="booking.html"><i class="fas fa-calendar-check"></i> Book Now</a>
+                <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+                <a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a>
+                <a href="login.html" id="loginBtn"><i class="fas fa-sign-in-alt"></i> <span id="loginText">Login</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>Our Story of Excellence</h1>
+            <p>For over two decades, GrandStay Hotel has been providing unparalleled luxury and comfort to travelers from around the world.</p>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="about-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Journey</h2>
+                <p>From humble beginnings to a premier luxury destination</p>
+            </div>
+
+            <div class="our-story">
+                <div class="story-content">
+                    <div class="story-text">
+                        <h3>Two Decades of Hospitality Excellence</h3>
+                        <p>Founded in 2000, GrandStay Hotel began as a small family-run establishment with just 20 rooms. Our founder, Miguel Santos, envisioned a place where travelers could experience true Filipino hospitality combined with world-class amenities.</p>
+                        <p>Over the years, we've grown into a 5-star luxury hotel with 200 beautifully appointed rooms and suites, multiple dining options, and state-of-the-art facilities. Despite our growth, we've never lost sight of our core values: warm hospitality, attention to detail, and personalized service.</p>
+                        <p>Today, GrandStay Hotel stands as a landmark of luxury in Manila, consistently ranked among the top hotels in the Philippines and receiving numerous international awards for our service and facilities.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1564501049418-3c27787d01e8?w=800&q=80" alt="GrandStay Hotel Lobby">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Counter -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="20">0</div>
+                        <div class="stat-label">Years of Excellence</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="200">0</div>
+                        <div class="stat-label">Luxury Rooms</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="50000">0</div>
+                        <div class="stat-label">Happy Guests</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="50">0</div>
+                        <div class="stat-label">Awards Won</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Our Values -->
+            <div class="our-values">
+                <div class="section-title">
+                    <h2>Our Core Values</h2>
+                    <p>The principles that guide everything we do</p>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Warm Hospitality</h4>
+                        <p>We treat every guest like family, providing personalized service with genuine Filipino warmth and care.</p>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h4>Excellence</h4>
+                        <p>We strive for perfection in every detail, from room amenities to dining experiences and service.</p>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>Sustainability</h4>
+                        <p>Committed to environmental responsibility through energy conservation and sustainable practices.</p>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h4>Community</h4>
+                        <p>We actively support local communities and promote Filipino culture through our operations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="section-title">
+                <h2>Our Milestones</h2>
+                <p>Key moments in our journey of excellence</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2000</h4>
+                        <p>GrandStay Hotel opens its doors with 20 rooms in Manila</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2005</h4>
+                        <p>First major expansion adds 50 new luxury rooms</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2010</h4>
+                        <p>Awarded "Best Hotel in Metro Manila" by Philippine Tourism Board</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2015</h4>
+                        <p>Complete renovation and addition of world-class spa facilities</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2020</h4>
+                        <p>Recognized as "Sustainable Hotel of the Year" in Asia</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>2024</h4>
+                        <p>Launch of GrandStay Premium Suites and digital transformation</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Our Team -->
+            <div class="our-team">
+                <div class="section-title">
+                    <h2>Meet Our Leadership</h2>
+                    <p>The dedicated team behind our success</p>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Miguel Santos">
+                        </div>
+                        <div class="member-info">
+                            <h4>Miguel Santos</h4>
+                            <div class="position">Founder & CEO</div>
+                            <p>With 30+ years in hospitality, Miguel's vision drives our commitment to excellence.</p>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Maria Reyes">
+                        </div>
+                        <div class="member-info">
+                            <h4>Maria Reyes</h4>
+                            <div class="position">General Manager</div>
+                            <p>20 years of luxury hotel management experience across Asia and Europe.</p>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Carlos Lim">
+                        </div>
+                        <div class="member-info">
+                            <h4>Carlos Lim</h4>
+                            <div class="position">Head Chef</div>
+                            <p>Michelin-trained chef specializing in Filipino fusion cuisine with international flavors.</p>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Sophia Cruz">
+                        </div>
+                        <div class="member-info">
+                            <h4>Sophia Cruz</h4>
+                            <div class="position">Guest Relations Director</div>
+                            <p>Ensures every guest experiences personalized service and memorable stays.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Awards & Recognition -->
+            <div class="awards">
+                <div class="section-title">
+                    <h2>Awards & Recognition</h2>
+                    <p>Celebrating our achievements and industry recognition</p>
+                </div>
+
+                <div class="awards-grid">
+                    <div class="award-card">
+                        <i class="fas fa-trophy"></i>
+                        <h4>Best Luxury Hotel 2023</h4>
+                        <p>World Luxury Hotel Awards</p>
+                    </div>
+
+                    <div class="award-card">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Green Hotel Certification</h4>
+                        <p>Philippine Green Building Council</p>
+                    </div>
+
+                    <div class="award-card">
+                        <i class="fas fa-star"></i>
+                        <h4>5-Star Excellence</h4>
+                        <p>Department of Tourism Philippines</p>
+                    </div>
+
+                    <div class="award-card">
+                        <i class="fas fa-heart"></i>
+                        <h4>Best Service Award</h4>
+                        <p>Travelers' Choice Awards</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="cta-section">
+                <div class="cta-content">
+                    <h2>Experience Our Hospitality</h2>
+                    <p>Join thousands of satisfied guests who have made GrandStay Hotel their preferred destination in Manila.</p>
+                    <div class="cta-buttons">
+                        <a href="booking.html" class="btn btn-primary">
+                            <i class="fas fa-calendar-check"></i> Book Your Stay
+                        </a>
+                        <a href="contact.html" class="btn btn-outline">
+                            <i class="fas fa-phone"></i> Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>GrandStay Hotel</h3>
+                    <p style="color: #ddd; margin-bottom: 20px;">Experience luxury and comfort in the heart of Manila. Your perfect getaway starts here.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="rooms.html"><i class="fas fa-bed"></i> Rooms & Suites</a></li>
+                        <li><a href="booking.html"><i class="fas fa-calendar-check"></i> Make a Reservation</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="contact.html"><i class="fas fa-phone"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Contact Info</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Hotel Street, Manila, Philippines</p>
+                        <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
+                        <p><i class="fas fa-envelope"></i> info@grandstayhotel.com</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Business Hours</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-clock"></i> Front Desk: 24/7</p>
+                        <p><i class="fas fa-utensils"></i> Restaurant: 6AM - 11PM</p>
+                        <p><i class="fas fa-swimming-pool"></i> Pool: 7AM - 9PM</p>
+                        <p><i class="fas fa-spa"></i> Spa: 9AM - 8PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2024 GrandStay Hotel. All rights reserved. | Designed with <i class="fas fa-heart" style="color: #e74c3c;"></i> for ultimate comfort</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check login status
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                document.getElementById('loginText').textContent = 'Logout';
+                document.getElementById('loginBtn').onclick = function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('user');
+                    window.location.href = 'index.html';
+                };
+            }
+
+            // Animated counter for stats
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200; // Lower = faster
+
+            const animateCounter = () => {
+                counters.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-count');
+                        const count = +counter.innerText;
+                        const increment = target / speed;
+
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + increment);
+                            setTimeout(updateCount, 1);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
+            };
+
+            // Trigger counter when in viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelector('.stats-section').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.stats-section').style.transition = 'opacity 1s ease';
+                document.querySelector('.stats-section').style.opacity = '1';
+                observer.observe(document.querySelector('.stats-section'));
+            }, 500);
+        });
+    </script>
+</body>
+</html>
