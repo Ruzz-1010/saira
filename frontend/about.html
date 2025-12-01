@@ -3,48 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - GrandStay Hotel</title>
+    <title>About Us - GrandStay Hotel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #3498db;
-            --secondary: #2c3e50;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #1e293b;
+            --accent: #ef4444;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --border-radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #fff;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--light);
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         /* Navigation */
         .navbar {
-            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .navbar .container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -54,9 +60,9 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--secondary);
             text-decoration: none;
         }
 
@@ -65,156 +71,473 @@
             font-size: 2rem;
         }
 
+        .logo span {
+            color: var(--primary);
+        }
+
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 8px;
             align-items: center;
         }
 
-        .nav-links a {
-            color: white;
+        .nav-link {
+            color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            background: rgba(255,255,255,0.1);
-            color: var(--primary);
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
         }
 
-        /* About Section */
-        .about-section {
-            min-height: 70vh;
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        /* About Hero */
+        .about-hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #0f172a 100%);
+            color: white;
+            margin-top: 60px;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 600px;
+        }
+
+        /* About Content */
+        .about-content {
+            padding: 80px 0;
+        }
+
+        /* Story Section */
+        .story-section {
+            margin-bottom: 80px;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 24px;
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .story-image {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .story-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(37, 99, 235, 0.1), rgba(30, 41, 59, 0.1));
+            pointer-events: none;
+        }
+
+        /* Values Section */
+        .values-section {
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .section-subtitle {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-description {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 1px solid var(--gray-light);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 60px 0;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 1.8rem;
         }
 
-        .about-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .about-icon {
-            font-size: 4rem;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
-
-        .about-title {
-            font-size: 2.8rem;
+        .value-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
             color: var(--secondary);
-            margin-bottom: 20px;
         }
 
-        .about-description {
-            font-size: 1.2rem;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 40px;
+        .value-card p {
+            color: var(--gray);
+            line-height: 1.6;
         }
 
-        .features-grid {
+        /* Team Section */
+        .team-section {
+            margin-bottom: 80px;
+        }
+
+        .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            margin-top: 50px;
         }
 
-        .feature {
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 10px;
+        .team-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .team-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .team-card:hover .team-image img {
+            transform: scale(1.05);
+        }
+
+        .team-info {
+            padding: 25px;
             text-align: center;
         }
 
-        .feature i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
+        .team-info h3 {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 8px;
         }
 
-        .feature h3 {
-            color: var(--secondary);
+        .team-info p {
+            color: var(--primary);
+            font-weight: 600;
             margin-bottom: 15px;
         }
 
-        .feature p {
-            color: #666;
+        .team-info .bio {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0f172a 100%);
+            padding: 80px 0;
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 80px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .stat-label {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
         }
 
         /* Footer */
         footer {
             background: var(--secondary);
             color: white;
-            padding: 50px 0 20px;
-            margin-top: 60px;
+            padding: 80px 0 40px;
+            margin-top: 80px;
         }
 
-        .footer-content {
-            text-align: center;
-            margin-bottom: 40px;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary);
         }
 
         .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
         }
 
         .footer-links a {
-            color: #ddd;
+            color: #cbd5e1;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .footer-links a:hover {
-            color: var(--primary);
+            color: white;
+            transform: translateX(5px);
         }
 
         .copyright {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #95a5a6;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
             font-size: 0.9rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar .container {
-                flex-direction: column;
-                gap: 15px;
+            .mobile-menu-btn {
+                display: block;
             }
-            
+
             .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
                 width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 10px;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
             }
-            
-            .about-title {
-                font-size: 2.2rem;
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
             }
-            
-            .about-description {
-                font-size: 1.1rem;
+
+            .about-hero h1 {
+                font-size: 2.5rem;
             }
-            
-            .features-grid {
+
+            .story-grid {
                 grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .story-text h2 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .values-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-section {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero {
+                padding: 100px 0 60px;
+            }
+
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .story-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
             }
         }
     </style>
@@ -222,59 +545,186 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
+        <div class="container nav-container">
             <a href="index.html" class="logo">
                 <i class="fas fa-hotel"></i>
-                GrandStay Hotel
+                Grand<span>Stay</span>
             </a>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="rooms.html"><i class="fas fa-bed"></i> Rooms</a>
-                <a href="booking.html"><i class="fas fa-calendar-check"></i> Book Now</a>
-                <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
-                <a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a>
-                <a href="login.html" id="loginBtn"><i class="fas fa-sign-in-alt"></i> <span id="loginText">Login</span></a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="rooms.html" class="nav-link">
+                    <i class="fas fa-bed"></i> Rooms
+                </a>
+                <a href="booking.html" class="nav-link">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+                <a href="contact.html" class="nav-link">
+                    <i class="fas fa-phone"></i> Contact
+                </a>
+                <a href="about.html" class="nav-link active">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <a href="login.html" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
             </div>
         </div>
     </nav>
 
-    <!-- About Section -->
-    <section class="about-section">
+    <!-- About Hero -->
+    <section class="about-hero">
         <div class="container">
-            <div class="about-content">
-                <div class="about-icon">
-                    <i class="fas fa-hotel"></i>
+            <h1>About GrandStay Hotel</h1>
+            <p>Discover the story behind Manila's premier luxury hotel experience, where modern elegance meets Filipino hospitality.</p>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="about-content">
+        <div class="container">
+            <div class="story-section">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>Our Story</h2>
+                        <p>Founded in 2010, GrandStay Hotel began as a vision to create a world-class hospitality experience in the heart of Manila. Our founders, seasoned hoteliers with decades of experience, wanted to establish a hotel that combined international standards with authentic Filipino warmth.</p>
+                        <p>Over the past decade, we've grown from a single property to a recognized name in luxury accommodations, consistently exceeding guest expectations through attention to detail and personalized service.</p>
+                        <p>Today, GrandStay Hotel stands as a testament to our commitment to excellence, innovation in hospitality, and dedication to creating memorable experiences for every guest.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80" alt="GrandStay Hotel Lobby">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Values Section -->
+            <div class="values-section">
+                <div class="section-header">
+                    <span class="section-subtitle">OUR COMMITMENT</span>
+                    <h2 class="section-title">Core Values</h2>
+                    <p class="section-description">
+                        These principles guide everything we do at GrandStay Hotel, ensuring exceptional experiences for every guest.
+                    </p>
                 </div>
                 
-                <h1 class="about-title">About GrandStay Hotel</h1>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Exceptional Service</h3>
+                        <p>We believe in going above and beyond to make every guest feel valued and cared for throughout their stay.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Quality Excellence</h3>
+                        <p>Maintaining the highest standards in every aspect, from room cleanliness to dining experiences.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Guest-Centered</h3>
+                        <p>Your comfort and satisfaction are our top priorities, guiding every decision we make.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Sustainability</h3>
+                        <p>Committed to environmentally responsible practices while delivering luxury experiences.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <div class="section-header">
+                    <span class="section-subtitle">MEET OUR LEADERS</span>
+                    <h2 class="section-title">Leadership Team</h2>
+                    <p class="section-description">
+                        Our experienced team brings decades of hospitality expertise to ensure your perfect stay.
+                    </p>
+                </div>
                 
-                <div class="about-description">
-                    <p>Welcome to GrandStay Hotel, your premier destination for luxury accommodations and exceptional hospitality in the heart of the city.</p>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Hotel Manager">
+                        </div>
+                        <div class="team-info">
+                            <h3>Miguel Santos</h3>
+                            <p>General Manager</p>
+                            <p class="bio">20+ years of luxury hotel management experience across Asia.</p>
+                        </div>
+                    </div>
                     
-                    <p>Our online booking platform makes it easy for you to find and reserve the perfect room for your stay. Whether you're traveling for business or leisure, we offer a seamless experience from browsing our rooms to completing your reservation.</p>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Head Chef">
+                        </div>
+                        <div class="team-info">
+                            <h3>Isabel Reyes</h3>
+                            <p>Head Chef</p>
+                            <p class="bio">Award-winning chef specializing in modern Filipino cuisine.</p>
+                        </div>
+                    </div>
                     
-                    <p>Our mission is simple: to provide you with a comfortable, memorable stay through our modern facilities, attentive service, and convenient online booking system.</p>
-                </div>
-
-                <div class="features-grid">
-                    <div class="feature">
-                        <i class="fas fa-bolt"></i>
-                        <h3>Easy Booking</h3>
-                        <p>Simple, fast online reservations with instant confirmation</p>
-                    </div>
-
-                    <div class="feature">
-                        <i class="fas fa-shield-alt"></i>
-                        <h3>Secure Payments</h3>
-                        <p>Safe and secure payment processing for your peace of mind</p>
-                    </div>
-
-                    <div class="feature">
-                        <i class="fas fa-headset"></i>
-                        <h3>24/7 Support</h3>
-                        <p>Round-the-clock customer support for all your needs</p>
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="https://images.unsplash.com/photo-1551836026-d5c2c5af78e4?w=400&q=80" alt="Guest Relations">
+                        </div>
+                        <div class="team-info">
+                            <h3>Robert Cruz</h3>
+                            <p>Guest Relations Director</p>
+                            <p class="bio">Dedicated to creating personalized experiences for every guest.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Years of Excellence</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15K+</div>
+                            <div class="stat-label">Happy Guests</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">120</div>
+                            <div class="stat-label">Luxury Rooms</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Awards Won</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <h2>Experience GrandStay Hospitality</h2>
+                <p>Join thousands of satisfied guests who have experienced luxury and comfort at our award-winning hotel.</p>
+                <a href="booking.html" class="btn">
+                    <i class="fas fa-calendar-plus"></i> Book Your Stay
+                </a>
             </div>
         </div>
     </section>
@@ -282,36 +732,75 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <h3 style="margin-bottom: 20px; color: var(--primary);">GrandStay Hotel</h3>
-                <p style="color: #ddd; margin-bottom: 30px;">Experience luxury and comfort at your fingertips</p>
+            <div class="footer-grid">
+                <div>
+                    <h3><i class="fas fa-hotel"></i> GrandStay Hotel</h3>
+                    <p style="margin-top: 20px; color: #cbd5e1; line-height: 1.8;">
+                        Experience luxury and comfort in the heart of the city. Your perfect getaway starts here at GrandStay Hotel.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="rooms.html"><i class="fas fa-chevron-right"></i> Rooms & Suites</a></li>
+                        <li><a href="booking.html"><i class="fas fa-chevron-right"></i> Make a Reservation</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Contact Info</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Hotel Street, Manila, Philippines</p>
+                        <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
+                        <p><i class="fas fa-envelope"></i> info@grandstayhotel.com</p>
+                        <p><i class="fas fa-clock"></i> 24/7 Front Desk</p>
+                    </div>
+                </div>
             </div>
-
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="rooms.html">Rooms</a>
-                <a href="booking.html">Booking</a>
-                <a href="contact.html">Contact</a>
-                <a href="about.html">About</a>
-            </div>
-
+            
             <div class="copyright">
-                <p>&copy; 2024 GrandStay Hotel. All rights reserved.</p>
+                <p>&copy; 2024 GrandStay Hotel. All rights reserved. | Designed with <i class="fas fa-heart" style="color: #ef4444;"></i> for ultimate comfort</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
         // Check login status
         document.addEventListener('DOMContentLoaded', function() {
             const user = localStorage.getItem('user');
             if (user) {
-                document.getElementById('loginText').textContent = 'Logout';
-                document.getElementById('loginBtn').onclick = function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('user');
-                    window.location.href = 'index.html';
-                };
+                const loginBtn = document.querySelector('.nav-link[href="login.html"]');
+                if (loginBtn) {
+                    loginBtn.querySelector('span').textContent = 'Logout';
+                    loginBtn.onclick = function(e) {
+                        e.preventDefault();
+                        localStorage.removeItem('user');
+                        window.location.href = 'index.html';
+                    };
+                }
             }
         });
     </script>
