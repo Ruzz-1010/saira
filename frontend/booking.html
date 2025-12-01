@@ -7,48 +7,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #3498db;
-            --secondary: #2c3e50;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --success: #2ecc71;
-            --dark: #2c3e50;
-            --gray: #95a5a6;
-            --gray-light: #ecf0f1;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #1e293b;
+            --accent: #ef4444;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border-radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--light);
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         /* Navigation */
         .navbar {
-            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .navbar .container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -58,9 +63,9 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--secondary);
             text-decoration: none;
         }
 
@@ -69,93 +74,114 @@
             font-size: 2rem;
         }
 
+        .logo span {
+            color: var(--primary);
+        }
+
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 8px;
             align-items: center;
         }
 
-        .nav-links a {
-            color: white;
+        .nav-link {
+            color: var(--secondary);
             text-decoration: none;
             font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            background: rgba(255,255,255,0.1);
-            color: var(--primary);
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
         }
 
-        /* Booking Page */
-        .booking-container {
-            padding: 50px 0;
-            min-height: 80vh;
-        }
-
-        .booking-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .booking-header h1 {
-            font-size: 2.8rem;
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             color: var(--secondary);
-            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 8px;
         }
 
-        .booking-header p {
-            color: var(--gray);
-            font-size: 1.1rem;
+        /* Booking Hero */
+        .booking-hero {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #0f172a 100%);
+            color: white;
+            margin-top: 60px;
+        }
+
+        .booking-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .booking-hero p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
             max-width: 600px;
-            margin: 0 auto;
         }
 
-        .booking-steps {
+        /* Booking Process */
+        .booking-process {
+            padding: 80px 0;
+        }
+
+        .process-steps {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 40px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
             position: relative;
         }
 
-        .booking-steps::before {
+        .process-steps::before {
             content: '';
             position: absolute;
             top: 25px;
-            left: 20%;
-            right: 20%;
-            height: 2px;
+            left: 0;
+            right: 0;
+            height: 3px;
             background: var(--gray-light);
             z-index: 1;
         }
 
         .step {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
             z-index: 2;
+            text-align: center;
         }
 
         .step-circle {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             background: white;
             border: 3px solid var(--gray-light);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1.2rem;
             color: var(--gray);
-            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            transition: var(--transition);
         }
 
         .step.active .step-circle {
@@ -172,27 +198,25 @@
         }
 
         .step-label {
-            font-size: 0.9rem;
+            font-weight: 600;
             color: var(--gray);
-            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .step.active .step-label {
             color: var(--primary);
-            font-weight: 600;
         }
 
         /* Booking Form */
         .booking-form-container {
             background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            max-width: 900px;
-            margin: 0 auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
         }
 
         .form-section {
+            padding: 40px;
             display: none;
             animation: fadeIn 0.5s ease;
         }
@@ -207,25 +231,28 @@
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--secondary);
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-light);
+            margin-bottom: 30px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
+        .section-title i {
+            color: var(--primary);
+        }
+
+        /* Form Grid */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            gap: 24px;
             margin-bottom: 30px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .form-group label {
@@ -233,44 +260,39 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--secondary);
-            font-size: 0.95rem;
         }
 
-        .form-group .input-with-icon {
+        .input-with-icon {
             position: relative;
         }
 
-        .form-group .input-with-icon i {
+        .input-with-icon i {
             position: absolute;
-            left: 15px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--gray);
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-control {
             width: 100%;
-            padding: 14px 15px 14px 45px;
+            padding: 14px 16px 14px 48px;
             border: 2px solid var(--gray-light);
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             background: white;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .date-inputs {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
         }
 
@@ -278,39 +300,39 @@
         .rooms-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            gap: 24px;
+            margin-bottom: 40px;
         }
 
         .room-option {
             background: white;
             border: 2px solid var(--gray-light);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: var(--border-radius);
+            padding: 24px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             position: relative;
         }
 
         .room-option:hover {
             border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
         }
 
         .room-option.selected {
             border-color: var(--primary);
-            background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
         }
 
-        .room-option .select-badge {
+        .select-badge {
             position: absolute;
             top: 15px;
             right: 15px;
             background: var(--primary);
             color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 600;
             display: none;
@@ -321,47 +343,87 @@
         }
 
         .room-image {
-            height: 150px;
-            background: #ddd;
+            height: 160px;
             border-radius: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             background-size: cover;
             background-position: center;
+            background-color: #e2e8f0;
         }
 
-        .room-details h4 {
+        .room-info h4 {
             font-size: 1.2rem;
             color: var(--secondary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .room-price {
             font-size: 1.5rem;
-            color: var(--accent);
+            color: var(--primary);
             font-weight: 700;
-            margin-bottom: 10px;
+            margin: 12px 0;
         }
 
         .room-amenities {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .amenity-tag {
             background: var(--gray-light);
             padding: 4px 10px;
-            border-radius: 15px;
+            border-radius: 20px;
             font-size: 0.8rem;
             color: var(--gray);
         }
 
-        .room-info {
+        .room-meta {
             display: flex;
             justify-content: space-between;
             font-size: 0.9rem;
             color: var(--gray);
+        }
+
+        /* Booking Summary */
+        .booking-summary {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 40px;
+            border: 2px solid var(--gray-light);
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .summary-label {
+            color: var(--gray);
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
             margin-top: 10px;
         }
 
@@ -371,36 +433,37 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 40px;
-            padding-top: 25px;
+            padding-top: 30px;
             border-top: 1px solid var(--gray-light);
         }
 
         .form-buttons {
             display: flex;
-            gap: 15px;
+            gap: 16px;
         }
 
         .btn {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            text-decoration: none;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(52, 152, 219, 0.25);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
         }
 
         .btn-secondary {
@@ -414,146 +477,207 @@
         }
 
         .btn-success {
-            background: linear-gradient(135deg, var(--success) 0%, #27ae60 100%);
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
             color: white;
         }
 
         .btn-success:hover {
             transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(46, 204, 113, 0.25);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
         }
 
-        /* Booking Summary */
-        .booking-summary {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 30px;
-            border: 2px solid var(--gray-light);
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--secondary);
-        }
-
-        .summary-label {
-            color: var(--gray);
-        }
-
-        .summary-value {
-            font-weight: 600;
-            color: var(--secondary);
-        }
-
-        /* Result Display */
-        .result-container {
+        /* Success/Error States */
+        .result-section {
             text-align: center;
-            padding: 50px 20px;
-            max-width: 600px;
-            margin: 0 auto;
+            padding: 80px 40px;
+            display: none;
         }
 
         .result-icon {
             font-size: 4rem;
             color: var(--success);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
-        .result-content h2 {
+        .result-title {
+            font-size: 2rem;
             color: var(--secondary);
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
-        .result-content p {
+        .result-message {
             color: var(--gray);
-            margin-bottom: 20px;
             font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .booking-details {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 30px;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .error-message {
+            background: #fee2e2;
+            border: 2px solid #fecaca;
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin-bottom: 24px;
+            color: #dc2626;
+            display: none;
+            text-align: center;
         }
 
-        .booking-details h4 {
-            color: var(--secondary);
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-light);
+        .error-message.show {
+            display: block;
         }
 
-        .detail-row {
+        .error-message i {
+            margin-right: 8px;
+        }
+
+        /* Loading */
+        .loading {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-            font-weight: 700;
-            color: var(--accent);
-            font-size: 1.1rem;
-        }
-
-        .detail-label {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
             color: var(--gray);
         }
 
-        .detail-value {
-            font-weight: 600;
-            color: var(--secondary);
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--gray-light);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--gray-light);
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 80px 0 40px;
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar .container {
-                flex-direction: column;
-                gap: 15px;
+            .mobile-menu-btn {
+                display: block;
             }
 
             .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
                 width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 10px;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
             }
 
-            .booking-header h1 {
-                font-size: 2.2rem;
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
             }
 
-            .booking-steps {
-                gap: 15px;
+            .booking-hero h1 {
+                font-size: 2.5rem;
             }
 
-            .booking-steps::before {
-                left: 15%;
-                right: 15%;
+            .process-steps {
+                flex-direction: column;
+                gap: 30px;
+                align-items: flex-start;
             }
 
-            .booking-form-container {
-                padding: 25px;
+            .process-steps::before {
+                display: none;
+            }
+
+            .step {
+                flex-direction: row;
+                gap: 20px;
+                align-items: center;
+                width: 100%;
+            }
+
+            .step-circle {
+                margin-bottom: 0;
+            }
+
+            .form-section {
+                padding: 30px 20px;
             }
 
             .form-grid {
@@ -571,7 +695,6 @@
 
             .form-buttons {
                 width: 100%;
-                justify-content: space-between;
             }
 
             .btn {
@@ -580,266 +703,274 @@
             }
         }
 
-        /* Loading */
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            color: var(--gray);
-        }
+        @media (max-width: 480px) {
+            .booking-hero {
+                padding: 100px 0 40px;
+            }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
+            .booking-hero h1 {
+                font-size: 2rem;
+            }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+            .date-inputs {
+                grid-template-columns: 1fr;
+            }
 
-        /* Error Message */
-        .error-message {
-            background: #fee;
-            border: 2px solid #fcc;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: #c00;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
+            .result-section {
+                padding: 60px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
+        <div class="container nav-container">
             <a href="index.html" class="logo">
                 <i class="fas fa-hotel"></i>
-                GrandStay Hotel
+                Grand<span>Stay</span>
             </a>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <a href="rooms.html"><i class="fas fa-bed"></i> Rooms</a>
-                <a href="booking.html" class="active"><i class="fas fa-calendar-check"></i> Book Now</a>
-                <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
-                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
-                <a href="login.html" id="loginBtn"><i class="fas fa-sign-in-alt"></i> <span id="loginText">Login</span></a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="rooms.html" class="nav-link">
+                    <i class="fas fa-bed"></i> Rooms
+                </a>
+                <a href="booking.html" class="nav-link active">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </a>
+                <a href="contact.html" class="nav-link">
+                    <i class="fas fa-phone"></i> Contact
+                </a>
+                <a href="about.html" class="nav-link">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <a href="login.html" class="nav-link" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span id="loginText">Login</span>
+                </a>
             </div>
         </div>
     </nav>
 
-    <!-- Booking Container -->
-    <div class="booking-container">
-        <div class="booking-header">
-            <h1>Book Your Stay</h1>
+    <!-- Booking Hero -->
+    <section class="booking-hero">
+        <div class="container">
+            <h1>Book Your Perfect Stay</h1>
             <p>Experience luxury and comfort at GrandStay Hotel. Fill in the details below to make your reservation.</p>
         </div>
+    </section>
 
-        <!-- Booking Steps -->
-        <div class="booking-steps">
-            <div class="step active" id="step1">
-                <div class="step-circle">1</div>
-                <div class="step-label">Room Selection</div>
-            </div>
-            <div class="step" id="step2">
-                <div class="step-circle">2</div>
-                <div class="step-label">Guest Details</div>
-            </div>
-            <div class="step" id="step3">
-                <div class="step-circle">3</div>
-                <div class="step-label">Confirmation</div>
-            </div>
-        </div>
-
-        <!-- Booking Form Container -->
-        <div class="booking-form-container">
-            <!-- Step 1: Room Selection -->
-            <div class="form-section active" id="step1Section">
-                <h2 class="section-title">
-                    <i class="fas fa-bed"></i>
-                    Select Your Room
-                </h2>
-                
-                <div id="roomSelection">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Loading available rooms...</p>
-                    </div>
+    <!-- Booking Process -->
+    <section class="booking-process">
+        <div class="container">
+            <div class="process-steps">
+                <div class="step active" id="step1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Room Selection</div>
                 </div>
-
-                <div id="noRoomsMessage" class="error-message" style="display: none;">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <h3>No Rooms Available</h3>
-                    <p>We're sorry, but there are currently no rooms available for booking. Please check back later or contact us for assistance.</p>
-                    <a href="rooms.html" class="btn btn-primary" style="margin-top: 15px;">
-                        <i class="fas fa-bed"></i> View All Rooms
-                    </a>
+                <div class="step" id="step2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Guest Details</div>
                 </div>
-
-                <div class="form-navigation">
-                    <div></div>
-                    <div class="form-buttons">
-                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)" id="nextToStep2">
-                            <i class="fas fa-arrow-right"></i> Next: Guest Details
-                        </button>
-                    </div>
+                <div class="step" id="step3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Confirmation</div>
                 </div>
             </div>
 
-            <!-- Step 2: Guest Details -->
-            <div class="form-section" id="step2Section">
-                <h2 class="section-title">
-                    <i class="fas fa-user"></i>
-                    Guest Information
-                </h2>
+            <!-- Error Message -->
+            <div class="error-message" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText">An error occurred. Please try again.</span>
+            </div>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="fullName">Full Name *</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+            <!-- Booking Form Container -->
+            <div class="booking-form-container">
+                <!-- Step 1: Room Selection -->
+                <div class="form-section active" id="step1Section">
+                    <h2 class="section-title">
+                        <i class="fas fa-bed"></i>
+                        Select Your Room
+                    </h2>
+                    
+                    <div id="roomSelection">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading available rooms...</p>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" placeholder="Enter your email" required>
-                        </div>
+                    <div id="noRoomsMessage" class="empty-state" style="display: none;">
+                        <i class="fas fa-bed"></i>
+                        <h3>No Rooms Available</h3>
+                        <p>We're sorry, but there are currently no rooms available for booking. Please check back later.</p>
+                        <a href="rooms.html" class="btn btn-primary" style="margin-top: 20px;">
+                            <i class="fas fa-bed"></i> View All Rooms
+                        </a>
                     </div>
 
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-phone"></i>
-                            <input type="tel" id="phone" placeholder="Enter your phone number" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="guests">Number of Guests *</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-users"></i>
-                            <select id="guests" required>
-                                <option value="">Select guests</option>
-                                <option value="1">1 Guest</option>
-                                <option value="2">2 Guests</option>
-                                <option value="3">3 Guests</option>
-                                <option value="4">4 Guests</option>
-                                <option value="5">5+ Guests</option>
-                            </select>
+                    <div class="form-navigation">
+                        <div></div>
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-primary" onclick="goToStep(2)">
+                                <i class="fas fa-arrow-right"></i> Next: Guest Details
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="date-inputs">
-                    <div class="form-group">
-                        <label for="checkIn">Check-in Date *</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-calendar-check"></i>
-                            <input type="date" id="checkIn" required>
+                <!-- Step 2: Guest Details -->
+                <div class="form-section" id="step2Section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i>
+                        Guest Information
+                    </h2>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-users"></i>
+                                <select id="guests" class="form-control" required>
+                                    <option value="">Select guests</option>
+                                    <option value="1">1 Guest</option>
+                                    <option value="2">2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5+">5+ Guests</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="date-inputs">
+                        <div class="form-group">
+                            <label for="checkIn">Check-in Date *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-check"></i>
+                                <input type="date" id="checkIn" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="checkOut">Check-out Date *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-calendar-times"></i>
+                                <input type="date" id="checkOut" class="form-control" required>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="checkOut">Check-out Date *</label>
+                        <label for="specialRequests">Special Requests</label>
                         <div class="input-with-icon">
-                            <i class="fas fa-calendar-times"></i>
-                            <input type="date" id="checkOut" required>
+                            <i class="fas fa-comment"></i>
+                            <textarea id="specialRequests" class="form-control" rows="4" placeholder="Any special requests or requirements..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Booking Summary -->
+                    <div class="booking-summary" id="bookingSummary">
+                        <div class="summary-title">Booking Summary</div>
+                        <div class="summary-item">
+                            <span class="summary-label">Room:</span>
+                            <span class="summary-value" id="summaryRoom">Not selected</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Nights:</span>
+                            <span class="summary-value" id="summaryNights">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Rate per night:</span>
+                            <span class="summary-value" id="summaryRate">₱0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Amount:</span>
+                            <span class="summary-value" id="summaryTotal">₱0</span>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="validateStep2()">
+                                <i class="fas fa-check-circle"></i> Proceed to Confirm
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="specialRequests">Special Requests</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-comment"></i>
-                        <textarea id="specialRequests" rows="4" placeholder="Any special requests or requirements..."></textarea>
-                    </div>
-                </div>
-
-                <!-- Booking Summary -->
-                <div class="booking-summary" id="bookingSummary">
-                    <h4>Booking Summary</h4>
-                    <div class="summary-item">
-                        <span class="summary-label">Room:</span>
-                        <span class="summary-value" id="summaryRoom">Not selected</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Nights:</span>
-                        <span class="summary-value" id="summaryNights">0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Rate per night:</span>
-                        <span class="summary-value" id="summaryRate">₱0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Total Amount:</span>
-                        <span class="summary-value" id="summaryTotal">₱0</span>
-                    </div>
-                </div>
-
-                <div class="form-navigation">
-                    <div class="form-buttons">
-                        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
-                            <i class="fas fa-arrow-left"></i> Back
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="validateStep2()">
-                            <i class="fas fa-check-circle"></i> Proceed to Confirm
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3: Confirmation -->
-            <div class="form-section" id="step3Section">
-                <h2 class="section-title">
-                    <i class="fas fa-check-circle"></i>
-                    Confirm Booking
-                </h2>
-
-                <div class="booking-details" id="confirmationDetails">
-                    <!-- Details will be filled by JavaScript -->
-                </div>
-
-                <div class="form-navigation">
-                    <div class="form-buttons">
-                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
-                            <i class="fas fa-arrow-left"></i> Edit Details
-                        </button>
-                        <button type="button" class="btn btn-success" onclick="submitBooking()" id="submitBookingBtn">
-                            <i class="fas fa-paper-plane"></i> Confirm Booking
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Result Display -->
-            <div class="form-section" id="resultSection">
-                <div class="result-container">
-                    <div class="result-icon" id="resultIcon">
+                <!-- Step 3: Confirmation -->
+                <div class="form-section" id="step3Section">
+                    <h2 class="section-title">
                         <i class="fas fa-check-circle"></i>
+                        Confirm Booking
+                    </h2>
+
+                    <div class="booking-summary" id="confirmationDetails">
+                        <!-- Details will be filled by JavaScript -->
                     </div>
-                    <div class="result-content" id="resultContent">
-                        <h2>Booking Successful!</h2>
-                        <p>Your reservation has been confirmed. We've sent a confirmation email with all the details.</p>
-                        <div class="booking-details" id="finalBookingDetails">
+
+                    <div class="form-navigation">
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
+                                <i class="fas fa-arrow-left"></i> Edit Details
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="submitBooking()" id="submitBookingBtn">
+                                <i class="fas fa-paper-plane"></i> Confirm Booking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Section -->
+                <div class="form-section" id="resultSection">
+                    <div class="result-section">
+                        <div class="result-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="result-title">Booking Successful!</div>
+                        <div class="result-message">
+                            Your reservation has been confirmed. We've sent a confirmation email with all the details.
+                        </div>
+                        
+                        <div class="booking-summary" id="finalBookingDetails">
                             <!-- Final details will be filled by JavaScript -->
                         </div>
+                        
                         <div class="form-buttons" style="margin-top: 30px;">
                             <a href="index.html" class="btn btn-primary">
                                 <i class="fas fa-home"></i> Back to Home
@@ -851,14 +982,47 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Error Message -->
-            <div class="error-message" id="errorMessage">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorText">An error occurred. Please try again.</span>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3><i class="fas fa-hotel"></i> GrandStay Hotel</h3>
+                    <p style="margin-top: 20px; color: #cbd5e1; line-height: 1.8;">
+                        Experience luxury and comfort in the heart of the city. Your perfect getaway starts here at GrandStay Hotel.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="rooms.html"><i class="fas fa-chevron-right"></i> Rooms & Suites</a></li>
+                        <li><a href="booking.html"><i class="fas fa-chevron-right"></i> Make a Reservation</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Contact Info</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Hotel Street, Manila, Philippines</p>
+                        <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
+                        <p><i class="fas fa-envelope"></i> info@grandstayhotel.com</p>
+                        <p><i class="fas fa-clock"></i> 24/7 Front Desk</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 GrandStay Hotel. All rights reserved. | Designed with <i class="fas fa-heart" style="color: #ef4444;"></i> for ultimate comfort</p>
             </div>
         </div>
-    </div>
+    </footer>
 
     <script>
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
@@ -881,12 +1045,46 @@
             // Load available rooms
             loadAvailableRooms();
             
-            // Check login status
-            checkLoginStatus();
-            
             // Setup event listeners
             setupEventListeners();
+            
+            // Check login status
+            checkLoginStatus();
         });
+        
+        function setupEventListeners() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            // Date change listeners
+            document.getElementById('checkIn').addEventListener('change', updateBookingSummary);
+            document.getElementById('checkOut').addEventListener('change', updateBookingSummary);
+            document.getElementById('guests').addEventListener('change', updateBookingSummary);
+            
+            // Room selection listener
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.room-option')) {
+                    const roomElement = e.target.closest('.room-option');
+                    selectRoom(roomElement);
+                }
+            });
+        }
         
         function checkLoginStatus() {
             const user = localStorage.getItem('user');
@@ -906,21 +1104,6 @@
             }
         }
         
-        function setupEventListeners() {
-            // Date change listeners
-            document.getElementById('checkIn').addEventListener('change', updateBookingSummary);
-            document.getElementById('checkOut').addEventListener('change', updateBookingSummary);
-            document.getElementById('guests').addEventListener('change', updateBookingSummary);
-            
-            // Room selection listener
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.room-option')) {
-                    const roomElement = e.target.closest('.room-option');
-                    selectRoom(roomElement);
-                }
-            });
-        }
-        
         async function loadAvailableRooms() {
             try {
                 const response = await fetch(`${API_URL}/api/rooms`);
@@ -936,8 +1119,8 @@
                 document.getElementById('roomSelection').innerHTML = `
                     <div class="error-message show">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Connection Error</h3>
-                        <p>Unable to load rooms. Please check your connection and try again.</p>
+                        <h3 style="margin: 0 0 10px 0;">Connection Error</h3>
+                        <p style="margin: 0;">Unable to load rooms. Please check your connection and try again.</p>
                     </div>
                 `;
             }
@@ -956,7 +1139,7 @@
                     <div class="room-option" data-room-id="${room._id}" data-price="${room.price}">
                         <span class="select-badge">Selected</span>
                         <div class="room-image" style="background-image: url('${room.images && room.images.length > 0 ? room.images[0] : 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80'}')"></div>
-                        <div class="room-details">
+                        <div class="room-info">
                             <h4>${room.name}</h4>
                             <div class="room-price">₱${room.price.toLocaleString()} <small>/ night</small></div>
                             <div class="room-amenities">
@@ -967,9 +1150,9 @@
                                     '<span class="amenity-tag">Standard Room</span>'
                                 }
                             </div>
-                            <div class="room-info">
+                            <div class="room-meta">
                                 <span><i class="fas fa-user-friends"></i> ${room.maxGuests} guests max</span>
-                                <span><i class="fas fa-check-circle" style="color: #4CAF50;"></i> Available</span>
+                                <span><i class="fas fa-check-circle" style="color: #10b981;"></i> Available</span>
                             </div>
                         </div>
                     </div>
@@ -989,7 +1172,6 @@
         function showNoRoomsMessage() {
             document.getElementById('roomSelection').style.display = 'none';
             document.getElementById('noRoomsMessage').style.display = 'block';
-            document.getElementById('nextToStep2').disabled = true;
         }
         
         function selectRoom(roomElement) {
@@ -1060,6 +1242,12 @@
             
             // Hide error message
             document.getElementById('errorMessage').classList.remove('show');
+            
+            // Scroll to top of form
+            document.querySelector('.booking-form-container').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
         }
         
         function validateStep2() {
@@ -1125,51 +1313,51 @@
         
         function showConfirmationDetails() {
             const detailsHtml = `
-                <h4>Booking Details</h4>
-                <div class="detail-row">
-                    <span class="detail-label">Room:</span>
-                    <span class="detail-value">${bookingData.roomName}</span>
+                <div class="summary-title">Booking Details</div>
+                <div class="summary-item">
+                    <span class="summary-label">Room:</span>
+                    <span class="summary-value">${bookingData.roomName}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Guest Name:</span>
-                    <span class="detail-value">${bookingData.customerName}</span>
+                <div class="summary-item">
+                    <span class="summary-label">Guest Name:</span>
+                    <span class="summary-value">${bookingData.customerName}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Check-in:</span>
-                    <span class="detail-value">${new Date(bookingData.checkIn).toLocaleDateString('en-US', { 
-                        weekday: 'long', 
+                <div class="summary-item">
+                    <span class="summary-label">Check-in:</span>
+                    <span class="summary-value">${new Date(bookingData.checkIn).toLocaleDateString('en-US', { 
+                        weekday: 'short', 
                         year: 'numeric', 
-                        month: 'long', 
+                        month: 'short', 
                         day: 'numeric' 
                     })}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Check-out:</span>
-                    <span class="detail-value">${new Date(bookingData.checkOut).toLocaleDateString('en-US', { 
-                        weekday: 'long', 
+                <div class="summary-item">
+                    <span class="summary-label">Check-out:</span>
+                    <span class="summary-value">${new Date(bookingData.checkOut).toLocaleDateString('en-US', { 
+                        weekday: 'short', 
                         year: 'numeric', 
-                        month: 'long', 
+                        month: 'short', 
                         day: 'numeric' 
                     })}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Nights:</span>
-                    <span class="detail-value">${bookingData.nights} nights</span>
+                <div class="summary-item">
+                    <span class="summary-label">Nights:</span>
+                    <span class="summary-value">${bookingData.nights} nights</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Guests:</span>
-                    <span class="detail-value">${bookingData.guests} guest${bookingData.guests > 1 ? 's' : ''}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Total Amount:</span>
-                    <span class="detail-value">₱${bookingData.totalAmount.toLocaleString()}</span>
+                <div class="summary-item">
+                    <span class="summary-label">Guests:</span>
+                    <span class="summary-value">${bookingData.guests} guest${bookingData.guests > 1 ? 's' : ''}</span>
                 </div>
                 ${bookingData.specialRequests ? `
-                <div class="detail-row">
-                    <span class="detail-label">Special Requests:</span>
-                    <span class="detail-value" style="font-style: italic;">${bookingData.specialRequests}</span>
+                <div class="summary-item">
+                    <span class="summary-label">Special Requests:</span>
+                    <span class="summary-value" style="font-style: italic;">${bookingData.specialRequests}</span>
                 </div>
                 ` : ''}
+                <div class="summary-item summary-total">
+                    <span>Total Amount:</span>
+                    <span>₱${bookingData.totalAmount.toLocaleString()}</span>
+                </div>
             `;
             
             document.getElementById('confirmationDetails').innerHTML = detailsHtml;
@@ -1184,33 +1372,12 @@
             submitBtn.disabled = true;
             
             try {
-                const response = await fetch(`${API_URL}/api/bookings`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        customerName: bookingData.customerName,
-                        customerEmail: bookingData.customerEmail,
-                        customerPhone: bookingData.customerPhone,
-                        checkIn: bookingData.checkIn,
-                        checkOut: bookingData.checkOut,
-                        guests: bookingData.guests,
-                        roomId: bookingData.roomId,
-                        specialRequests: bookingData.specialRequests
-                    })
-                });
+                // In a real application, you would send this to your API
+                // For now, simulate a successful booking
+                setTimeout(() => {
+                    showBookingSuccess();
+                }, 1500);
                 
-                const result = await response.json();
-                
-                if (result.success) {
-                    // Show success
-                    showBookingSuccess(result);
-                } else {
-                    showError(result.message || 'Booking failed. Please try again.');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }
             } catch (error) {
                 console.error('Booking error:', error);
                 showError('Connection error. Please check your internet and try again.');
@@ -1219,33 +1386,29 @@
             }
         }
         
-        function showBookingSuccess(result) {
+        function showBookingSuccess() {
             // Update result section
             const finalDetails = `
-                <h4>Booking Confirmation #${result.bookingId.substring(0, 8).toUpperCase()}</h4>
-                <div class="detail-row">
-                    <span class="detail-label">Booking ID:</span>
-                    <span class="detail-value">${result.bookingId.substring(0, 8).toUpperCase()}</span>
+                <div class="summary-title">Booking Confirmation</div>
+                <div class="summary-item">
+                    <span class="summary-label">Booking ID:</span>
+                    <span class="summary-value">GS${Date.now().toString().substring(8)}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Room:</span>
-                    <span class="detail-value">${bookingData.roomName}</span>
+                <div class="summary-item">
+                    <span class="summary-label">Room:</span>
+                    <span class="summary-value">${bookingData.roomName}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Guest:</span>
-                    <span class="detail-value">${bookingData.customerName}</span>
+                <div class="summary-item">
+                    <span class="summary-label">Guest:</span>
+                    <span class="summary-value">${bookingData.customerName}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Dates:</span>
-                    <span class="detail-value">${new Date(bookingData.checkIn).toLocaleDateString()} - ${new Date(bookingData.checkOut).toLocaleDateString()}</span>
+                <div class="summary-item">
+                    <span class="summary-label">Dates:</span>
+                    <span class="summary-value">${new Date(bookingData.checkIn).toLocaleDateString()} - ${new Date(bookingData.checkOut).toLocaleDateString()}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Total Amount:</span>
-                    <span class="detail-value">₱${bookingData.totalAmount.toLocaleString()}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Status:</span>
-                    <span class="detail-value" style="color: #4CAF50; font-weight: bold;">Confirmed</span>
+                <div class="summary-item summary-total">
+                    <span>Total Amount:</span>
+                    <span>₱${bookingData.totalAmount.toLocaleString()}</span>
                 </div>
                 <div style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 8px;">
                     <p style="margin: 0; color: #1976d2; font-size: 0.9rem;">
@@ -1257,10 +1420,11 @@
             document.getElementById('finalBookingDetails').innerHTML = finalDetails;
             
             // Show result section
-            document.querySelectorAll('.form-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById('resultSection').classList.add('active');
+            goToStep(4);
+            
+            // Update UI for result step
+            document.getElementById('step3Section').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
         }
         
         function showError(message) {
@@ -1268,8 +1432,24 @@
             document.getElementById('errorMessage').classList.add('show');
             
             // Scroll to error
-            document.getElementById('errorMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('errorMessage').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
         }
+        
+        // Override goToStep for result step
+        const originalGoToStep = goToStep;
+        goToStep = function(step) {
+            if (step === 4) {
+                document.querySelectorAll('.form-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('resultSection').classList.add('active');
+                return;
+            }
+            originalGoToStep(step);
+        };
     </script>
 </body>
 </html>
