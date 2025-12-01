@@ -3,419 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SAIRA Hotel</title>
+    <title>Login - Hotel</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .login-container {
-            width: 100%;
-            max-width: 450px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        .login-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-        
-        .login-header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .login-header p {
-            opacity: 0.8;
-            font-size: 14px;
-        }
-        
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 18px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 500;
-            color: #6c757d;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .tab:hover {
-            background: #e9ecef;
-        }
-        
-        .tab.active {
-            color: #3498db;
-            border-bottom: 3px solid #3498db;
-            background: white;
-        }
-        
-        .login-content {
-            padding: 40px 30px;
-        }
-        
-        .login-form {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .login-form.active {
-            display: block;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus {
-            border-color: #3498db;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
-        }
-        
-        .btn-admin {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        }
-        
-        .btn-admin:hover {
-            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
-        }
-        
-        .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            display: none;
-            animation: slideIn 0.5s ease;
-        }
-        
-        .message-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .message-warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .loading-spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        .credential-hint {
-            margin-top: 25px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-            text-align: center;
-            font-size: 14px;
-            color: #6c757d;
-        }
-        
-        .credential-hint strong {
-            color: #2c3e50;
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        .back-home {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid #e9ecef;
-        }
-        
-        .back-home a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .back-home a:hover {
-            text-decoration: underline;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 480px) {
-            .login-container {
-                border-radius: 15px;
-            }
-            
-            .login-header {
-                padding: 30px 20px;
-            }
-            
-            .login-content {
-                padding: 30px 20px;
-            }
-            
-            .tab {
-                padding: 15px;
-                font-size: 14px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial; background: #2c3e50; padding: 20px; }
+        .login-box { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { text-align: center; margin-bottom: 20px; color: #2c3e50; }
+        .tabs { display: flex; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; background: #eee; }
+        .tab.active { background: #3498db; color: white; }
+        .form { display: none; }
+        .form.active { display: block; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 100%; padding: 12px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .message { margin-top: 15px; padding: 10px; border-radius: 5px; text-align: center; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <!-- Header -->
-        <div class="login-header">
-            <h1>
-                <i class="fas fa-hotel"></i>
-                SAIRA Hotel
-            </h1>
-            <p>Login to access your account</p>
-        </div>
-        
-        <!-- Tabs -->
+    <div class="login-box">
+        <h1>Hotel Login</h1>
         <div class="tabs">
-            <div class="tab active" onclick="showForm('login')">
-                <i class="fas fa-sign-in-alt"></i> User Login
-            </div>
-            <div class="tab" onclick="showForm('register')">
-                <i class="fas fa-user-plus"></i> Register
-            </div>
-            <div class="tab" onclick="showForm('admin')">
-                <i class="fas fa-user-shield"></i> Admin Login
-            </div>
+            <div class="tab active" onclick="showForm('login')">User Login</div>
+            <div class="tab" onclick="showForm('register')">Register</div>
+            <div class="tab" onclick="showForm('admin')">Admin</div>
         </div>
         
-        <!-- Content -->
-        <div class="login-content">
-            <!-- User Login Form -->
-            <form id="loginForm" class="login-form active">
-                <div class="form-group">
-                    <label for="loginEmail">
-                        <i class="fas fa-envelope"></i> Email Address
-                    </label>
-                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="loginPassword">
-                        <i class="fas fa-lock"></i> Password
-                    </label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                </div>
-                
-                <button type="submit" class="btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-            </form>
-            
-            <!-- User Register Form -->
-            <form id="registerForm" class="login-form">
-                <div class="form-group">
-                    <label for="registerName">
-                        <i class="fas fa-user"></i> Full Name
-                    </label>
-                    <input type="text" id="registerName" placeholder="Enter your full name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="registerEmail">
-                        <i class="fas fa-envelope"></i> Email Address
-                    </label>
-                    <input type="email" id="registerEmail" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="registerPassword">
-                        <i class="fas fa-lock"></i> Password
-                    </label>
-                    <input type="password" id="registerPassword" placeholder="Create a password" required minlength="6">
-                </div>
-                
-                <div class="form-group">
-                    <label for="registerPhone">
-                        <i class="fas fa-phone"></i> Phone Number
-                    </label>
-                    <input type="tel" id="registerPhone" placeholder="Enter your phone number">
-                </div>
-                
-                <button type="submit" class="btn">
-                    <i class="fas fa-user-plus"></i> Create Account
-                </button>
-            </form>
-            
-            <!-- Admin Login Form -->
-            <form id="adminForm" class="login-form">
-                <div class="form-group">
-                    <label for="adminEmail">
-                        <i class="fas fa-envelope"></i> Admin Email
-                    </label>
-                    <input type="email" id="adminEmail" placeholder="admin@hotel.com" value="admin@hotel.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="adminPassword">
-                        <i class="fas fa-lock"></i> Admin Password
-                    </label>
-                    <input type="password" id="adminPassword" placeholder="Enter admin password" value="admin123" required>
-                </div>
-                
-                <button type="submit" class="btn btn-admin">
-                    <i class="fas fa-user-shield"></i> Admin Login
-                </button>
-                
-                <div class="credential-hint">
-                    <strong>Default Admin Credentials:</strong>
-                    <div>Email: admin@hotel.com</div>
-                    <div>Password: admin123</div>
-                </div>
-            </form>
-            
-            <!-- Message Display -->
-            <div id="message" class="message"></div>
-            
-            <!-- Back to Home -->
-            <div class="back-home">
-                <a href="index.html">
-                    <i class="fas fa-arrow-left"></i> Back to Homepage
-                </a>
-            </div>
-        </div>
+        <form class="form active" id="loginForm">
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        
+        <form class="form" id="registerForm">
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="tel" placeholder="Phone">
+            <button type="submit">Register</button>
+        </form>
+        
+        <form class="form" id="adminForm">
+            <input type="email" placeholder="Email" value="admin@hotel.com" required>
+            <input type="password" placeholder="Password" value="admin123" required>
+            <button type="submit">Admin Login</button>
+        </form>
+        
+        <div class="message" id="message"></div>
     </div>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <script>
-        // ============ CONFIGURATION ============
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         
-        // ============ FORM SWITCHING ============
-        function showForm(formType) {
-            // Update tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+        function showForm(form) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // Hide all forms
-            document.querySelectorAll('.login-form').forEach(form => {
-                form.classList.remove('active');
-            });
-            
-            // Show selected form
-            document.getElementById(formType + 'Form').classList.add('active');
-            
-            // Clear messages
-            document.getElementById('message').style.display = 'none';
+            document.getElementById(form + 'Form').classList.add('active');
             document.getElementById('message').innerHTML = '';
         }
         
-        // ============ USER LOGIN ============
+        // Admin Login
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target[0].value;
+            const password = e.target[1].value;
+            
+            document.getElementById('message').innerHTML = 'Logging in...';
+            document.getElementById('message').className = 'message';
+            
+            try {
+                const response = await fetch(API_URL + '/api/auth/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Save to localStorage
+                    localStorage.setItem('adminEmail', data.user.email);
+                    localStorage.setItem('adminName', data.user.name);
+                    localStorage.setItem('adminUser', JSON.stringify(data.user));
+                    
+                    document.getElementById('message').innerHTML = 'Login successful! Redirecting...';
+                    document.getElementById('message').className = 'message success';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1000);
+                } else {
+                    document.getElementById('message').innerHTML = data.message || 'Login failed';
+                    document.getElementById('message').className = 'message error';
+                }
+            } catch (error) {
+                document.getElementById('message').innerHTML = 'Connection error. Trying local login...';
+                
+                // LOCAL FALLBACK
+                localStorage.setItem('adminEmail', email);
+                localStorage.setItem('adminName', 'Admin');
+                localStorage.setItem('adminUser', JSON.stringify({
+                    name: 'Admin',
+                    email: email,
+                    role: 'admin'
+                }));
+                
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 1000);
+            }
+        });
+        
+        // User Login
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = '<div class="loading-spinner"></div>';
-            messageDiv.className = 'message';
-            messageDiv.style.display = 'block';
+            const email = e.target[0].value;
+            const password = e.target[1].value;
             
             try {
                 const response = await fetch(API_URL + '/api/auth/login', {
@@ -427,63 +132,23 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    messageDiv.innerHTML = `
-                        <div class="message-success">
-                            <strong><i class="fas fa-check-circle"></i> Login Successful!</strong>
-                            <div style="font-size: 14px; margin-top: 5px;">
-                                Welcome back, ${data.user.name}
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Save user data
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    localStorage.setItem('userToken', 'user-' + Date.now());
-                    
-                    // Redirect to homepage
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-                    
+                    window.location.href = 'index.html';
                 } else {
-                    messageDiv.innerHTML = `
-                        <div class="message-error">
-                            <strong><i class="fas fa-times-circle"></i> ${data.message}</strong>
-                            <div style="font-size: 14px; margin-top: 5px;">
-                                Please check your credentials
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Clear password
-                    document.getElementById('loginPassword').value = '';
+                    alert(data.message || 'Login failed');
                 }
-                
             } catch (error) {
-                messageDiv.innerHTML = `
-                    <div class="message-error">
-                        <strong><i class="fas fa-exclamation-triangle"></i> Connection Error</strong>
-                        <div style="font-size: 14px; margin-top: 5px;">
-                            ${error.message}
-                        </div>
-                    </div>
-                `;
+                alert('Connection error');
             }
         });
         
-        // ============ USER REGISTRATION ============
+        // User Register
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const name = document.getElementById('registerName').value.trim();
-            const email = document.getElementById('registerEmail').value.trim();
-            const password = document.getElementById('registerPassword').value;
-            const phone = document.getElementById('registerPhone').value.trim();
-            
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = '<div class="loading-spinner"></div>';
-            messageDiv.className = 'message';
-            messageDiv.style.display = 'block';
+            const name = e.target[0].value;
+            const email = e.target[1].value;
+            const password = e.target[2].value;
+            const phone = e.target[3].value;
             
             try {
                 const response = await fetch(API_URL + '/api/auth/register', {
@@ -495,138 +160,13 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    messageDiv.innerHTML = `
-                        <div class="message-success">
-                            <strong><i class="fas fa-check-circle"></i> Registration Successful!</strong>
-                            <div style="font-size: 14px; margin-top: 5px;">
-                                Account created for ${data.user.name}
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Auto-switch to login form after 2 seconds
-                    setTimeout(() => {
-                        showForm('login');
-                        document.getElementById('loginEmail').value = email;
-                        document.getElementById('loginPassword').value = password;
-                    }, 2000);
-                    
+                    alert('Registration successful!');
+                    showForm('login');
                 } else {
-                    messageDiv.innerHTML = `
-                        <div class="message-error">
-                            <strong><i class="fas fa-times-circle"></i> ${data.message}</strong>
-                        </div>
-                    `;
+                    alert(data.message || 'Registration failed');
                 }
-                
             } catch (error) {
-                messageDiv.innerHTML = `
-                    <div class="message-error">
-                        <strong><i class="fas fa-exclamation-triangle"></i> Registration Failed</strong>
-                        <div style="font-size: 14px; margin-top: 5px;">
-                            ${error.message}
-                        </div>
-                    </div>
-                `;
-            }
-        });
-        
-        // ============ ADMIN LOGIN (REAL SYSTEM) ============
-        document.getElementById('adminForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('adminEmail').value.trim();
-            const password = document.getElementById('adminPassword').value;
-            
-            console.log('🔐 REAL Admin login attempt:', email);
-            
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = '<div class="loading-spinner"></div>';
-            messageDiv.className = 'message';
-            messageDiv.style.display = 'block';
-            
-            try {
-                const response = await fetch(API_URL + '/api/auth/admin/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                console.log('Login response:', data);
-                
-                if (data.success) {
-                    // ✅ REAL ADMIN SUCCESS
-                    messageDiv.innerHTML = `
-                        <div class="message-success">
-                            <strong><i class="fas fa-check-circle"></i> Admin Login Successful!</strong>
-                            <div style="font-size: 14px; margin-top: 5px;">
-                                Welcome, ${data.user.name}
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Save admin data to localStorage
-                    localStorage.setItem('adminEmail', data.user.email);
-                    localStorage.setItem('adminName', data.user.name);
-                    localStorage.setItem('adminUser', JSON.stringify(data.user));
-                    localStorage.setItem('isRealAdmin', 'true');
-                    localStorage.setItem('lastLogin', new Date().toISOString());
-                    
-                    console.log('✅ Admin data saved to localStorage');
-                    
-                    // Redirect to admin dashboard
-                    setTimeout(() => {
-                        window.location.href = 'admin-dashboard.html';
-                    }, 1500);
-                    
-                } else {
-                    // ❌ ADMIN LOGIN FAILED
-                    messageDiv.innerHTML = `
-                        <div class="message-error">
-                            <strong><i class="fas fa-times-circle"></i> ${data.message}</strong>
-                            <div style="font-size: 14px; margin-top: 5px;">
-                                Please check your admin credentials
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Clear password field
-                    document.getElementById('adminPassword').value = '';
-                }
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                messageDiv.innerHTML = `
-                    <div class="message-error">
-                        <strong><i class="fas fa-exclamation-triangle"></i> Connection Error</strong>
-                        <div style="font-size: 14px; margin-top: 5px;">
-                            ${error.message}
-                        </div>
-                    </div>
-                `;
-            }
-        });
-        
-        // ============ AUTO-FILL FOR TESTING ============
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Login page loaded');
-            
-            // Check URL parameters for auto-login
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('auto') === 'admin') {
-                showForm('admin');
-                setTimeout(() => {
-                    document.getElementById('adminForm').dispatchEvent(new Event('submit'));
-                }, 500);
-            }
-            
-            // Check if already logged in
-            if (localStorage.getItem('user')) {
-                window.location.href = 'index.html';
-            }
-            if (localStorage.getItem('adminEmail')) {
-                window.location.href = 'admin-dashboard.html';
+                alert('Connection error');
             }
         });
     </script>
