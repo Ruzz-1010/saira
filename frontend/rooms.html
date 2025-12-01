@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Rooms - GrandStay Hotel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">GrandStay Hotel</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="rooms.html" class="active">Rooms</a>
+                <a href="booking.html">Book Now</a>
+                <a href="contact.html">Contact</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="rooms-header">
+        <div class="container">
+            <h1>Our Rooms & Suites</h1>
+            <p>Choose from our selection of comfortable and luxurious accommodations</p>
+        </div>
+    </section>
+
+    <section class="rooms-list">
+        <div class="container">
+            <div class="rooms-filter">
+                <input type="date" id="checkInDate">
+                <input type="date" id="checkOutDate">
+                <select id="guestCount">
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                </select>
+                <button onclick="searchRooms()" class="btn">Search Rooms</button>
+            </div>
+
+            <div class="rooms-grid" id="roomsContainer">
+                <!-- Rooms will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 GrandStay Hotel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/rooms.js"></script>
+</body>
+</html>
