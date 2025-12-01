@@ -174,41 +174,86 @@
             }
         });
 
-        // Admin Login
-        document.getElementById('adminForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = e.target[0].value;
-            const password = e.target[1].value;
-            
-            // For demo - any email with 'admin' works
-            if (email.includes('admin')) {
-                localStorage.setItem('admin', 'true');
-                localStorage.setItem('adminEmail', email);
-                showMessage('✅ Admin login successful! Redirecting...', 'success');
-                setTimeout(() => window.location.href = 'admin-dashboard.html', 1000);
-            } else {
-                try {
-                    const response = await fetch(API_URL + '/api/auth/admin/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (response.ok) {
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        showMessage('✅ Admin login successful!', 'success');
-                        setTimeout(() => window.location.href = 'admin-dashboard.html', 1000);
-                    } else {
-                        showMessage('❌ ' + (data.message || 'Admin login failed'), 'error');
-                    }
-                } catch (error) {
-                    showMessage('⚠️ Using demo admin. Email: admin@hotel.com, Pass: admin123', 'info');
-                }
-            }
+       // Admin Login - FIXED VERSION
+document.getElementById('adminForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    
+    console.log('🔐 Admin login attempt:', email);
+    
+    try {
+        const response = await fetch(API_URL + '/api/auth/admin/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
         });
+        
+        const data = await response.json();
+        console.log('📦 Login response:', data);
+        
+        if (data.success) {
+            // ============ SAVE TO LOCALSTORAGE (IMPORTANT!) ============
+            localStorage.setItem('adminEmail', data.user.email);
+            localStorage.setItem('adminName', data.user.name);
+            localStorage.setItem('adminUser', JSON.stringify(data.user));
+            
+            console.log('✅ Login successful! Saved to localStorage');
+            
+            // Show success message
+            showMessage('✅ ' + data.message, 'success');
+            
+            // Redirect to admin dashboard
+            setTimeout(() => {
+                window.location.href = 'admin-dashboard.html';
+            }, 1000);
+            
+        } else {
+            // DEMO MODE: If real login fails, use demo admin
+            console.log('⚠️ Real login failed, trying demo mode...');
+            
+            if (email.includes('admin') || email === 'admin@hotel.com') {
+                // Demo admin login
+                localStorage.setItem('adminEmail', email);
+                localStorage.setItem('adminName', 'Demo Administrator');
+                localStorage.setItem('adminUser', JSON.stringify({
+                    name: 'Demo Admin',
+                    email: email,
+                    role: 'admin'
+                }));
+                
+                showMessage('✅ Demo admin login successful!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 1000);
+            } else {
+                showMessage('❌ ' + (data.message || 'Invalid credentials'), 'error');
+            }
+        }
+        
+    } catch (error) {
+        console.error('🔥 Login error:', error);
+        
+        // DEMO MODE: Always allow login for testing
+        localStorage.setItem('adminEmail', email || 'admin@hotel.com');
+        localStorage.setItem('adminName', 'Test Administrator');
+        localStorage.setItem('adminUser', JSON.stringify({
+            name: 'Test Admin',
+            email: email || 'admin@hotel.com',
+            role: 'admin'
+        }));
+        
+        showMessage('⚠️ Using demo mode. Logging in...', 'warning');
+        
+        setTimeout(() => {
+            window.location.href = 'admin-dashboard.html';
+        }, 1000);
+    }
+});
 
         function showMessage(text, type) {
             const msg = document.getElementById('message');
