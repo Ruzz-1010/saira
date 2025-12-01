@@ -102,6 +102,9 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .room-card:hover {
@@ -112,6 +115,7 @@
         .room-image {
             height: 200px;
             overflow: hidden;
+            position: relative;
         }
         
         .room-image img {
@@ -127,6 +131,9 @@
         
         .room-info {
             padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         .room-price {
@@ -139,15 +146,48 @@
         .amenities {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             margin: 15px 0;
+            flex: 1;
         }
         
         .amenity {
             background: var(--light);
             padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        
+        .room-actions {
+            margin-top: auto;
+        }
+        
+        .room-type {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .no-rooms {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .no-rooms h3 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .no-rooms .btn {
+            margin-top: 20px;
         }
         
         .testimonials {
@@ -287,7 +327,12 @@
             <p class="section-subtitle">Experience comfort in our premium accommodations</p>
             
             <div class="rooms-grid" id="roomsContainer">
-                <!-- Rooms will load here -->
+                <!-- REAL ROOMS WILL LOAD HERE FROM MONGODB -->
+                <div class="no-rooms">
+                    <h3>Loading rooms from database...</h3>
+                    <div class="loading-spinner" style="margin: 20px auto; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+                </div>
             </div>
             
             <div class="text-center" style="margin-top: 50px;">
@@ -302,7 +347,7 @@
             <h2 class="section-title" style="color: white;">What Our Guests Say</h2>
             <div class="testimonial-slider">
                 <div class="testimonial">
-                    <p>"Excellent service and comfortable rooms! The staff was very accommodating and the amenities were top-notch."</p>
+                    <p>"Excellent service and comfortable rooms! The staff was very accommodating and the amenities were top-notch. Will definitely come back!"</p>
                     <div class="user-info">
                         <div class="user-avatar">JS</div>
                         <div class="user-details">
@@ -316,12 +361,12 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="cta" style="padding: 60px 0; text-align: center;">
+    <section class="cta" style="padding: 60px 0; text-align: center; background: #f8f9fa;">
         <div class="container">
             <h2>Ready for Your Perfect Stay?</h2>
-            <p style="margin: 20px 0 30px; font-size: 1.2rem;">Book your room now and get 10% off your first booking!</p>
-            <a href="booking.html" class="btn" style="padding: 15px 40px; font-size: 1.2rem;">
-                <i class="fas fa-gift"></i> Book Now & Get Discount
+            <p style="margin: 20px 0 30px; font-size: 1.2rem; color: #666;">Book your room now and experience luxury at its finest</p>
+            <a href="booking.html" class="btn" style="padding: 15px 40px; font-size: 1.2rem; background: var(--accent);">
+                <i class="fas fa-calendar-plus"></i> Book Your Stay Now
             </a>
         </div>
     </section>
@@ -332,7 +377,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
                 <div>
                     <h3 style="margin-bottom: 20px;"><i class="fas fa-hotel"></i> GrandStay Hotel</h3>
-                    <p>Experience luxury and comfort in the heart of the city. Your perfect getaway starts here.</p>
+                    <p style="opacity: 0.8;">Experience luxury and comfort in the heart of the city. Your perfect getaway starts here.</p>
                 </div>
                 <div>
                     <h3>Quick Links</h3>
@@ -357,7 +402,7 @@
 
     <!-- JavaScript -->
     <script>
-        // API Configuration
+        // API Configuration - USE YOUR DEPLOYED BACKEND URL
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         
         // Check login status
@@ -385,104 +430,98 @@
             window.location.href = 'index.html';
         }
         
-        // Load featured rooms
+        // Load REAL rooms from MongoDB
         async function loadFeaturedRooms() {
             try {
+                console.log('🔗 Loading rooms from:', API_URL + '/api/rooms');
                 const response = await fetch(`${API_URL}/api/rooms`);
                 const data = await response.json();
                 
-                if (data.success && data.rooms.length > 0) {
-                    const roomsContainer = document.getElementById('roomsContainer');
-                    const roomsToShow = data.rooms.slice(0, 3); // Show first 3 rooms
+                console.log('API Response:', data);
+                
+                const roomsContainer = document.getElementById('roomsContainer');
+                
+                if (data.success && data.rooms && data.rooms.length > 0) {
+                    // Show first 3 rooms as featured
+                    const roomsToShow = data.rooms.slice(0, 3);
                     
                     roomsContainer.innerHTML = roomsToShow.map(room => `
                         <div class="room-card">
                             <div class="room-image">
-                                <img src="${room.photos?.[0] || 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600'}" alt="${room.name}">
+                                ${room.images && room.images.length > 0 ? 
+                                    `<img src="${room.images[0]}" alt="${room.name}" onerror="this.src='https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80'">` : 
+                                    `<img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80" alt="Hotel Room">`
+                                }
+                                <div class="room-type">${room.type ? room.type.toUpperCase() : 'STANDARD'}</div>
                             </div>
                             <div class="room-info">
-                                <h3>${room.name}</h3>
-                                <p>${room.description.substring(0, 100)}...</p>
+                                <h3 style="margin-bottom: 10px;">${room.name}</h3>
+                                <p style="color: #666; margin-bottom: 15px; flex: 1;">
+                                    ${room.description ? room.description.substring(0, 120) + '...' : 'Comfortable room with premium amenities.'}
+                                </p>
                                 
-                                <div class="amenities">
-                                    ${room.amenities.slice(0, 3).map(amenity => 
-                                        `<span class="amenity">${amenity}</span>`
-                                    ).join('')}
+                                ${room.amenities && room.amenities.length > 0 ? `
+                                    <div class="amenities">
+                                        ${room.amenities.slice(0, 4).map(amenity => 
+                                            `<span class="amenity">${amenity}</span>`
+                                        ).join('')}
+                                        ${room.amenities.length > 4 ? `<span class="amenity">+${room.amenities.length - 4} more</span>` : ''}
+                                    </div>
+                                ` : ''}
+                                
+                                <div class="room-price" style="margin: 15px 0;">
+                                    ₱${room.price ? room.price.toLocaleString() : '0'}/night
                                 </div>
                                 
-                                <div class="room-price">₱${room.price.toLocaleString()}/night</div>
-                                
                                 <div class="room-actions">
-                                    <a href="booking.html?room=${room.id}" class="btn" style="width: 100%; text-align: center;">
+                                    <a href="booking.html?room=${room._id || room.id}" class="btn" style="width: 100%; text-align: center;">
                                         <i class="fas fa-calendar-plus"></i> Book Now
                                     </a>
                                 </div>
                             </div>
                         </div>
                     `).join('');
+                    
+                    console.log(`✅ Loaded ${roomsToShow.length} rooms`);
+                    
                 } else {
-                    // Fallback if no rooms from API
-                    document.getElementById('roomsContainer').innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
-                            <h3>Loading rooms...</h3>
-                            <p>Connecting to our booking system...</p>
+                    // No rooms in database
+                    roomsContainer.innerHTML = `
+                        <div class="no-rooms">
+                            <h3>No Rooms Available Yet</h3>
+                            <p>The hotel administrator needs to add rooms to the system.</p>
+                            <p style="font-size: 0.9rem; color: #888; margin-top: 10px;">
+                                <strong>Admin Login:</strong> admin@hotel.com / admin123
+                            </p>
+                            <a href="rooms.html" class="btn" style="margin-top: 20px;">
+                                <i class="fas fa-bed"></i> Check Rooms Page
+                            </a>
                         </div>
                     `;
                 }
+                
             } catch (error) {
-                console.error('Error loading rooms:', error);
-                // Show demo rooms on error
-                showDemoRooms();
-            }
-        }
-        
-        // Show demo rooms if API fails
-        function showDemoRooms() {
-            const demoRooms = [
-                {
-                    id: 1,
-                    name: 'Deluxe Room',
-                    description: 'Spacious room with city view, perfect for couples or business travelers.',
-                    price: 2500,
-                    amenities: ['Free WiFi', 'AC', 'TV', 'Mini Bar']
-                },
-                {
-                    id: 2,
-                    name: 'Executive Suite',
-                    description: 'Luxurious suite with living area and premium amenities.',
-                    price: 3500,
-                    amenities: ['Free WiFi', 'Smart TV', 'Jacuzzi', 'Living Area']
-                },
-                {
-                    id: 3,
-                    name: 'Standard Room',
-                    description: 'Comfortable room with all basic amenities for a pleasant stay.',
-                    price: 1800,
-                    amenities: ['Free WiFi', 'AC', 'TV', 'Bathroom']
-                }
-            ];
-            
-            const roomsContainer = document.getElementById('roomsContainer');
-            roomsContainer.innerHTML = demoRooms.map(room => `
-                <div class="room-card">
-                    <div class="room-image">
-                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600" alt="${room.name}">
-                    </div>
-                    <div class="room-info">
-                        <h3>${room.name}</h3>
-                        <p>${room.description}</p>
-                        <div class="amenities">
-                            ${room.amenities.map(amenity => 
-                                `<span class="amenity">${amenity}</span>`
-                            ).join('')}
+                console.error('❌ Error loading rooms:', error);
+                
+                const roomsContainer = document.getElementById('roomsContainer');
+                roomsContainer.innerHTML = `
+                    <div class="no-rooms">
+                        <h3>Unable to Load Rooms</h3>
+                        <p>There was an error connecting to the server.</p>
+                        <p style="color: #e74c3c; margin-top: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i> ${error.message}
+                        </p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn" onclick="loadFeaturedRooms()">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                            <a href="rooms.html" class="btn secondary" style="margin-left: 10px;">
+                                <i class="fas fa-external-link-alt"></i> Go to Rooms
+                            </a>
                         </div>
-                        <div class="room-price">₱${room.price.toLocaleString()}/night</div>
-                        <a href="booking.html?room=${room.id}" class="btn" style="width: 100%; text-align: center;">
-                            <i class="fas fa-calendar-plus"></i> Book Now
-                        </a>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }
         }
         
         // Mobile menu toggle
@@ -492,11 +531,77 @@
             navLinks.classList.toggle('show');
         });
         
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        // Test API connection
+        async function testApiConnection() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                console.log('✅ API Connection:', data.message || 'Connected');
+                return true;
+            } catch (error) {
+                console.warn('⚠️ API Connection issue:', error.message);
+                return false;
+            }
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Initializing GrandStay Hotel Website...');
+            
+            // Check login status
             checkLoginStatus();
-            loadFeaturedRooms();
+            
+            // Test API connection first
+            const apiConnected = await testApiConnection();
+            
+            if (apiConnected) {
+                // Load rooms from database
+                loadFeaturedRooms();
+            } else {
+                // Show error message
+                const roomsContainer = document.getElementById('roomsContainer');
+                roomsContainer.innerHTML = `
+                    <div class="no-rooms">
+                        <h3>Backend Server Not Responding</h3>
+                        <p>Please make sure the backend server is running at:</p>
+                        <p style="background: #2c3e50; color: white; padding: 10px; border-radius: 5px; font-family: monospace;">
+                            ${API_URL}
+                        </p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn" onclick="location.reload()">
+                                <i class="fas fa-sync-alt"></i> Refresh Page
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
         });
+        
+        // Add CSS for mobile menu if needed
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .nav-links {
+                    display: none;
+                    flex-direction: column;
+                    position: absolute;
+                    top: 70px;
+                    left: 0;
+                    width: 100%;
+                    background: #2c3e50;
+                    padding: 20px;
+                    z-index: 1000;
+                }
+                .nav-links.show {
+                    display: flex;
+                }
+                .nav-links a {
+                    margin: 5px 0;
+                    padding: 10px 15px;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
