@@ -457,6 +457,157 @@
             box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
         }
 
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border: 2px dashed #dee2e6;
+            margin: 20px 0;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .sidebar {
@@ -501,41 +652,11 @@
                 min-width: 120px;
                 text-align: center;
             }
-        }
-
-        /* Loading */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            color: var(--gray);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            background: #f8f9fa;
-            border-radius: var(--border-radius);
-            border: 2px dashed #dee2e6;
-            margin: 20px 0;
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            color: #adb5bd;
-            margin-bottom: 20px;
-        }
-
-        .empty-state h3 {
-            color: #6c757d;
-            margin-bottom: 10px;
-        }
-
-        .empty-state p {
-            color: #6c757d;
-            margin-bottom: 20px;
+            
+            .modal {
+                margin: 10px;
+                max-height: 95vh;
+            }
         }
     </style>
 </head>
@@ -712,13 +833,15 @@
             <!-- Add Room Tab -->
             <div class="tab-content" id="addRoom">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3>Add New Room</h3>
+                    <h3 id="addRoomTitle">Add New Room</h3>
                     <button class="btn" onclick="showTab('rooms')">
                         <i class="fas fa-arrow-left"></i> Back to Rooms
                     </button>
                 </div>
                 
-                <form id="addRoomForm">
+                <form id="addRoomForm" onsubmit="handleRoomForm(event)">
+                    <input type="hidden" id="roomId">
+                    
                     <div class="form-group">
                         <label for="roomName">Room Name *</label>
                         <input type="text" id="roomName" placeholder="e.g., Deluxe Suite" required>
@@ -767,7 +890,7 @@ https://example.com/room2.jpg"></textarea>
                     
                     <div style="display: flex; gap: 15px; margin-top: 30px;">
                         <button type="submit" class="btn btn-primary" style="flex: 1; padding: 15px; font-size: 16px;">
-                            <i class="fas fa-plus"></i> Add Room
+                            <i class="fas fa-plus" id="submitIcon"></i> <span id="submitText">Add Room</span>
                         </button>
                         <button type="button" class="btn" onclick="showTab('rooms')" style="flex: 1;">
                             <i class="fas fa-times"></i> Cancel
@@ -843,9 +966,92 @@ https://example.com/room2.jpg"></textarea>
         </div>
     </div>
 
+    <!-- Edit Room Modal -->
+    <div id="editRoomModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Room</h3>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editRoomForm" onsubmit="updateRoom(event)">
+                    <input type="hidden" id="editRoomId">
+                    
+                    <div class="form-group">
+                        <label for="editRoomName">Room Name *</label>
+                        <input type="text" id="editRoomName" placeholder="e.g., Deluxe Suite" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editRoomType">Room Type</label>
+                        <select id="editRoomType">
+                            <option value="standard">Standard</option>
+                            <option value="deluxe">Deluxe</option>
+                            <option value="suite">Suite</option>
+                            <option value="family">Family</option>
+                            <option value="executive">Executive</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editRoomDescription">Description *</label>
+                        <textarea id="editRoomDescription" rows="4" placeholder="Describe the room features, view, etc." required></textarea>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="editRoomPrice">Price per night (₱) *</label>
+                            <input type="number" id="editRoomPrice" placeholder="5000" required min="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editMaxGuests">Maximum Guests *</label>
+                            <input type="number" id="editMaxGuests" placeholder="2" required min="1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editAmenities">Amenities (comma separated)</label>
+                        <input type="text" id="editAmenities" placeholder="WiFi, TV, Air Conditioning, Mini Bar">
+                        <small style="color: #666;">Separate each amenity with a comma</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editRoomImages">Image URLs (one per line)</label>
+                        <textarea id="editRoomImages" rows="4" placeholder="https://example.com/room1.jpg
+https://example.com/room2.jpg"></textarea>
+                        <small style="color: #666;">Enter one image URL per line</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px;">
+                            <span>Room Available:</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="editIsAvailable">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span id="availabilityText" style="font-weight: 500;">Available</span>
+                        </label>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 15px; font-size: 16px;">
+                            <i class="fas fa-save"></i> Update Room
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="closeEditModal()" style="flex: 1;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         let adminEmail = localStorage.getItem('adminEmail');
+        let isEditing = false;
+        let currentRoomId = null;
         
         // Check login
         if (!adminEmail) {
@@ -867,19 +1073,19 @@ https://example.com/room2.jpg"></textarea>
             loadStats();
             loadRecentBookings();
             
-            // Setup event listeners
-            setupEventListeners();
+            // Setup availability toggle
+            document.getElementById('editIsAvailable').addEventListener('change', function() {
+                document.getElementById('availabilityText').textContent = 
+                    this.checked ? 'Available' : 'Not Available';
+            });
         });
         
-        function setupEventListeners() {
-            // Add room form submit
-            document.getElementById('addRoomForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                await addRoom();
-            });
-        }
-        
         function showTab(tabId) {
+            // Reset form if switching from add/edit
+            if (tabId !== 'addRoom' && isEditing) {
+                resetRoomForm();
+            }
+            
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
@@ -943,6 +1149,16 @@ https://example.com/room2.jpg"></textarea>
                     loadRecentBookings();
                     break;
             }
+        }
+        
+        function resetRoomForm() {
+            document.getElementById('addRoomForm').reset();
+            document.getElementById('roomId').value = '';
+            document.getElementById('addRoomTitle').textContent = 'Add New Room';
+            document.getElementById('submitIcon').className = 'fas fa-plus';
+            document.getElementById('submitText').textContent = 'Add Room';
+            isEditing = false;
+            currentRoomId = null;
         }
         
         async function loadStats() {
@@ -1035,7 +1251,7 @@ https://example.com/room2.jpg"></textarea>
                                         </div>
                                         <div class="room-meta">
                                             <span><i class="fas fa-user-friends"></i> ${room.maxGuests} guests</span>
-                                            <span><i class="fas fa-check-circle" style="color: #4caf50;"></i> ${room.isAvailable ? 'Available' : 'Booked'}</span>
+                                            <span><i class="fas fa-check-circle" style="color: ${room.isAvailable ? '#4caf50' : '#f44336'};"></i> ${room.isAvailable ? 'Available' : 'Booked'}</span>
                                         </div>
                                         <p style="font-size: 14px; color: #666; margin-bottom: 15px; min-height: 60px;">
                                             ${room.description ? room.description.substring(0, 100) + (room.description.length > 100 ? '...' : '') : 'No description available.'}
@@ -1087,6 +1303,121 @@ https://example.com/room2.jpg"></textarea>
                 } catch (error) {
                     alert('Error deleting room. Please try again.');
                 }
+            }
+        }
+        
+        async function editRoom(roomId) {
+            try {
+                // Fetch room details
+                const response = await fetch(API_URL + '/api/rooms/' + roomId);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const room = data.room;
+                    
+                    // Fill modal form with room data
+                    document.getElementById('editRoomId').value = room._id;
+                    document.getElementById('editRoomName').value = room.name || '';
+                    document.getElementById('editRoomType').value = room.type || 'standard';
+                    document.getElementById('editRoomDescription').value = room.description || '';
+                    document.getElementById('editRoomPrice').value = room.price || '';
+                    document.getElementById('editMaxGuests').value = room.maxGuests || '';
+                    document.getElementById('editAmenities').value = room.amenities ? room.amenities.join(', ') : '';
+                    document.getElementById('editRoomImages').value = room.images ? room.images.join('\n') : '';
+                    document.getElementById('editIsAvailable').checked = room.isAvailable !== false;
+                    document.getElementById('availabilityText').textContent = 
+                        room.isAvailable !== false ? 'Available' : 'Not Available';
+                    
+                    // Show modal
+                    document.getElementById('editRoomModal').style.display = 'flex';
+                } else {
+                    alert('Error loading room details');
+                }
+            } catch (error) {
+                console.error('Error fetching room details:', error);
+                alert('Error loading room details. Please try again.');
+            }
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editRoomModal').style.display = 'none';
+            document.getElementById('editRoomForm').reset();
+        }
+        
+        async function updateRoom(event) {
+            event.preventDefault();
+            
+            const roomId = document.getElementById('editRoomId').value;
+            const roomName = document.getElementById('editRoomName').value;
+            const roomType = document.getElementById('editRoomType').value;
+            const roomDescription = document.getElementById('editRoomDescription').value;
+            const roomPrice = document.getElementById('editRoomPrice').value;
+            const maxGuests = document.getElementById('editMaxGuests').value;
+            const amenities = document.getElementById('editAmenities').value.split(',').map(a => a.trim()).filter(a => a);
+            const roomImages = document.getElementById('editRoomImages').value.split('\n').map(i => i.trim()).filter(i => i);
+            const isAvailable = document.getElementById('editIsAvailable').checked;
+            
+            // Validation
+            if (!roomName || !roomDescription || !roomPrice || !maxGuests) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (roomPrice <= 0) {
+                alert('Price must be greater than 0.');
+                return;
+            }
+            
+            if (maxGuests <= 0) {
+                alert('Maximum guests must be at least 1.');
+                return;
+            }
+            
+            const roomData = {
+                name: roomName,
+                type: roomType,
+                description: roomDescription,
+                price: parseInt(roomPrice),
+                maxGuests: parseInt(maxGuests),
+                amenities: amenities,
+                images: roomImages,
+                isAvailable: isAvailable
+            };
+            
+            try {
+                const response = await fetch(API_URL + '/api/admin/rooms/' + roomId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(roomData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Room updated successfully!');
+                    closeEditModal();
+                    loadRooms();
+                    loadStats();
+                } else {
+                    alert('Error updating room: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error updating room. Please try again.');
+                console.error('Update room error:', error);
+            }
+        }
+        
+        function handleRoomForm(event) {
+            event.preventDefault();
+            
+            if (isEditing && currentRoomId) {
+                // If editing, use the edit flow
+                updateRoomFromForm();
+            } else {
+                // If not editing, add new room
+                addRoom();
             }
         }
         
@@ -1148,6 +1479,68 @@ https://example.com/room2.jpg"></textarea>
             } catch (error) {
                 alert('Error adding room. Please try again.');
                 console.error('Add room error:', error);
+            }
+        }
+        
+        async function updateRoomFromForm() {
+            const roomId = document.getElementById('roomId').value;
+            const roomName = document.getElementById('roomName').value;
+            const roomType = document.getElementById('roomType').value;
+            const roomDescription = document.getElementById('roomDescription').value;
+            const roomPrice = document.getElementById('roomPrice').value;
+            const maxGuests = document.getElementById('maxGuests').value;
+            const amenities = document.getElementById('amenities').value.split(',').map(a => a.trim()).filter(a => a);
+            const roomImages = document.getElementById('roomImages').value.split('\n').map(i => i.trim()).filter(i => i);
+            
+            // Validation
+            if (!roomName || !roomDescription || !roomPrice || !maxGuests) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (roomPrice <= 0) {
+                alert('Price must be greater than 0.');
+                return;
+            }
+            
+            if (maxGuests <= 0) {
+                alert('Maximum guests must be at least 1.');
+                return;
+            }
+            
+            const roomData = {
+                name: roomName,
+                type: roomType,
+                description: roomDescription,
+                price: parseInt(roomPrice),
+                maxGuests: parseInt(maxGuests),
+                amenities: amenities,
+                images: roomImages
+            };
+            
+            try {
+                const response = await fetch(API_URL + '/api/admin/rooms/' + roomId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(roomData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Room updated successfully!');
+                    resetRoomForm();
+                    loadRooms();
+                    loadStats();
+                    showTab('rooms');
+                } else {
+                    alert('Error updating room: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error updating room. Please try again.');
+                console.error('Update room error:', error);
             }
         }
         
@@ -1257,11 +1650,6 @@ https://example.com/room2.jpg"></textarea>
                 console.error('Error loading users:', error);
                 document.getElementById('usersList').innerHTML = '<tr><td colspan="5">Error loading users. Please try again.</td></tr>';
             }
-        }
-        
-        function editRoom(roomId) {
-            alert('Edit room functionality coming soon! Room ID: ' + roomId);
-            // TODO: Implement edit room functionality
         }
         
         function logout() {
