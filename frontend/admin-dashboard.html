@@ -110,6 +110,12 @@
             margin: 20px 25px;
         }
 
+        .sidebar-footer {
+            padding: 25px;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         /* Main Content */
         .main-content {
             flex: 1;
@@ -758,70 +764,6 @@
             font-size: 14px;
             min-width: 150px;
         }
-
-        /* Notification System */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            min-width: 300px;
-            animation: slideInRight 0.3s ease;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .notification-content {
-            background: white;
-            padding: 16px 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .notification.success .notification-content {
-            border-left-color: var(--success);
-        }
-
-        .notification.error .notification-content {
-            border-left-color: var(--accent);
-        }
-
-        .notification.warning .notification-content {
-            border-left-color: var(--warning);
-        }
-
-        .notification-icon {
-            font-size: 20px;
-        }
-
-        .notification.success .notification-icon {
-            color: var(--success);
-        }
-
-        .notification.error .notification-icon {
-            color: var(--accent);
-        }
-
-        .notification.warning .notification-icon {
-            color: var(--warning);
-        }
-
-        .notification-message {
-            flex: 1;
-        }
     </style>
 </head>
 <body>
@@ -862,6 +804,16 @@
                 <span>Settings</span>
             </li>
         </ul>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile" style="justify-content: center;">
+                <div class="avatar" id="adminAvatar">A</div>
+                <div class="user-info">
+                    <h4 id="adminName">Admin</h4>
+                    <p id="adminEmail">admin@hotel.com</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -1000,27 +952,6 @@
                     </div>
                 </div>
 
-                <div class="filter-controls">
-                    <select class="filter-select" id="roomFilterType">
-                        <option value="">All Types</option>
-                        <option value="standard">Standard</option>
-                        <option value="deluxe">Deluxe</option>
-                        <option value="suite">Suite</option>
-                        <option value="executive">Executive</option>
-                    </select>
-                    
-                    <select class="filter-select" id="roomFilterStatus">
-                        <option value="">All Status</option>
-                        <option value="available">Available</option>
-                        <option value="booked">Booked</option>
-                        <option value="maintenance">Maintenance</option>
-                    </select>
-                    
-                    <button class="btn btn-primary" onclick="applyRoomFilters()">
-                        <i class="fas fa-filter"></i> Apply Filters
-                    </button>
-                </div>
-
                 <div class="rooms-grid" id="roomsList">
                     <div class="loading">
                         <div class="spinner"></div>
@@ -1042,8 +973,6 @@
                 </div>
                 
                 <form id="addRoomForm" onsubmit="handleRoomForm(event)">
-                    <input type="hidden" id="roomId">
-                    
                     <div class="form-group">
                         <label for="roomName">Room Name *</label>
                         <input type="text" id="roomName" placeholder="e.g., Deluxe Suite Ocean View" required>
@@ -1062,8 +991,8 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="roomNumber">Room Number *</label>
-                            <input type="text" id="roomNumber" placeholder="e.g., 201" required>
+                            <label for="roomNumber">Room Number</label>
+                            <input type="text" id="roomNumber" placeholder="e.g., 201">
                         </div>
                     </div>
                     
@@ -1116,22 +1045,6 @@ https://example.com/room3.jpg"></textarea>
                     <p>Manage guest bookings and reservations</p>
                 </div>
 
-                <div class="filter-controls">
-                    <select class="filter-select" id="bookingFilterStatus">
-                        <option value="">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="checkedin">Checked In</option>
-                    </select>
-                    
-                    <input type="date" class="filter-select" id="bookingFilterDate">
-                    
-                    <button class="btn btn-primary" onclick="applyBookingFilters()">
-                        <i class="fas fa-filter"></i> Apply Filters
-                    </button>
-                </div>
-
                 <div class="table-container">
                     <table>
                         <thead>
@@ -1163,13 +1076,6 @@ https://example.com/room3.jpg"></textarea>
                 <div class="section-header">
                     <h3>Registered Users</h3>
                     <p>Manage hotel guests and user accounts</p>
-                </div>
-
-                <div class="search-bar">
-                    <div class="search-input">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchUsers" placeholder="Search users by name or email..." class="form-control">
-                    </div>
                 </div>
 
                 <div class="table-container">
@@ -1207,9 +1113,6 @@ https://example.com/room3.jpg"></textarea>
                     <i class="fas fa-chart-line"></i>
                     <h3>Reports Coming Soon</h3>
                     <p>Detailed analytics and performance reports will be available in the next update.</p>
-                    <button class="btn btn-primary" style="margin-top: 20px;">
-                        <i class="fas fa-download"></i> Generate Monthly Report
-                    </button>
                 </div>
             </div>
 
@@ -1224,14 +1127,6 @@ https://example.com/room3.jpg"></textarea>
                     <i class="fas fa-cog"></i>
                     <h3>Settings Coming Soon</h3>
                     <p>System configurations and settings will be available in the next update.</p>
-                    <div class="form-group" style="max-width: 300px; margin: 30px auto;">
-                        <label for="themeSelect">Theme Preference</label>
-                        <select id="themeSelect" class="form-control">
-                            <option value="light">Light Mode</option>
-                            <option value="dark">Dark Mode</option>
-                            <option value="auto">Auto (System)</option>
-                        </select>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1265,8 +1160,8 @@ https://example.com/room3.jpg"></textarea>
                         </div>
                         
                         <div class="form-group">
-                            <label for="editRoomNumber">Room Number *</label>
-                            <input type="text" id="editRoomNumber" required>
+                            <label for="editRoomNumber">Room Number</label>
+                            <input type="text" id="editRoomNumber">
                         </div>
                     </div>
                     
@@ -1325,8 +1220,6 @@ https://example.com/room3.jpg"></textarea>
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         let adminEmail = localStorage.getItem('adminEmail');
         let adminUser = null;
-        let isEditing = false;
-        let currentRoomId = null;
         
         // Check admin login
         if (!adminEmail) {
@@ -1348,10 +1241,6 @@ https://example.com/room3.jpg"></textarea>
             loadStats();
             loadRecentBookings();
             
-            // Set current date for filters
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('bookingFilterDate').value = today;
-            
             // Setup event listeners
             setupEventListeners();
         });
@@ -1360,10 +1249,6 @@ https://example.com/room3.jpg"></textarea>
             // Search functionality
             document.getElementById('searchBookings').addEventListener('input', function(e) {
                 searchBookings(e.target.value);
-            });
-            
-            document.getElementById('searchUsers').addEventListener('input', function(e) {
-                searchUsers(e.target.value);
             });
             
             // Form submission
@@ -1466,11 +1351,6 @@ https://example.com/room3.jpg"></textarea>
                 tabHeader.classList.add('active');
             }
             
-            // Reset form if switching from add/edit
-            if (tabId !== 'addRoom' && isEditing) {
-                resetRoomForm();
-            }
-            
             // Load data for the tab if needed
             switch(tabId) {
                 case 'rooms':
@@ -1485,16 +1365,6 @@ https://example.com/room3.jpg"></textarea>
             }
         }
         
-        function resetRoomForm() {
-            document.getElementById('addRoomForm').reset();
-            document.getElementById('roomId').value = '';
-            document.getElementById('addRoomTitle').textContent = 'Add New Room';
-            document.getElementById('submitIcon').className = 'fas fa-plus';
-            document.getElementById('submitText').textContent = 'Add Room';
-            isEditing = false;
-            currentRoomId = null;
-        }
-        
         async function loadStats() {
             try {
                 const response = await fetch(API_URL + '/api/admin/stats');
@@ -1505,6 +1375,8 @@ https://example.com/room3.jpg"></textarea>
                     document.getElementById('totalBookings').textContent = data.stats.totalBookings || 0;
                     document.getElementById('pendingBookings').textContent = data.stats.pendingBookings || 0;
                     document.getElementById('totalUsers').textContent = data.stats.totalUsers || 0;
+                } else {
+                    showNotification('Error loading statistics', 'error');
                 }
             } catch (error) {
                 console.error('Error loading stats:', error);
@@ -1519,39 +1391,42 @@ https://example.com/room3.jpg"></textarea>
                 
                 if (data.success) {
                     let html = '';
-                    const recentBookings = data.bookings.slice(0, 5); // Get only 5 most recent
+                    const recentBookings = data.bookings.slice(0, 10); // Get only 10 most recent
                     
                     if (recentBookings.length === 0) {
-                        html = '<tr><td colspan="7" class="empty-state">No recent bookings</td></tr>';
+                        html = '<tr><td colspan="7" class="empty-state">No recent bookings found</td></tr>';
                     } else {
                         recentBookings.forEach(booking => {
                             const checkIn = new Date(booking.checkIn).toLocaleDateString();
                             const checkOut = new Date(booking.checkOut).toLocaleDateString();
                             const statusClass = booking.status === 'confirmed' ? 'status-confirmed' : 
                                              booking.status === 'pending' ? 'status-pending' : 
-                                             booking.status === 'cancelled' ? 'status-cancelled' : 'status-checkedin';
+                                             booking.status === 'cancelled' ? 'status-cancelled' : 'status-pending';
+                            const statusText = booking.status.charAt(0).toUpperCase() + booking.status.slice(1);
                             
                             html += `
                                 <tr>
-                                    <td>${booking._id ? booking._id.substring(0, 8) : 'N/A'}...</td>
+                                    <td>${booking._id.substring(0, 8)}...</td>
                                     <td>${booking.customerName || 'N/A'}</td>
-                                    <td>${booking.roomName || 'Room'}</td>
+                                    <td>${booking.roomName || 'N/A'}</td>
                                     <td>${checkIn}</td>
                                     <td>${checkOut}</td>
-                                    <td><span class="status-badge ${statusClass}">${booking.status || 'pending'}</span></td>
+                                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn btn-sm btn-primary" onclick="viewBooking('${booking._id || booking.id}')">
+                                            <button class="btn btn-sm btn-primary" onclick="viewBooking('${booking._id}')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                             ${booking.status === 'pending' ? `
-                                                <button class="btn btn-sm btn-success" onclick="updateBookingStatus('${booking._id || booking.id}', 'confirmed')">
+                                                <button class="btn btn-sm btn-success" onclick="updateBookingStatus('${booking._id}', 'confirmed')">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             ` : ''}
-                                            <button class="btn btn-sm btn-danger" onclick="updateBookingStatus('${booking._id || booking.id}', 'cancelled')">
-                                                <i class="fas fa-times"></i>
-                                            </button>
+                                            ${booking.status !== 'cancelled' ? `
+                                                <button class="btn btn-sm btn-danger" onclick="updateBookingStatus('${booking._id}', 'cancelled')">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            ` : ''}
                                         </div>
                                     </td>
                                 </tr>
@@ -1560,6 +1435,16 @@ https://example.com/room3.jpg"></textarea>
                     }
                     
                     document.getElementById('recentBookings').innerHTML = html;
+                    
+                } else {
+                    document.getElementById('recentBookings').innerHTML = `
+                        <tr>
+                            <td colspan="7" class="empty-state">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Error loading bookings</p>
+                            </td>
+                        </tr>
+                    `;
                 }
             } catch (error) {
                 console.error('Error loading recent bookings:', error);
@@ -1577,7 +1462,6 @@ https://example.com/room3.jpg"></textarea>
         function searchBookings(query) {
             const rows = document.querySelectorAll('#recentBookings tr');
             rows.forEach(row => {
-                if (row.querySelector('.empty-state')) return;
                 const text = row.textContent.toLowerCase();
                 row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
             });
@@ -1591,7 +1475,7 @@ https://example.com/room3.jpg"></textarea>
                 if (data.success) {
                     const roomsContainer = document.getElementById('roomsList');
                     
-                    if (!data.rooms || data.rooms.length === 0) {
+                    if (data.rooms.length === 0) {
                         roomsContainer.innerHTML = `
                             <div class="empty-state" style="grid-column: 1/-1;">
                                 <i class="fas fa-bed"></i>
@@ -1604,36 +1488,38 @@ https://example.com/room3.jpg"></textarea>
                         `;
                     } else {
                         let html = '';
+                        
                         data.rooms.forEach(room => {
                             const amenities = room.amenities && room.amenities.length > 0 
                                 ? room.amenities.slice(0, 3).join(', ') 
                                 : 'No amenities listed';
                             
-                            const status = room.isAvailable !== false ? 'available' : 'booked';
-                            const statusText = room.isAvailable !== false ? 'Available' : 'Booked';
-                            
                             html += `
-                                <div class="room-card" data-type="${room.type || 'standard'}" data-status="${status}">
+                                <div class="room-card">
                                     <div class="room-image" style="background-image: url(${room.images && room.images.length > 0 ? room.images[0] : 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=80'});">
-                                        <span class="room-status ${status}">${statusText}</span>
+                                        <span class="room-status ${room.isAvailable ? 'available' : 'booked'}">
+                                            ${room.isAvailable ? 'Available' : 'Booked'}
+                                        </span>
                                     </div>
                                     <div class="room-content">
                                         <h4 class="room-title">${room.name}</h4>
                                         <div class="room-meta">
-                                            <span>Room ${room.roomNumber || 'N/A'}</span>
-                                            <span><i class="fas fa-user-friends"></i> ${room.maxGuests || 2}</span>
-                                            <span>${(room.type || 'Standard').toUpperCase()}</span>
+                                            <span><i class="fas fa-user-friends"></i> ${room.maxGuests} guests</span>
+                                            <span>${room.type || 'Standard'}</span>
                                         </div>
-                                        <div class="room-price">₱${room.price || 0} <small>/ night</small></div>
+                                        <div class="room-price">₱${room.price} <small>/ night</small></div>
                                         <p style="font-size: 14px; color: var(--gray); margin-bottom: 15px; min-height: 40px;">
                                             ${room.description ? room.description.substring(0, 80) + (room.description.length > 80 ? '...' : '') : 'No description available.'}
                                         </p>
+                                        <p style="font-size: 13px; color: #888; margin-bottom: 15px;">
+                                            <i class="fas fa-star" style="color: #ff9800;"></i> ${amenities}
+                                        </p>
                                         <div class="action-buttons">
-                                            <button class="btn btn-primary" onclick="editRoom('${room._id}')">
-                                                <i class="fas fa-edit"></i> Edit
-                                            </button>
-                                            <button class="btn btn-danger" onclick="deleteRoom('${room._id}')">
+                                            <button class="btn btn-danger" onclick="deleteRoom('${room._id}')" style="flex: 1;">
                                                 <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                            <button class="btn btn-success" onclick="editRoom('${room._id}')" style="flex: 1;">
+                                                <i class="fas fa-edit"></i> Edit
                                             </button>
                                         </div>
                                     </div>
@@ -1659,108 +1545,28 @@ https://example.com/room3.jpg"></textarea>
             }
         }
         
-        function applyRoomFilters() {
-            const typeFilter = document.getElementById('roomFilterType').value;
-            const statusFilter = document.getElementById('roomFilterStatus').value;
-            const roomCards = document.querySelectorAll('.room-card');
-            let visibleCount = 0;
-            
-            roomCards.forEach(card => {
-                const type = card.getAttribute('data-type');
-                const status = card.getAttribute('data-status');
-                
-                const typeMatch = !typeFilter || type === typeFilter;
-                const statusMatch = !statusFilter || status === statusFilter;
-                
-                card.style.display = (typeMatch && statusMatch) ? 'block' : 'none';
-                if (typeMatch && statusMatch) visibleCount++;
-            });
-            
-            if (visibleCount === 0) {
-                document.getElementById('roomsList').innerHTML += `
-                    <div class="empty-state" style="grid-column: 1/-1; margin-top: 30px;">
-                        <i class="fas fa-search"></i>
-                        <h3>No matching rooms found</h3>
-                        <p>Try adjusting your filters to see more options.</p>
-                        <button class="btn btn-primary" onclick="loadRooms()" style="margin-top: 20px;">
-                            <i class="fas fa-redo"></i> Reset Filters
-                        </button>
-                    </div>
-                `;
-            }
-        }
-        
-        function handleRoomForm(event) {
-            event.preventDefault();
-            
-            if (isEditing && currentRoomId) {
-                updateRoomFromForm();
-            } else {
-                addRoom();
-            }
-        }
-        
-        async function addRoom() {
-            const roomName = document.getElementById('roomName').value;
-            const roomType = document.getElementById('roomType').value;
-            const roomNumber = document.getElementById('roomNumber').value;
-            const roomDescription = document.getElementById('roomDescription').value;
-            const roomPrice = document.getElementById('roomPrice').value;
-            const maxGuests = document.getElementById('maxGuests').value;
-            const amenities = document.getElementById('amenities').value.split(',').map(a => a.trim()).filter(a => a);
-            const roomImages = document.getElementById('roomImages').value.split('\n').map(i => i.trim()).filter(i => i);
-            
-            // Validation
-            if (!roomName || !roomNumber || !roomDescription || !roomPrice || !maxGuests) {
-                showNotification('Please fill in all required fields', 'error');
-                return;
-            }
-            
-            if (roomPrice <= 0) {
-                showNotification('Price must be greater than 0', 'error');
-                return;
-            }
-            
-            if (maxGuests <= 0) {
-                showNotification('Maximum guests must be at least 1', 'error');
-                return;
-            }
-            
-            const roomData = {
-                name: roomName,
-                type: roomType,
-                roomNumber: roomNumber,
-                description: roomDescription,
-                price: parseInt(roomPrice),
-                maxGuests: parseInt(maxGuests),
-                amenities: amenities,
-                images: roomImages,
-                isAvailable: true
-            };
-            
-            try {
-                const response = await fetch(API_URL + '/api/admin/rooms', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(roomData)
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showNotification('Room added successfully!', 'success');
-                    resetRoomForm();
-                    showTab('rooms');
-                    loadRooms();
-                    loadStats();
-                } else {
-                    showNotification(data.message || 'Error adding room', 'error');
+        async function deleteRoom(id) {
+            if (confirm('Are you sure you want to delete this room? This action cannot be undone.')) {
+                try {
+                    const response = await fetch(API_URL + '/api/admin/rooms/' + id, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showNotification('Room deleted successfully!', 'success');
+                        loadRooms();
+                        loadStats();
+                    } else {
+                        showNotification('Error deleting room: ' + (data.message || 'Unknown error'), 'error');
+                    }
+                } catch (error) {
+                    showNotification('Error deleting room. Please try again.', 'error');
                 }
-            } catch (error) {
-                console.error('Add room error:', error);
-                showNotification('Error adding room. Please try again.', 'error');
             }
         }
         
@@ -1777,7 +1583,6 @@ https://example.com/room3.jpg"></textarea>
                     document.getElementById('editRoomId').value = room._id;
                     document.getElementById('editRoomName').value = room.name || '';
                     document.getElementById('editRoomType').value = room.type || 'standard';
-                    document.getElementById('editRoomNumber').value = room.roomNumber || '';
                     document.getElementById('editRoomDescription').value = room.description || '';
                     document.getElementById('editRoomPrice').value = room.price || '';
                     document.getElementById('editMaxGuests').value = room.maxGuests || '';
@@ -1807,7 +1612,6 @@ https://example.com/room3.jpg"></textarea>
             const roomId = document.getElementById('editRoomId').value;
             const roomName = document.getElementById('editRoomName').value;
             const roomType = document.getElementById('editRoomType').value;
-            const roomNumber = document.getElementById('editRoomNumber').value;
             const roomDescription = document.getElementById('editRoomDescription').value;
             const roomPrice = document.getElementById('editRoomPrice').value;
             const maxGuests = document.getElementById('editMaxGuests').value;
@@ -1834,7 +1638,6 @@ https://example.com/room3.jpg"></textarea>
             const roomData = {
                 name: roomName,
                 type: roomType,
-                roomNumber: roomNumber,
                 description: roomDescription,
                 price: parseInt(roomPrice),
                 maxGuests: parseInt(maxGuests),
@@ -1860,7 +1663,7 @@ https://example.com/room3.jpg"></textarea>
                     loadRooms();
                     loadStats();
                 } else {
-                    showNotification(data.message || 'Error updating room', 'error');
+                    showNotification('Error updating room: ' + (data.message || 'Unknown error'), 'error');
                 }
             } catch (error) {
                 showNotification('Error updating room. Please try again.', 'error');
@@ -1868,8 +1671,12 @@ https://example.com/room3.jpg"></textarea>
             }
         }
         
-        async function updateRoomFromForm() {
-            const roomId = document.getElementById('roomId').value;
+        function handleRoomForm(event) {
+            event.preventDefault();
+            addRoom();
+        }
+        
+        async function addRoom() {
             const roomName = document.getElementById('roomName').value;
             const roomType = document.getElementById('roomType').value;
             const roomNumber = document.getElementById('roomNumber').value;
@@ -1881,7 +1688,7 @@ https://example.com/room3.jpg"></textarea>
             
             // Validation
             if (!roomName || !roomDescription || !roomPrice || !maxGuests) {
-                showNotification('Please fill in all required fields.', 'error');
+                showNotification('Please fill in all required fields (marked with *).', 'error');
                 return;
             }
             
@@ -1903,12 +1710,13 @@ https://example.com/room3.jpg"></textarea>
                 price: parseInt(roomPrice),
                 maxGuests: parseInt(maxGuests),
                 amenities: amenities,
-                images: roomImages
+                images: roomImages,
+                isAvailable: true
             };
             
             try {
-                const response = await fetch(API_URL + '/api/admin/rooms/' + roomId, {
-                    method: 'PUT',
+                const response = await fetch(API_URL + '/api/admin/rooms', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -1918,43 +1726,22 @@ https://example.com/room3.jpg"></textarea>
                 const data = await response.json();
                 
                 if (data.success) {
-                    showNotification('Room updated successfully!', 'success');
-                    resetRoomForm();
+                    showNotification('Room added successfully!', 'success');
+                    document.getElementById('addRoomForm').reset();
                     loadRooms();
                     loadStats();
                     showTab('rooms');
                 } else {
-                    showNotification(data.message || 'Error updating room', 'error');
+                    showNotification('Error adding room: ' + (data.message || 'Unknown error'), 'error');
                 }
             } catch (error) {
-                showNotification('Error updating room. Please try again.', 'error');
-                console.error('Update room error:', error);
+                showNotification('Error adding room. Please try again.', 'error');
+                console.error('Add room error:', error);
             }
         }
         
-        async function deleteRoom(id) {
-            if (confirm('Are you sure you want to delete this room? This action cannot be undone.')) {
-                try {
-                    const response = await fetch(API_URL + '/api/admin/rooms/' + id, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        showNotification('Room deleted successfully!', 'success');
-                        loadRooms();
-                        loadStats();
-                    } else {
-                        showNotification(data.message || 'Error deleting room', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Error deleting room. Please try again.', 'error');
-                }
-            }
+        function resetRoomForm() {
+            document.getElementById('addRoomForm').reset();
         }
         
         async function loadBookings() {
@@ -1964,7 +1751,7 @@ https://example.com/room3.jpg"></textarea>
                 
                 if (data.success) {
                     let html = '';
-                    if (!data.bookings || data.bookings.length === 0) {
+                    if (data.bookings.length === 0) {
                         html = '<tr><td colspan="8" class="empty-state">No bookings found</td></tr>';
                     } else {
                         data.bookings.forEach(booking => {
@@ -1972,34 +1759,30 @@ https://example.com/room3.jpg"></textarea>
                             const checkOut = new Date(booking.checkOut).toLocaleDateString();
                             const statusClass = booking.status === 'confirmed' ? 'status-confirmed' : 
                                              booking.status === 'pending' ? 'status-pending' : 
-                                             booking.status === 'cancelled' ? 'status-cancelled' : 'status-checkedin';
+                                             booking.status === 'cancelled' ? 'status-cancelled' : 'status-pending';
+                            const statusText = booking.status.charAt(0).toUpperCase() + booking.status.slice(1);
                             
                             html += `
                                 <tr>
-                                    <td>${booking._id ? booking._id.substring(0, 8) : 'N/A'}...</td>
-                                    <td>
-                                        <div>
-                                            <strong>${booking.customerName || 'N/A'}</strong><br>
-                                            <small>${booking.customerEmail || 'N/A'}</small>
-                                        </div>
-                                    </td>
+                                    <td>${booking._id.substring(0, 8)}...</td>
+                                    <td>${booking.customerName || 'N/A'}</td>
                                     <td>${booking.roomName || 'N/A'}</td>
                                     <td>${checkIn} - ${checkOut}</td>
                                     <td>${booking.guests || 1}</td>
                                     <td>₱${booking.totalAmount || 0}</td>
-                                    <td><span class="status-badge ${statusClass}">${booking.status || 'pending'}</span></td>
+                                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn btn-sm btn-primary" onclick="viewBooking('${booking._id || booking.id}')">
+                                            <button class="btn btn-sm btn-primary" onclick="viewBooking('${booking._id}')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
                                             ${booking.status === 'pending' ? `
-                                                <button class="btn btn-sm btn-success" onclick="updateBookingStatus('${booking._id || booking.id}', 'confirmed')">
+                                                <button class="btn btn-sm btn-success" onclick="updateBookingStatus('${booking._id}', 'confirmed')">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             ` : ''}
                                             ${booking.status !== 'cancelled' ? `
-                                                <button class="btn btn-sm btn-danger" onclick="updateBookingStatus('${booking._id || booking.id}', 'cancelled')">
+                                                <button class="btn btn-sm btn-danger" onclick="updateBookingStatus('${booking._id}', 'cancelled')">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             ` : ''}
@@ -2011,6 +1794,16 @@ https://example.com/room3.jpg"></textarea>
                     }
                     
                     document.getElementById('bookingsList').innerHTML = html;
+                    
+                } else {
+                    document.getElementById('bookingsList').innerHTML = `
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Error loading bookings</p>
+                            </td>
+                        </tr>
+                    `;
                 }
             } catch (error) {
                 console.error('Error loading bookings:', error);
@@ -2023,79 +1816,6 @@ https://example.com/room3.jpg"></textarea>
                     </tr>
                 `;
             }
-        }
-        
-        function applyBookingFilters() {
-            const statusFilter = document.getElementById('bookingFilterStatus').value;
-            const dateFilter = document.getElementById('bookingFilterDate').value;
-            
-            // In a real application, you would make an API call with filters
-            // For now, just show a notification
-            showNotification(`Filters applied: Status=${statusFilter || 'All'}, Date=${dateFilter || 'All'}`, 'info');
-        }
-        
-        async function loadUsers() {
-            try {
-                const response = await fetch(API_URL + '/api/admin/users');
-                const data = await response.json();
-                
-                if (data.success) {
-                    let html = '';
-                    if (!data.users || data.users.length === 0) {
-                        html = '<tr><td colspan="6" class="empty-state">No users found</td></tr>';
-                    } else {
-                        data.users.forEach(user => {
-                            const joinDate = new Date(user.createdAt).toLocaleDateString();
-                            
-                            html += `
-                                <tr>
-                                    <td>${user.name || 'N/A'}</td>
-                                    <td>${user.email}</td>
-                                    <td>${user.phone || 'N/A'}</td>
-                                    <td>0</td>
-                                    <td>${joinDate}</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-primary" onclick="viewUser('${user._id}')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" onclick="deleteUser('${user._id}')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            `;
-                        });
-                    }
-                    
-                    document.getElementById('usersList').innerHTML = html;
-                }
-            } catch (error) {
-                console.error('Error loading users:', error);
-                document.getElementById('usersList').innerHTML = `
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>Error loading users</p>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-        
-        function searchUsers(query) {
-            const rows = document.querySelectorAll('#usersList tr');
-            rows.forEach(row => {
-                if (row.querySelector('.empty-state')) return;
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query.toLowerCase()) ? '' : 'none';
-            });
-        }
-        
-        function viewBooking(bookingId) {
-            showNotification(`View booking details for: ${bookingId}`, 'info');
-            // In a real application, you would show a modal with booking details
         }
         
         async function updateBookingStatus(bookingId, status) {
@@ -2117,7 +1837,7 @@ https://example.com/room3.jpg"></textarea>
                         loadRecentBookings();
                         loadStats();
                     } else {
-                        showNotification(data.message || 'Error updating booking', 'error');
+                        showNotification('Error updating booking: ' + (data.message || 'Unknown error'), 'error');
                     }
                 } catch (error) {
                     showNotification('Error updating booking. Please try again.', 'error');
@@ -2125,43 +1845,159 @@ https://example.com/room3.jpg"></textarea>
             }
         }
         
+        async function loadUsers() {
+            try {
+                const response = await fetch(API_URL + '/api/admin/users');
+                const data = await response.json();
+                
+                if (data.success) {
+                    let html = '';
+                    if (data.users.length === 0) {
+                        html = '<tr><td colspan="6" class="empty-state">No users found</td></tr>';
+                    } else {
+                        data.users.forEach(user => {
+                            const joinDate = new Date(user.createdAt).toLocaleDateString();
+                            
+                            html += `
+                                <tr>
+                                    <td>${user.name || 'N/A'}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.phone || 'N/A'}</td>
+                                    <td>${user.bookingsCount || 0}</td>
+                                    <td>${joinDate}</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-primary" onclick="viewUser('${user._id}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" onclick="deleteUser('${user._id}')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    }
+                    
+                    document.getElementById('usersList').innerHTML = html;
+                    
+                } else {
+                    document.getElementById('usersList').innerHTML = `
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Error loading users</p>
+                            </td>
+                        </tr>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('usersList').innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error loading users</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        function viewBooking(bookingId) {
+            alert(`View booking details for: ${bookingId}`);
+            // In a real application, you would show a modal with booking details
+        }
+        
+        function updateBookingStatus(bookingId, status) {
+            if (confirm(`Are you sure you want to ${status} this booking?`)) {
+                // Make API call to update booking status
+                fetch(API_URL + '/api/admin/bookings/' + bookingId + '/status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: status })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification(`Booking ${status} successfully!`, 'success');
+                        loadBookings();
+                        loadRecentBookings();
+                        loadStats();
+                    } else {
+                        showNotification('Error updating booking: ' + (data.message || 'Unknown error'), 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Error updating booking. Please try again.', 'error');
+                });
+            }
+        }
+        
         function viewUser(userId) {
-            showNotification(`View user details for ID: ${userId}`, 'info');
+            alert(`View user details for user ID: ${userId}`);
             // In a real application, you would show a modal with user details
         }
         
-        async function deleteUser(userId) {
+        function deleteUser(userId) {
             if (confirm('Are you sure you want to delete this user?')) {
-                try {
-                    const response = await fetch(API_URL + '/api/admin/users/' + userId, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
-                    
-                    const data = await response.json();
-                    
+                // Make API call to delete user
+                fetch(API_URL + '/api/admin/users/' + userId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
                     if (data.success) {
                         showNotification('User deleted successfully!', 'success');
                         loadUsers();
                         loadStats();
                     } else {
-                        showNotification(data.message || 'Error deleting user', 'error');
+                        showNotification('Error deleting user: ' + (data.message || 'Unknown error'), 'error');
                     }
-                } catch (error) {
+                })
+                .catch(error => {
                     showNotification('Error deleting user. Please try again.', 'error');
-                }
+                });
             }
         }
-        
         
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 localStorage.removeItem('adminEmail');
                 localStorage.removeItem('adminUser');
+                localStorage.removeItem('adminToken');
                 window.location.href = 'login.html';
             }
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                    <div style="background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'}; 
+                                color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                            <span>${message}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
     </script>
 </body>
