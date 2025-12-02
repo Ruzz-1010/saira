@@ -1372,12 +1372,35 @@
             submitBtn.disabled = true;
             
             try {
-                // In a real application, you would send this to your API
-                // For now, simulate a successful booking
-                setTimeout(() => {
-                    showBookingSuccess();
-                }, 1500);
+                // Tawagin ang REAL API - ITO ANG IMPORTANTE
+                const response = await fetch(`${API_URL}/api/bookings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        customerName: bookingData.customerName,
+                        customerEmail: bookingData.customerEmail,
+                        customerPhone: bookingData.customerPhone,
+                        checkIn: bookingData.checkIn,
+                        checkOut: bookingData.checkOut,
+                        guests: bookingData.guests,
+                        roomId: bookingData.roomId,
+                        specialRequests: bookingData.specialRequests
+                    })
+                });
                 
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Save the booking ID from backend
+                    bookingData.bookingId = data.bookingId || data.booking._id;
+                    showBookingSuccess();
+                } else {
+                    showError(data.message || 'Booking failed. Please try again.');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
             } catch (error) {
                 console.error('Booking error:', error);
                 showError('Connection error. Please check your internet and try again.');
@@ -1387,12 +1410,15 @@
         }
         
         function showBookingSuccess() {
+            // Gumamit ng totoong booking ID mula sa backend
+            const bookingId = bookingData.bookingId || `GS${Date.now().toString().substring(8)}`;
+            
             // Update result section
             const finalDetails = `
                 <div class="summary-title">Booking Confirmation</div>
                 <div class="summary-item">
                     <span class="summary-label">Booking ID:</span>
-                    <span class="summary-value">GS${Date.now().toString().substring(8)}</span>
+                    <span class="summary-value">${bookingId}</span>
                 </div>
                 <div class="summary-item">
                     <span class="summary-label">Room:</span>
