@@ -206,64 +206,6 @@
             max-width: 600px;
         }
 
-        /* Slideshow Controls */
-        .slideshow-controls {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            z-index: 4;
-        }
-
-        .slide-prev,
-        .slide-next {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            backdrop-filter: blur(5px);
-        }
-
-        .slide-prev:hover,
-        .slide-next:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        .slide-dots {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 4;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .dot.active {
-            background: white;
-            transform: scale(1.3);
-        }
-
         /* Booking Widget */
         .booking-widget {
             background: white;
@@ -441,64 +383,10 @@
             gap: 5px;
         }
 
-        /* Testimonials */
-        .testimonials {
-            padding: 100px 0;
-            background: var(--light);
-        }
-
-        .testimonial {
-            background: white;
-            border-radius: var(--radius);
-            padding: 40px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .testimonial-text {
-            font-size: 1.2rem;
-            font-style: italic;
-            margin-bottom: 30px;
-            line-height: 1.8;
-            color: var(--secondary);
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: white;
-        }
-
-        .author-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: var(--secondary);
-        }
-
-        .author-info p {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
         /* Gallery */
         .gallery {
             padding: 100px 0;
-            background: white;
+            background: var(--light);
         }
 
         .gallery-grid {
@@ -528,8 +416,7 @@
         /* CTA Section */
         .cta {
             padding: 100px 0;
-            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
-                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9));
             background-size: cover;
             background-position: center;
             color: white;
@@ -673,17 +560,6 @@
                 padding: 30px;
                 margin-top: 40px;
             }
-
-            .slideshow-controls {
-                bottom: 20px;
-            }
-
-            .slide-prev,
-            .slide-next {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
         }
 
         /* Mobile Menu */
@@ -764,26 +640,13 @@
 
     <!-- Hero Section with Slideshow -->
     <section class="hero" id="home">
-        <!-- Slideshow -->
+        <!-- Slideshow - WALANG ARROWS, WALANG DOTS -->
         <div class="slideshow" id="slideshow">
             <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
             <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80');"></div>
             <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
             <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80');"></div>
         </div>
-        
-        <!-- Slideshow Controls -->
-        <div class="slideshow-controls">
-            <button class="slide-prev" id="prevSlide">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slide-next" id="nextSlide">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-        
-        <!-- Slide Dots -->
-        <div class="slide-dots" id="slideDots"></div>
         
         <!-- Overlay -->
         <div class="hero-overlay"></div>
@@ -929,29 +792,6 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>Guest Experiences</h2>
-                <p>See what our guests are saying about their stay</p>
-            </div>
-            
-            <div class="testimonial">
-                <div class="testimonial-text">
-                    "Absolutely breathtaking! The views from our ocean view room were incredible. The staff went above and beyond to make our anniversary special. We'll definitely be back!"
-                </div>
-                <div class="testimonial-author">
-                    <div class="author-avatar">S</div>
-                    <div class="author-info">
-                        <h4>Sarah Johnson</h4>
-                        <p>Tokyo, Japan • Stayed in Deluxe Ocean View</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Gallery -->
     <section class="gallery" id="gallery">
         <div class="container">
@@ -981,7 +821,7 @@
     <section class="cta" id="contact">
         <div class="container">
             <h2>Ready for Your Dream Vacation?</h2>
-            <p>Book now and experience the luxury of El Nido Hotel. Special offers available for early bookings and extended stays.</p>
+            <p>Book now and experience the luxury of El Nido Hotel.</p>
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
                 <a href="#booking" class="btn btn-primary" style="font-size: 1.1rem; padding: 18px 40px;">
                     <i class="fas fa-calendar-alt"></i> Book Your Stay
@@ -999,7 +839,7 @@
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3>El Nido Hotel</h3>
-                    <p style="color: #cbd5e1; margin-bottom: 20px; line-height: 1.7;">Luxury beachfront accommodation in the heart of paradise. Experience unparalleled hospitality and breathtaking views.</p>
+                    <p style="color: #cbd5e1; margin-bottom: 20px; line-height: 1.7;">Luxury beachfront accommodation in the heart of paradise.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -1023,11 +863,7 @@
                     <div class="contact-info">
                         <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>Beachfront Road, El Nido, Palawan 5313</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+63 912 345 6789</span>
+                            <span>Beachfront Road, El Nido, Palawan</span>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-envelope"></i>
@@ -1044,39 +880,22 @@
     </footer>
 
     <script>
-        // Slideshow functionality
+        // SIMPLE SLIDESHOW - WALANG ARROWS, WALANG DOTS
         class Slideshow {
             constructor() {
                 this.slides = document.querySelectorAll('.slide');
-                this.dotsContainer = document.getElementById('slideDots');
-                this.prevBtn = document.getElementById('prevSlide');
-                this.nextBtn = document.getElementById('nextSlide');
                 this.currentSlide = 0;
                 this.slideInterval = null;
-                this.slideDuration = 5000;
+                this.slideDuration = 5000; // 5 seconds per slide
                 
                 this.init();
             }
             
             init() {
-                // Create dots
-                this.slides.forEach((slide, index) => {
-                    const dot = document.createElement('div');
-                    dot.className = 'dot';
-                    if (index === 0) dot.classList.add('active');
-                    dot.dataset.index = index;
-                    dot.addEventListener('click', () => this.goToSlide(index));
-                    this.dotsContainer.appendChild(dot);
-                });
-                
-                // Add event listeners
-                this.prevBtn.addEventListener('click', () => this.prevSlide());
-                this.nextBtn.addEventListener('click', () => this.nextSlide());
-                
                 // Start automatic slideshow
                 this.startSlideshow();
                 
-                // Pause on hover
+                // Pause on hover (optional)
                 const slideshow = document.getElementById('slideshow');
                 slideshow.addEventListener('mouseenter', () => this.stopSlideshow());
                 slideshow.addEventListener('mouseleave', () => this.startSlideshow());
@@ -1094,27 +913,14 @@
             }
             
             nextSlide() {
-                this.goToSlide((this.currentSlide + 1) % this.slides.length);
-            }
-            
-            prevSlide() {
-                this.goToSlide((this.currentSlide - 1 + this.slides.length) % this.slides.length);
-            }
-            
-            goToSlide(index) {
-                // Remove active class from current slide and dot
+                // Remove active class from current slide
                 this.slides[this.currentSlide].classList.remove('active');
-                this.dotsContainer.children[this.currentSlide].classList.remove('active');
                 
-                // Update current slide
-                this.currentSlide = index;
+                // Move to next slide
+                this.currentSlide = (this.currentSlide + 1) % this.slides.length;
                 
-                // Add active class to new slide and dot
+                // Add active class to new slide
                 this.slides[this.currentSlide].classList.add('active');
-                this.dotsContainer.children[this.currentSlide].classList.add('active');
-                
-                // Reset timer
-                this.startSlideshow();
             }
         }
 
@@ -1158,18 +964,13 @@
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const checkin = document.getElementById('checkin').value;
-            const checkout = document.getElementById('checkout').value;
-            const guests = document.getElementById('guests').value;
-            const roomType = document.getElementById('roomType').value;
-            
-            // Store booking data in localStorage
-            localStorage.setItem('bookingData', JSON.stringify({
-                checkin,
-                checkout,
-                guests,
-                roomType
-            }));
+            // Store booking data
+            const bookingData = {
+                checkin: document.getElementById('checkin').value,
+                checkout: document.getElementById('checkout').value,
+                guests: document.getElementById('guests').value,
+                roomType: document.getElementById('roomType').value
+            };
             
             // Redirect to login page
             window.location.href = 'login.html';
@@ -1179,20 +980,6 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('checkin').min = today;
         document.getElementById('checkout').min = today;
-        
-        // Auto-set checkout date (minimum 1 day after check-in)
-        document.getElementById('checkin').addEventListener('change', function() {
-            const checkinDate = new Date(this.value);
-            const nextDay = new Date(checkinDate);
-            nextDay.setDate(nextDay.getDate() + 1);
-            document.getElementById('checkout').min = nextDay.toISOString().split('T')[0];
-            
-            // If checkout is before new minimum, update it
-            const checkoutDate = new Date(document.getElementById('checkout').value);
-            if (checkoutDate < nextDay) {
-                document.getElementById('checkout').value = nextDay.toISOString().split('T')[0];
-            }
-        });
         
         // Initialize slideshow
         const slideshow = new Slideshow();
