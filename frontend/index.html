@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> El Nido Hotel - Luxury & Comfort</title>
+    <title>El Nido Hotel - Luxury & Comfort</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
@@ -130,7 +130,7 @@
             padding: 8px;
         }
 
-        /* Modern Hero Section */
+        /* Modern Hero Section with Slideshow */
         .hero {
             height: 100vh;
             min-height: 700px;
@@ -139,19 +139,81 @@
             margin-top: 80px;
         }
 
-        .hero-bg {
+        .hero-slider {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             z-index: 1;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slider-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            filter: brightness(0.7);
+        }
+
+        .slider-image.active {
+            opacity: 1;
+        }
+
+        .slider-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.5) 100%);
+            z-index: 2;
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 3;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .slider-dot:hover {
+            background: white;
         }
 
         .hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             height: 100%;
             display: flex;
             align-items: center;
@@ -673,6 +735,10 @@
             .cta-title {
                 font-size: 2.2rem;
             }
+
+            .slider-controls {
+                bottom: 30px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -790,22 +856,53 @@
         </div>
     </nav>
 
-    <!-- Modern Hero Section -->
+    <!-- Modern Hero Section with Slideshow -->
     <section class="hero">
-        <div class="hero-bg"></div>
+        <!-- Slideshow -->
+        <div class="hero-slider">
+            <div class="slider-container">
+                <img src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                     alt="El Nido Beach Resort" 
+                     class="slider-image active">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                     alt="El Nido Luxury Villa" 
+                     class="slider-image">
+                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                     alt="El Nido Hotel Room" 
+                     class="slider-image">
+                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80" 
+                     alt="El Nido Infinity Pool" 
+                     class="slider-image">
+                <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                     alt="El Nido Sunset View" 
+                     class="slider-image">
+                <div class="slider-overlay"></div>
+            </div>
+            
+            <!-- Slider Controls -->
+            <div class="slider-controls">
+                <button class="slider-dot active" data-index="0"></button>
+                <button class="slider-dot" data-index="1"></button>
+                <button class="slider-dot" data-index="2"></button>
+                <button class="slider-dot" data-index="3"></button>
+                <button class="slider-dot" data-index="4"></button>
+            </div>
+        </div>
+        
+        <!-- Hero Content -->
         <div class="container hero-content">
             <div class="hero-text">
-                <span class="hero-subtitle">LUXURY EXPERIENCE</span>
-                <h1 class="hero-title">Discover Premium Comfort in Our Modern Suites</h1>
+                <span class="hero-subtitle">PREMIUM LUXURY RESORT</span>
+                <h1 class="hero-title">Experience Paradise in El Nido</h1>
                 <p class="hero-description">
-                    Experience world-class hospitality with state-of-the-art amenities, breathtaking views, and personalized service at El Nido Hotel.
+                    Nestled between pristine beaches and turquoise waters, El Nido Hotel offers an unforgettable luxury experience with world-class amenities, breathtaking views, and authentic Filipino hospitality.
                 </p>
                 <div class="hero-buttons">
                     <a href="booking.html" class="btn btn-primary">
-                        <i class="fas fa-calendar-plus"></i> Book Now
+                        <i class="fas fa-calendar-plus"></i> Book Your Stay
                     </a>
-                    <a href="rooms.html" class="btn btn-secondary">
-                        <i class="fas fa-bed"></i> Explore Rooms
+                    <a href="#features" class="btn btn-secondary">
+                        <i class="fas fa-star"></i> Explore Amenities
                     </a>
                 </div>
             </div>
@@ -813,7 +910,7 @@
     </section>
 
     <!-- Modern Features -->
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
             <div class="section-header">
                 <span class="section-subtitle">WHY CHOOSE US</span>
@@ -826,18 +923,18 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-umbrella-beach"></i>
                     </div>
-                    <h3>High-Speed WiFi</h3>
-                    <p>Stay connected with our complimentary high-speed internet access throughout the hotel premises.</p>
+                    <h3>Private Beach Access</h3>
+                    <p>Exclusive access to pristine white sand beaches with crystal clear turquoise waters.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-swimming-pool"></i>
+                        <i class="fas fa-infinity"></i>
                     </div>
                     <h3>Infinity Pool</h3>
-                    <p>Relax in our stunning infinity pool with panoramic views of the city skyline.</p>
+                    <p>Stunning infinity pool overlooking the breathtaking El Nido lagoon and limestone cliffs.</p>
                 </div>
                 
                 <div class="feature-card">
@@ -845,15 +942,15 @@
                         <i class="fas fa-utensils"></i>
                     </div>
                     <h3>Fine Dining</h3>
-                    <p>Enjoy exquisite cuisine crafted by our award-winning chefs at our signature restaurant.</p>
+                    <p>Experience exquisite Filipino cuisine crafted by our award-winning chefs using fresh local ingredients.</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-spa"></i>
+                        <i class="fas fa-ship"></i>
                     </div>
-                    <h3>Spa & Wellness</h3>
-                    <p>Rejuvenate with premium spa treatments and wellness programs at our luxury spa.</p>
+                    <h3>Island Hopping</h3>
+                    <p>Private boat tours to explore the stunning islands and hidden lagoons of El Nido.</p>
                 </div>
             </div>
         </div>
@@ -864,9 +961,9 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-subtitle">OUR ACCOMMODATIONS</span>
-                <h2 class="section-title">Premium Rooms & Suites</h2>
+                <h2 class="section-title">Luxury Rooms & Villas</h2>
                 <p class="section-description">
-                    Choose from our selection of elegantly designed rooms with modern amenities.
+                    Choose from our selection of elegantly designed rooms with modern amenities and stunning views.
                 </p>
             </div>
             
@@ -904,13 +1001,13 @@
                         <div class="swiper-slide">
                             <div class="testimonial-card">
                                 <p class="testimonial-text">
-                                    "Absolutely stunning hotel with exceptional service! The rooms are spacious, clean, and beautifully designed. The staff went above and beyond to make our stay memorable."
+                                    "Absolutely stunning hotel with exceptional service! The private beach was incredible and the staff went above and beyond to make our stay memorable. Can't wait to return!"
                                 </p>
                                 <div class="testimonial-author">
                                     <div class="author-avatar">JS</div>
                                     <div class="author-info">
                                         <h4>Juan Santos</h4>
-                                        <p>Business Traveler</p>
+                                        <p>Honeymoon Couple</p>
                                     </div>
                                 </div>
                             </div>
@@ -919,13 +1016,13 @@
                         <div class="swiper-slide">
                             <div class="testimonial-card">
                                 <p class="testimonial-text">
-                                    "The infinity pool with city views was breathtaking. The staff was incredibly attentive and the room service was exceptional. Definitely coming back!"
+                                    "The infinity pool with lagoon views was breathtaking. The island hopping tour arranged by the hotel was the highlight of our trip. Definitely coming back next year!"
                                 </p>
                                 <div class="testimonial-author">
                                     <div class="author-avatar">MS</div>
                                     <div class="author-info">
                                         <h4>Maria Santos</h4>
-                                        <p>Vacationer</p>
+                                        <p>Family Vacation</p>
                                     </div>
                                 </div>
                             </div>
@@ -934,7 +1031,7 @@
                         <div class="swiper-slide">
                             <div class="testimonial-card">
                                 <p class="testimonial-text">
-                                    "Perfect location, amazing amenities, and the most comfortable bed I've ever slept in! The attention to detail throughout the hotel is impressive."
+                                    "Perfect location, amazing amenities, and the most comfortable bed I've ever slept in! The attention to detail throughout the hotel is impressive. True Filipino hospitality at its best."
                                 </p>
                                 <div class="testimonial-author">
                                     <div class="author-avatar">RJ</div>
@@ -959,12 +1056,12 @@
     <section class="cta">
         <div class="container">
             <div class="cta-content">
-                <h2 class="cta-title">Ready for Your Perfect Stay?</h2>
+                <h2 class="cta-title">Ready for Your Island Paradise?</h2>
                 <p class="cta-description">
-                    Book your room now and experience luxury at its finest. Limited rooms available for the peak season. Don't miss out on our special offers!
+                    Book your room now and experience luxury at its finest. Limited villas available for the peak season. Don't miss out on our special island getaway packages!
                 </p>
                 <a href="booking.html" class="btn btn-primary">
-                    <i class="fas fa-calendar-plus"></i> Book Your Stay Now
+                    <i class="fas fa-calendar-plus"></i> Book Your Island Escape
                 </a>
             </div>
         </div>
@@ -977,7 +1074,7 @@
                 <div>
                     <h3><i class="fas fa-hotel"></i> El Nido Hotel</h3>
                     <p style="margin-top: 20px; color: #cbd5e1; line-height: 1.8;">
-                        Experience luxury and comfort in the heart of the city. Your perfect getaway starts here at El Nido.
+                        Experience luxury and comfort in the heart of El Nido paradise. Your perfect island getaway starts here at El Nido Hotel.
                     </p>
                     <div class="social-links">
                         <a href="#" class="social-link">
@@ -990,7 +1087,7 @@
                             <i class="fab fa-instagram"></i>
                         </a>
                         <a href="#" class="social-link">
-                            <i class="fab fa-linkedin-in"></i>
+                            <i class="fab fa-tiktok"></i>
                         </a>
                     </div>
                 </div>
@@ -999,7 +1096,7 @@
                     <h3>Quick Links</h3>
                     <ul class="footer-links">
                         <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="rooms.html"><i class="fas fa-chevron-right"></i> Rooms & Suites</a></li>
+                        <li><a href="rooms.html"><i class="fas fa-chevron-right"></i> Rooms & Villas</a></li>
                         <li><a href="booking.html"><i class="fas fa-chevron-right"></i> Make a Reservation</a></li>
                         <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
                         <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
@@ -1009,9 +1106,9 @@
                 <div>
                     <h3>Contact Info</h3>
                     <div class="contact-info">
-                        <p><i class="fas fa-map-marker-alt"></i> Elnido, Philippines</p>
+                        <p><i class="fas fa-map-marker-alt"></i> El Nido, Palawan, Philippines</p>
                         <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
-                        <p><i class="fas fa-envelope"></i> info@Elnidohotel.com</p>
+                        <p><i class="fas fa-envelope"></i> info@elnidohotel.com</p>
                         <p><i class="fas fa-clock"></i> 24/7 Front Desk</p>
                     </div>
                 </div>
@@ -1028,7 +1125,7 @@
     <script>
         const API_URL = 'https://hotel-booking-api-r3ho.onrender.com';
         
-        // Initialize Swiper
+        // Initialize Swiper for testimonials
         const testimonialSwiper = new Swiper('.testimonials-slider .swiper', {
             loop: true,
             autoplay: {
@@ -1054,6 +1151,41 @@
                     spaceBetween: 30
                 }
             }
+        });
+        
+        // Hero Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-image');
+        const dots = document.querySelectorAll('.slider-dot');
+        
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Show current slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+        
+        function nextSlide() {
+            let next = currentSlide + 1;
+            if (next >= slides.length) next = 0;
+            showSlide(next);
+        }
+        
+        // Auto slide every 5 seconds
+        let slideInterval = setInterval(nextSlide, 5000);
+        
+        // Dot click events
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                clearInterval(slideInterval);
+                const index = parseInt(this.getAttribute('data-index'));
+                showSlide(index);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
         });
         
         // Mobile Menu Toggle
@@ -1138,7 +1270,7 @@
                             <div class="room-content">
                                 <h3 class="room-title">${room.name}</h3>
                                 <p class="room-description">
-                                    ${room.description ? room.description.substring(0, 100) + (room.description.length > 100 ? '...' : '') : 'Comfortable room with premium amenities.'}
+                                    ${room.description ? room.description.substring(0, 100) + (room.description.length > 100 ? '...' : '') : 'Luxurious room with premium amenities and stunning views.'}
                                 </p>
                                 
                                 <div class="room-meta">
@@ -1199,10 +1331,20 @@
         
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initializing GrandStay Hotel Website...');
+            console.log('🚀 Initializing El Nido Hotel Website...');
             
             checkLoginStatus();
             loadFeaturedRooms();
+            
+            // Pause slideshow on hover
+            const heroSlider = document.querySelector('.hero-slider');
+            heroSlider.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+            
+            heroSlider.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
         });
     </script>
 </body>
