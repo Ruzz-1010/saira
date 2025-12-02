@@ -156,6 +156,7 @@
         /* Form Styles */
         .form-group {
             margin-bottom: 24px;
+            position: relative;
         }
 
         .form-group label {
@@ -177,16 +178,18 @@
             transform: translateY(-50%);
             color: var(--gray);
             font-size: 1.1rem;
+            z-index: 1;
         }
 
         .form-control {
             width: 100%;
-            padding: 16px 16px 16px 48px;
+            padding: 16px 50px 16px 48px;
             border: 2px solid var(--gray-light);
             border-radius: var(--border-radius);
             font-size: 1rem;
             transition: var(--transition);
             background: white;
+            box-sizing: border-box;
         }
 
         .form-control:focus {
@@ -296,24 +299,35 @@
             text-decoration: none;
         }
 
-        /* Password Toggle */
+        /* Password Toggle - FIXED VERSION */
         .password-toggle {
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
             color: var(--gray);
             cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
+            padding: 8px;
+            border-radius: 50%;
             transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
         }
 
         .password-toggle:hover {
             color: var(--primary);
-            background: var(--gray-light);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Password field with toggle */
+        .password-field .form-control {
+            padding-right: 50px !important;
         }
 
         /* Loading Spinner */
@@ -329,34 +343,6 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .login-container {
-                max-width: 100%;
-            }
-            
-            .login-header {
-                padding: 30px 20px;
-            }
-            
-            .logo h1 {
-                font-size: 1.8rem;
-            }
-            
-            .login-content {
-                padding: 30px 20px;
-            }
-            
-            .tab-btn {
-                padding: 16px;
-                font-size: 0.95rem;
-            }
-            
-            .tab-btn i {
-                display: none;
-            }
         }
 
         /* Remember Me Checkbox */
@@ -397,6 +383,58 @@
         .forgot-password a:hover {
             text-decoration: underline;
         }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+            }
+            
+            .login-header {
+                padding: 30px 20px;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .login-content {
+                padding: 30px 20px;
+            }
+            
+            .tab-btn {
+                padding: 16px;
+                font-size: 0.95rem;
+            }
+            
+            .tab-btn i {
+                display: none;
+            }
+            
+            .form-control {
+                padding: 14px 46px 14px 44px;
+                font-size: 16px; /* Prevent iOS zoom */
+            }
+            
+            .password-toggle {
+                width: 32px;
+                height: 32px;
+                right: 10px;
+            }
+        }
+
+        /* Fix for password fields alignment */
+        .password-field {
+            position: relative;
+        }
+
+        .password-field i.fa-lock {
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            position: absolute;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -435,7 +473,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group password-field">
                     <label for="loginPassword">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
@@ -489,7 +527,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group password-field">
                     <label for="registerPassword">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
@@ -500,7 +538,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group password-field">
                     <label for="registerConfirmPassword">Confirm Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
@@ -535,7 +573,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group password-field">
                     <label for="adminPassword">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
@@ -624,17 +662,20 @@
             });
         });
         
-        // Toggle password visibility
+        // Toggle password visibility - FIXED VERSION
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
-            const toggleBtn = input.parentElement.querySelector('.password-toggle i');
+            const toggleBtn = input.parentElement.querySelector('.password-toggle');
+            const eyeIcon = toggleBtn.querySelector('i');
             
             if (input.type === 'password') {
                 input.type = 'text';
-                toggleBtn.className = 'fas fa-eye-slash';
+                eyeIcon.className = 'fas fa-eye-slash';
+                toggleBtn.setAttribute('aria-label', 'Hide password');
             } else {
                 input.type = 'password';
-                toggleBtn.className = 'fas fa-eye';
+                eyeIcon.className = 'fas fa-eye';
+                toggleBtn.setAttribute('aria-label', 'Show password');
             }
         }
         
@@ -658,24 +699,39 @@
                 button.innerHTML = '<div class="spinner"></div> Processing...';
                 button.disabled = true;
             } else {
-                button.innerHTML = button.getAttribute('data-original-html');
+                const originalHTML = button.getAttribute('data-original-html');
+                if (originalHTML) {
+                    button.innerHTML = originalHTML;
+                }
                 button.disabled = false;
             }
         }
         
-        // Save original button HTML
+        // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('loginBtn').setAttribute('data-original-html', 
-                '<i class="fas fa-sign-in-alt"></i> Sign In');
-            document.getElementById('registerBtn').setAttribute('data-original-html', 
-                '<i class="fas fa-user-plus"></i> Create Account');
-            document.getElementById('adminBtn').setAttribute('data-original-html', 
-                '<i class="fas fa-user-shield"></i> Admin Login');
-            document.getElementById('forgotBtn').setAttribute('data-original-html', 
-                '<i class="fas fa-key"></i> Reset Password');
+            // Save original button HTML
+            const buttons = ['loginBtn', 'registerBtn', 'adminBtn', 'forgotBtn'];
+            buttons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.setAttribute('data-original-html', btn.innerHTML);
+                }
+            });
             
             // Check if user is already logged in
             checkExistingSession();
+            
+            // Test API connection
+            testApiConnection();
+            
+            // Check for remember me email
+            if (localStorage.getItem('rememberMe') === 'true') {
+                const savedEmail = localStorage.getItem('userEmail');
+                if (savedEmail) {
+                    document.getElementById('loginEmail').value = savedEmail;
+                    document.getElementById('rememberMe').checked = true;
+                }
+            }
         });
         
         // Check existing session
@@ -700,7 +756,7 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             const rememberMe = document.getElementById('rememberMe').checked;
             const loginBtn = document.getElementById('loginBtn');
@@ -716,8 +772,7 @@
                 const response = await fetch(`${API_URL}/api/auth/login`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ email, password })
                 });
@@ -727,11 +782,13 @@
                 if (data.success) {
                     // Save user data to localStorage
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    localStorage.setItem('token', 'user_token_' + Date.now());
                     
                     if (rememberMe) {
                         localStorage.setItem('rememberMe', 'true');
                         localStorage.setItem('userEmail', email);
+                    } else {
+                        localStorage.removeItem('rememberMe');
+                        localStorage.removeItem('userEmail');
                     }
                     
                     showMessage('Login successful! Redirecting...', 'success');
@@ -756,9 +813,9 @@
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const phone = document.getElementById('registerPhone').value;
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const phone = document.getElementById('registerPhone').value.trim();
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
             const registerBtn = document.getElementById('registerBtn');
@@ -792,8 +849,7 @@
                 const response = await fetch(`${API_URL}/api/auth/register`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ name, email, password, phone })
                 });
@@ -827,7 +883,7 @@
         document.getElementById('adminForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('adminEmail').value;
+            const email = document.getElementById('adminEmail').value.trim();
             const password = document.getElementById('adminPassword').value;
             const adminBtn = document.getElementById('adminBtn');
             
@@ -842,8 +898,7 @@
                 const response = await fetch(`${API_URL}/api/auth/admin/login`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ email, password })
                 });
@@ -854,7 +909,6 @@
                     // Save admin data to localStorage
                     localStorage.setItem('adminUser', JSON.stringify(data.admin || data.user));
                     localStorage.setItem('adminEmail', data.admin?.email || data.user?.email);
-                    localStorage.setItem('adminToken', 'admin_token_' + Date.now());
                     
                     showMessage('Admin login successful! Redirecting to dashboard...', 'success');
                     
@@ -878,7 +932,7 @@
         document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('forgotEmail').value;
+            const email = document.getElementById('forgotEmail').value.trim();
             const forgotBtn = document.getElementById('forgotBtn');
             
             if (!email) {
@@ -896,6 +950,7 @@
                     
                     setTimeout(() => {
                         switchTab('login');
+                        document.getElementById('forgotPasswordForm').reset();
                     }, 3000);
                 }, 1500);
                 
@@ -909,30 +964,15 @@
         // Test API connection on load
         async function testApiConnection() {
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(`${API_URL}/api/test`);
                 const data = await response.json();
                 console.log('API connection successful:', data);
                 return true;
             } catch (error) {
                 console.warn('API connection failed:', error);
-                showMessage('⚠️ Note: Backend server may be offline. Some features may not work.', 'info');
                 return false;
             }
         }
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            testApiConnection();
-            
-            // Check for remember me email
-            if (localStorage.getItem('rememberMe') === 'true') {
-                const savedEmail = localStorage.getItem('userEmail');
-                if (savedEmail) {
-                    document.getElementById('loginEmail').value = savedEmail;
-                    document.getElementById('rememberMe').checked = true;
-                }
-            }
-        });
     </script>
 </body>
 </html>
