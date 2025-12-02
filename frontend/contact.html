@@ -253,6 +253,31 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 100;
+            max-width: 300px;
+        }
+
+        .map-overlay h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .map-overlay p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
         }
 
         /* Footer */
@@ -345,6 +370,14 @@
             .contact-form {
                 padding: 30px 20px;
             }
+
+            .map-overlay {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -421,7 +454,7 @@
                         </div>
                         <div class="info-content">
                             <h3>Address</h3>
-                            <p>Elnido <br> Philippines </p>
+                            <p>El Nido, Palawan<br>Philippines 5313</p>
                         </div>
                     </div>
                     
@@ -431,7 +464,7 @@
                         </div>
                         <div class="info-content">
                             <h3>Phone</h3>
-                            <p>+63 912 345 6789<br>+63 2 8123 4567</p>
+                            <p>+63 917 123 4567<br>+63 48 434 1234</p>
                         </div>
                     </div>
                     
@@ -441,7 +474,7 @@
                         </div>
                         <div class="info-content">
                             <h3>Email</h3>
-                            <p>info@Elnidohotel.com<br>reservations@Elnidohotel.com</p>
+                            <p>info@elnidohotel.com<br>reservations@elnidohotel.com</p>
                         </div>
                     </div>
                     
@@ -493,13 +526,19 @@
             </div>
             
             <div class="map-container">
+                <div class="map-overlay">
+                    <h3><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> El Nido Hotel Location</h3>
+                    <p><strong>Address:</strong> El Nido, Palawan, Philippines</p>
+                    <p><strong>Coordinates:</strong> 11.1835° N, 119.4166° E</p>
+                </div>
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.802853728069!2d121.00077467489322!3d14.5541215859358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c90264a0ed01%3A0x2b066ed57830cace!2sMakati%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1637144452941!5m2!1sen!2sph"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126289.18693377889!2d119.31174801444727!3d11.17615431862587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33b6c8a000000001%3A0x579344a6c96d16a2!2sEl%20Nido%2C%20Palawan!5e0!3m2!1sen!2sph!4v1637144452941!5m2!1sen!2sph"
                     width="100%"
                     height="400"
                     style="border:0;"
                     allowfullscreen=""
-                    loading="lazy">
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
         </div>
@@ -512,7 +551,7 @@
                 <div>
                     <h3><i class="fas fa-hotel"></i> El Nido Hotel</h3>
                     <p style="margin-top: 20px; color: #cbd5e1; line-height: 1.8;">
-                        Experience luxury and comfort in the heart of the city. Your perfect getaway starts here at El Nido Hotel.
+                        Experience luxury and comfort in the heart of El Nido paradise. Your perfect island getaway starts here at El Nido Hotel.
                     </p>
                 </div>
                 
@@ -530,9 +569,9 @@
                 <div>
                     <h3>Contact Info</h3>
                     <div class="contact-info">
-                        <p><i class="fas fa-map-marker-alt"></i> El Nido, Philippines</p>
-                        <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
-                        <p><i class="fas fa-envelope"></i> info@Elnidohotel.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> El Nido, Palawan, Philippines</p>
+                        <p><i class="fas fa-phone"></i> +63 917 123 4567</p>
+                        <p><i class="fas fa-envelope"></i> info@elnidohotel.com</p>
                         <p><i class="fas fa-clock"></i> 24/7 Front Desk</p>
                     </div>
                 </div>
