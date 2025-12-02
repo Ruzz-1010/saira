@@ -14,7 +14,7 @@ app.use(cors({
 app.use(express.json());
 
 // =============================================
-// BAGONG DATABASE NAME LANG!
+// DATABASE CONNECTION
 // =============================================
 const MONGODB_URI = 'mongodb+srv://dbUser:Ruzzel123@cluster0.vpmlxq7.mongodb.net/grandstay_hotels?retryWrites=true&w=majority';
 
@@ -23,53 +23,56 @@ mongoose.connect(MONGODB_URI)
     .catch(err => console.log('❌ MongoDB Error:', err));
 
 // =============================================
-// SAME SCHEMAS - WALANG BAGO!
+// SCHEMAS
 // =============================================
 const userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     phone: String,
-    role: { type: String, default: 'user' },
+    role: { type: String, default: 'user', enum: ['user', 'admin'] },
+    bookingsCount: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 
 const roomSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     description: String,
-    type: String,
-    price: Number,
+    type: { type: String, default: 'standard' },
+    price: { type: Number, required: true },
     amenities: [String],
-    maxGuests: Number,
+    maxGuests: { type: Number, default: 2 },
     images: [String],
+    roomNumber: String,
     isAvailable: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now }
 });
 
 const bookingSchema = new mongoose.Schema({
-    customerName: String,
-    customerEmail: String,
-    customerPhone: String,
-    roomId: String,
-    roomName: String,
-    checkIn: Date,
-    checkOut: Date,
-    guests: Number,
-    totalAmount: Number,
-    status: { type: String, default: 'pending' },
+    customerName: { type: String, required: true },
+    customerEmail: { type: String, required: true },
+    customerPhone: { type: String, required: true },
+    roomId: { type: String, required: true },
+    roomName: { type: String, required: true },
+    checkIn: { type: Date, required: true },
+    checkOut: { type: Date, required: true },
+    guests: { type: Number, required: true, default: 1 },
+    totalAmount: { type: Number, required: true },
+    status: { type: String, default: 'pending', enum: ['pending', 'confirmed', 'cancelled', 'checked-in', 'checked-out'] },
     specialRequests: String,
+    paymentMethod: { type: String, default: 'cash' },
     createdAt: { type: Date, default: Date.now }
 });
 
 // =============================================
-// SAME MODELS - WALANG BAGO!
+// MODELS
 // =============================================
 const User = mongoose.model('User', userSchema);
 const Room = mongoose.model('Room', roomSchema);
 const Booking = mongoose.model('Booking', bookingSchema);
 
 // =============================================
-// CREATE ADMIN ACCOUNT
+// CREATE ADMIN ACCOUNT ONLY
 // =============================================
 async function createAdmin() {
     try {
@@ -90,16 +93,30 @@ async function createAdmin() {
 }
 
 // =============================================
-// ROUTES - SAME LANG!
+// MIDDLEWARE
 // =============================================
+const verifyAdmin = async (req, res, next) => {
+    try {
+        // For now, simple admin check - in production use JWT
+        const admin = await User.findOne({ email: 'admin@hotel.com', role: 'admin' });
+        if (!admin) {
+            return res.status(401).json({ success: false, message: 'Admin not found' });
+        }
+        req.admin = admin;
+        next();
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Authentication error' });
+    }
+};
 
-// Home
+// =============================================
+// PUBLIC ROUTES
+// =============================================
 app.get('/', (req, res) => {
     res.json({ 
         message: '🏨 GrandStay Hotels API',
         status: 'OK',
         database: 'grandstay_hotels',
-        collections: ['users', 'rooms', 'bookings'],
         admin: 'admin@hotel.com / admin123'
     });
 });
@@ -125,10 +142,6 @@ app.get('/api/test', async (req, res) => {
     }
 });
 
-// =============================================
-// PUBLIC ROUTES
-// =============================================
-
 // Get all available rooms
 app.get('/api/rooms', async (req, res) => {
     try {
@@ -143,7 +156,9 @@ app.get('/api/rooms', async (req, res) => {
 app.get('/api/rooms/:id', async (req, res) => {
     try {
         const room = await Room.findById(req.params.id);
-        if (!room) return res.status(404).json({ success: false, message: 'Room not found' });
+        if (!room) {
+            return res.status(404).json({ success: false, message: 'Room not found' });
+        }
         res.json({ success: true, room });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
@@ -153,14 +168,54 @@ app.get('/api/rooms/:id', async (req, res) => {
 // Create booking
 app.post('/api/bookings', async (req, res) => {
     try {
-        const { customerName, customerEmail, customerPhone, checkIn, checkOut, guests, roomId, specialRequests } = req.body;
+        const { 
+            customerName, 
+            customerEmail, 
+            customerPhone, 
+            checkIn, 
+            checkOut, 
+            guests, 
+            roomId, 
+            specialRequests 
+        } = req.body;
         
+        // Validate required fields
+        if (!customerName || !customerEmail || !customerPhone || !checkIn || !checkOut || !guests || !roomId) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'All required fields must be filled' 
+            });
+        }
+        
+        // Find room
         const room = await Room.findById(roomId);
-        if (!room) return res.status(404).json({ success: false, message: 'Room not found' });
+        if (!room) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Room not found' 
+            });
+        }
         
+        // Check if room is available
+        if (!room.isAvailable) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Room is not available' 
+            });
+        }
+        
+        // Calculate total
         const nights = Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
+        if (nights <= 0) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Invalid date range' 
+            });
+        }
+        
         const totalAmount = room.price * nights;
         
+        // Create booking
         const booking = await Booking.create({
             customerName,
             customerEmail,
@@ -171,16 +226,30 @@ app.post('/api/bookings', async (req, res) => {
             checkOut: new Date(checkOut),
             guests: parseInt(guests),
             totalAmount,
-            specialRequests
+            specialRequests: specialRequests || '',
+            status: 'pending'
         });
+        
+        // Update user's booking count if user exists
+        await User.findOneAndUpdate(
+            { email: customerEmail },
+            { $inc: { bookingsCount: 1 } },
+            { upsert: true, new: true }
+        );
         
         res.json({
             success: true,
             message: 'Booking successful!',
+            booking,
             bookingId: booking._id
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Booking failed' });
+        console.error('Booking error:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Booking failed', 
+            error: error.message 
+        });
     }
 });
 
@@ -193,6 +262,13 @@ app.post('/api/auth/register', async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
         
+        if (!name || !email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Name, email and password are required' 
+            });
+        }
+        
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ 
@@ -201,7 +277,13 @@ app.post('/api/auth/register', async (req, res) => {
             });
         }
         
-        const user = await User.create({ name, email, password, phone });
+        const user = await User.create({ 
+            name, 
+            email, 
+            password, 
+            phone,
+            role: 'user'
+        });
         
         res.json({
             success: true,
@@ -210,11 +292,16 @@ app.post('/api/auth/register', async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                phone: user.phone
+                phone: user.phone,
+                role: user.role
             }
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Registration failed' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Registration failed',
+            error: error.message
+        });
     }
 });
 
@@ -222,10 +309,29 @@ app.post('/api/auth/register', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email, password });
+        
+        if (!email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Email and password are required' 
+            });
+        }
+        
+        const user = await User.findOne({ email });
         
         if (!user) {
-            return res.status(400).json({ success: false, message: 'Invalid credentials' });
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Invalid credentials' 
+            });
+        }
+        
+        // Simple password check (in production, use bcrypt)
+        if (user.password !== password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Invalid credentials' 
+            });
         }
         
         res.json({
@@ -235,11 +341,16 @@ app.post('/api/auth/login', async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                phone: user.phone
             }
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Login failed' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Login failed',
+            error: error.message
+        });
     }
 });
 
@@ -248,10 +359,30 @@ app.post('/api/auth/admin/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        const admin = await User.findOne({ email, role: 'admin' });
+        if (!email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Email and password are required' 
+            });
+        }
         
-        if (!admin || admin.password !== password) {
-            return res.status(401).json({ success: false, message: 'Invalid admin credentials' });
+        const admin = await User.findOne({ 
+            email, 
+            role: 'admin' 
+        });
+        
+        if (!admin) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Invalid admin credentials' 
+            });
+        }
+        
+        if (admin.password !== password) {
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Invalid admin credentials' 
+            });
         }
         
         res.json({
@@ -265,90 +396,229 @@ app.post('/api/auth/admin/login', async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Login failed' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Login failed',
+            error: error.message
+        });
     }
 });
 
 // =============================================
-// ADMIN ROUTES
+// ADMIN ROUTES (ALL REQUIRE ADMIN AUTH)
 // =============================================
 
 // Admin: Get all rooms
-app.get('/api/admin/rooms', async (req, res) => {
+app.get('/api/admin/rooms', verifyAdmin, async (req, res) => {
     try {
-        const rooms = await Room.find();
+        const rooms = await Room.find().sort({ createdAt: -1 });
         res.json({ success: true, rooms });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error',
+            error: error.message
+        });
     }
 });
 
 // Admin: Add room
-app.post('/api/admin/rooms', async (req, res) => {
+app.post('/api/admin/rooms', verifyAdmin, async (req, res) => {
     try {
         const room = await Room.create(req.body);
-        res.json({ success: true, message: 'Room added successfully', room });
+        res.json({ 
+            success: true, 
+            message: 'Room added successfully', 
+            room 
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to add room' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to add room',
+            error: error.message
+        });
     }
 });
 
 // Admin: Update room
-app.put('/api/admin/rooms/:id', async (req, res) => {
+app.put('/api/admin/rooms/:id', verifyAdmin, async (req, res) => {
     try {
-        const room = await Room.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json({ success: true, message: 'Room updated', room });
+        const room = await Room.findByIdAndUpdate(
+            req.params.id, 
+            req.body, 
+            { new: true }
+        );
+        
+        if (!room) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Room not found' 
+            });
+        }
+        
+        res.json({ 
+            success: true, 
+            message: 'Room updated', 
+            room 
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to update room' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to update room',
+            error: error.message
+        });
     }
 });
 
 // Admin: Delete room
-app.delete('/api/admin/rooms/:id', async (req, res) => {
+app.delete('/api/admin/rooms/:id', verifyAdmin, async (req, res) => {
     try {
-        await Room.findByIdAndDelete(req.params.id);
-        res.json({ success: true, message: 'Room deleted' });
+        const room = await Room.findByIdAndDelete(req.params.id);
+        
+        if (!room) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Room not found' 
+            });
+        }
+        
+        res.json({ 
+            success: true, 
+            message: 'Room deleted successfully' 
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to delete room' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to delete room',
+            error: error.message
+        });
     }
 });
 
 // Admin: Get all bookings
-app.get('/api/admin/bookings', async (req, res) => {
+app.get('/api/admin/bookings', verifyAdmin, async (req, res) => {
     try {
         const bookings = await Booking.find().sort({ createdAt: -1 });
         res.json({ success: true, bookings });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error',
+            error: error.message
+        });
     }
 });
 
 // Admin: Update booking status
-app.put('/api/admin/bookings/:id/status', async (req, res) => {
+app.put('/api/admin/bookings/:id/status', verifyAdmin, async (req, res) => {
     try {
+        const { status } = req.body;
+        
+        if (!status) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Status is required' 
+            });
+        }
+        
         const booking = await Booking.findByIdAndUpdate(
             req.params.id,
-            { status: req.body.status },
+            { status: status },
             { new: true }
         );
-        res.json({ success: true, message: 'Booking updated', booking });
+        
+        if (!booking) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Booking not found' 
+            });
+        }
+        
+        res.json({ 
+            success: true, 
+            message: 'Booking status updated', 
+            booking 
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to update booking' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to update booking',
+            error: error.message
+        });
     }
 });
 
 // Admin: Get all users
-app.get('/api/admin/users', async (req, res) => {
+app.get('/api/admin/users', verifyAdmin, async (req, res) => {
     try {
-        const users = await User.find({ role: 'user' });
-        res.json({ success: true, users });
+        const users = await User.find({ role: 'user' })
+            .select('-password')
+            .sort({ createdAt: -1 });
+            
+        // Add bookings count for each user
+        const usersWithStats = await Promise.all(
+            users.map(async (user) => {
+                const bookingsCount = await Booking.countDocuments({ 
+                    customerEmail: user.email 
+                });
+                return {
+                    ...user.toObject(),
+                    bookingsCount
+                };
+            })
+        );
+        
+        res.json({ success: true, users: usersWithStats });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error',
+            error: error.message
+        });
     }
 });
 
-// Admin: Get stats
-app.get('/api/admin/stats', async (req, res) => {
+// Admin: Delete user (THE MISSING ENDPOINT)
+app.delete('/api/admin/users/:id', verifyAdmin, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        
+        if (!user) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
+        }
+        
+        // Check if user is admin
+        if (user.role === 'admin') {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Cannot delete admin user' 
+            });
+        }
+        
+        // Delete user's bookings first
+        await Booking.deleteMany({ customerEmail: user.email });
+        
+        // Delete the user
+        await User.findByIdAndDelete(req.params.id);
+        
+        res.json({ 
+            success: true, 
+            message: 'User deleted successfully' 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to delete user',
+            error: error.message
+        });
+    }
+});
+
+// Admin: Get dashboard statistics
+app.get('/api/admin/stats', verifyAdmin, async (req, res) => {
     try {
         const totalRooms = await Room.countDocuments();
         const totalBookings = await Booking.countDocuments();
@@ -365,12 +635,16 @@ app.get('/api/admin/stats', async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error',
+            error: error.message
+        });
     }
 });
 
 // =============================================
-// INITIALIZE ADMIN
+// CREATE ADMIN
 // =============================================
 createAdmin();
 
@@ -382,6 +656,15 @@ app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📡 http://localhost:${PORT}`);
     console.log(`🏨 Database: grandstay_hotels`);
-    console.log(`📊 Collections: users, rooms, bookings`);
     console.log(`🔑 Admin: admin@hotel.com / admin123`);
+    console.log(`\n📊 Available Endpoints:`);
+    console.log(`├── /api/rooms (GET) - Get available rooms`);
+    console.log(`├── /api/bookings (POST) - Create booking`);
+    console.log(`├── /api/auth/register (POST) - User registration`);
+    console.log(`├── /api/auth/login (POST) - User login`);
+    console.log(`├── /api/auth/admin/login (POST) - Admin login`);
+    console.log(`├── /api/admin/rooms (GET, POST, PUT, DELETE) - Manage rooms`);
+    console.log(`├── /api/admin/bookings (GET, PUT) - Manage bookings`);
+    console.log(`├── /api/admin/users (GET, DELETE) - Manage users`);
+    console.log(`└── /api/admin/stats (GET) - Dashboard statistics`);
 });
